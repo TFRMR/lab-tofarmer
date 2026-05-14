@@ -10,7 +10,7 @@
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter', sans-serif; }
         
         body { background:#0d0d0f; color:#e0e0e0; line-height:1.6; overflow-x: hidden; }
-        .container { max-width:1000px; margin:auto; padding:1rem; }
+        .container { max-width:1100px; margin:auto; padding:1rem; }
 
         /* HEADER: LOGO + TEKS SEJAJAR */
         header { text-align:center; padding:2rem 1rem; }
@@ -22,9 +22,9 @@
             text-decoration: none; 
         }
         .header-logo { 
-            height: 50px; 
+            height: 80px; 
             width: auto; 
-            filter: drop-shadow(0 0 5px rgba(0,242,255,0.5));
+            filter: drop-shadow(0 0 8px rgba(0,242,255,0.6));
         }
         header h1 { 
             font-size: 2.2rem; 
@@ -40,11 +40,10 @@
             align-items: center; 
             justify-content: center; 
             flex-wrap: wrap; 
-            padding: 20px; 
-            margin-bottom: 2rem; 
+            padding: 10px; 
+            margin-bottom: 1rem; 
         }
         
-        /* Dropdown Container: Diberi padding bawah agar tidak ada gap ke menu */
         .dropdown { 
             position: relative; 
             display: inline-flex; 
@@ -53,7 +52,6 @@
             margin-bottom: -15px; 
         }
         
-        /* Gaya Tombol Utama */
         nav a, .dropbtn { 
             text-decoration: none; 
             color: #00f2ff; 
@@ -79,11 +77,10 @@
             transform: translateY(-2px);
         }
 
-        /* Gaya Dropdown Panel (Soft & Stabil) */
         .dropdown-content { 
             visibility: hidden;
             opacity: 0;
-            display: block; /* Menggunakan opacity untuk efek fade */
+            display: block; 
             position: absolute; 
             background-color: #16161a; 
             min-width: 220px; 
@@ -99,7 +96,6 @@
             pointer-events: none;
         }
 
-        /* Menampilkan menu dengan transisi halus */
         .dropdown:hover > .dropdown-content { 
             visibility: visible;
             opacity: 1;
@@ -107,7 +103,6 @@
             pointer-events: auto;
         }
         
-        /* Item di dalam Dropdown */
         .dropdown-content a { 
             color: #aaa; 
             padding: 12px 15px; 
@@ -129,11 +124,10 @@
             padding-left: 20px;
         }
 
-        /* NESTED DROPDOWN (SUB-MENU SAMPING) */
         .nested-dropdown { 
             position: relative; 
             width: 100%; 
-            padding-right: 15px; /* Gap penahan kursor ke samping */
+            padding-right: 15px; 
             margin-right: -15px;
         }
 
@@ -165,8 +159,31 @@
             opacity: 0.5;
         }
 
-        /* TEMPAT APLIKASI UTAMA */
-        .app-display { width: 100%; display: flex; justify-content: center; }
+        /* PENYESUAIAN MEDSOS & ESTETIKA BARU */
+        .app-display { width: 100%; margin-top: 20px; }
+
+        /* Gaya Kartu Glassmorphism */
+        .tof-card {
+            background: rgba(22, 22, 26, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 242, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            transition: transform 0.3s ease, border 0.3s ease;
+        }
+        .tof-card:hover {
+            transform: translateY(-5px);
+            border: 1px solid rgba(0, 242, 255, 0.4);
+        }
+
+        @keyframes pulse-cyan {
+            0% { box-shadow: 0 0 5px rgba(0, 242, 255, 0.2); }
+            50% { box-shadow: 0 0 15px rgba(0, 242, 255, 0.5); }
+            100% { box-shadow: 0 0 5px rgba(0, 242, 255, 0.2); }
+        }
+        .header-logo { animation: pulse-cyan 4s infinite ease-in-out; }
 
         /* FOOTER */
         .custom-footer-tofarmer { 
@@ -176,7 +193,6 @@
             font-family: monospace; 
             font-size: 12px; 
             color: #8affff; 
-            border-top: none; 
             opacity: 0.7; 
         }
 
@@ -199,8 +215,8 @@
     <div class="container">
         <header>
             <a href="/" class="header-brand">
-               <img src="/images/logo-tofarmer.png" alt="Logo ToFarmer" style="height: 100px; width: auto; filter: drop-shadow(0 0 5px rgba(0,242,255,0.5));">
-                <h1>{{ .Site.Title }}</h1>
+               <img src="/images/logo-tofarmer.png" alt="Logo ToFarmer" class="header-logo">
+               <h1>{{ .Site.Title }}</h1>
             </a>
         </header>
 
@@ -209,7 +225,7 @@
                 <button class='dropbtn'>Menu ▼</button>
                 <div class='dropdown-content'>
                     <a href='/'>🏠 Beranda (Titik Kumpul)</a>
-    								<a href='/tentang-tofarmer'>☕ Tentang ToFarmer</a>
+                    <a href='/tentang-tofarmer'>☕ Tentang ToFarmer</a>
                     <a href='/portofolio'>🚀 Portofolio</a>
                     <a href='/riwayat-transaksi'>🧮 Transparansi</a>
                 </div>
