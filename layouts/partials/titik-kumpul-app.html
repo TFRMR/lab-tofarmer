@@ -102,6 +102,20 @@
 
     .btn-interact:hover { color: #00f2ff; }
 
+    /* Input Profil Styling */
+    .tof-input {
+        width: 100%; 
+        background: #0d0d0f; 
+        border: 1px solid #333; 
+        color: #fff; 
+        padding: 8px; 
+        font-size: 0.75rem; 
+        margin-bottom: 8px; 
+        border-radius: 4px;
+        outline: none;
+    }
+    .tof-input:focus { border-color: #00f2ff; }
+
     @media (max-width: 1000px) {
         .medsos-layout { grid-template-columns: 1fr; }
         .side-widget { display: none; }
@@ -126,39 +140,41 @@
     <div class="side-widget">
         <div class="tof-card" style="text-align: center;">
             <div style="width: 80px; height: 80px; background: #0d0d0f; border: 2px solid #ff00ff; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;">
-                <span style="font-size: 2rem;">👨‍🎨</span>
+                <span id="profile-icon" style="font-size: 2rem;">👤</span>
             </div>
-            <h3 style="color: #00f2ff; font-size: 1.1rem;">Mastermind</h3>
-            <p style="font-size: 0.7rem; color: #666; letter-spacing: 1px;">LEVEL 99 - ARCHITECT</p>
+            <h3 id="display-name" style="color: #00f2ff; font-size: 1.1rem;">Visitor</h3>
+            <p id="display-role" style="font-size: 0.7rem; color: #666; letter-spacing: 1px;">BELUM TERHUBUNG</p>
             
-            <div style="margin-top: 20px; text-align: left; font-size: 0.8rem;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                    <span style="color: #aaa;">Status:</span>
-                    <span style="color: #55efc4;">Aktif</span>
-                </div>
-                <div style="display: flex; justify-content: space-between;">
-                    <span style="color: #aaa;">XP:</span>
-                    <span style="color: #ff00ff;">12.450 / 15.000</span>
-                </div>
+            <button id="btn-connect" onclick="connectWallet()" style="width: 100%; margin-top: 15px; background: transparent; border: 1px solid #00f2ff; color: #00f2ff; padding: 8px; border-radius: 5px; cursor: pointer; font-size: 0.7rem; font-weight: bold; transition: 0.3s;">
+                CONNECT WALLET
+            </button>
+
+            <div id="profile-setup" style="display: none; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; text-align: left;">
+                <h4 style="font-size: 0.65rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 10px;">LENGKAPI PROFIL</h4>
+                <input type="text" id="user-name" placeholder="Nama Samaran/Asli" class="tof-input">
+                <input type="text" id="user-role" placeholder="Keahlian (Contoh: Petani)" class="tof-input">
+                <button onclick="saveProfile()" style="width: 100%; background: #55efc4; color: #000; border: none; padding: 7px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.7rem;">SIMPAN DRAFT</button>
             </div>
         </div>
 
         <div class="tof-card">
-            <h4 style="font-size: 0.7rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 15px;">MENU CEPAT</h4>
-            <ul style="list-style: none; font-size: 0.85rem;">
-                <li style="margin-bottom: 10px;"><a href="#" style="color: #aaa; text-decoration: none;">📝 Draft Mading</a></li>
-                <li style="margin-bottom: 10px;"><a href="#" style="color: #aaa; text-decoration: none;">🖼️ Galeri Dinding</a></li>
-                <li><a href="#" style="color: #aaa; text-decoration: none;">📊 Report Trading</a></li>
-            </ul>
+            <h4 style="font-size: 0.7rem; color: #55efc4; letter-spacing: 1px; margin-bottom: 12px;">PANDUAN GABUNG</h4>
+            <ol style="color: #aaa; font-size: 0.75rem; padding-left: 15px; line-height: 1.6; list-style-type: decimal;">
+                <li>Unduh <a href="https://perawallet.app/" target="_blank" style="color: #00f2ff; text-decoration: none;">Pera Wallet</a></li>
+                <li>Hubungkan Wallet Anda</li>
+                <li>Lengkapi Profil & Simpan</li>
+                <li>Hubungi Mastermind untuk Aktivasi (TOF)</li>
+            </ol>
         </div>
     </div>
 
     <div class="feed-container">
         
-        <div class="tof-card" style="padding: 15px; border-style: dashed; border-color: rgba(0,242,255,0.3);">
-            <textarea placeholder="Apa update dari ladang atau terminal hari ini?" style="width: 100%; background: transparent; border: none; color: #fff; outline: none; resize: none;"></textarea>
-            <div style="display: flex; justify-content: flex-end;">
-                <button style="background: #00f2ff; color: #000; border: none; padding: 5px 15px; border-radius: 5px; font-weight: bold; font-size: 0.7rem;">KIRIM</button>
+        <div class="tof-card" style="padding: 15px; border-style: dashed; border-color: rgba(255,0,255,0.2);">
+            <textarea id="main-post-area" placeholder="Hubungkan Wallet & Verifikasi TOF untuk mulai posting..." style="width: 100%; background: transparent; border: none; color: #fff; outline: none; resize: none;" disabled></textarea>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; align-items: center;">
+                <span id="post-status-msg" style="font-size: 0.65rem; color: #666;">Status: Read Only</span>
+                <button id="btn-post" style="background: #333; color: #666; border: none; padding: 5px 15px; border-radius: 5px; font-weight: bold; font-size: 0.7rem; cursor: not-allowed;" disabled>KIRIM</button>
             </div>
         </div>
 
@@ -207,3 +223,5 @@
     </div>
 
 </div>
+
+<script src="/js/app-logic.js"></script>
