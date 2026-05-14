@@ -116,21 +116,24 @@
     }
     .tof-input:focus { border-color: #00f2ff; }
 
-    /* Perbaikan untuk Tampilan Mobile agar tidak lompat-lompat */
+    /* PERBAIKAN STABILITAS MOBILE */
     @media (max-width: 1000px) {
         .medsos-layout { 
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+            display: block; /* Menggunakan block agar alur turun ke bawah stabil */
         }
         
-        /* Profil Visitor lebih kecil & menyamping di HP */
+        .side-widget {
+            margin-bottom: 15px;
+        }
+
+        /* Kotak Visitor dibuat ringkas di HP */
         .side-widget:first-child .tof-card {
-            display: flex;
+            display: grid;
+            grid-template-columns: 60px 1fr;
             align-items: center;
-            text-align: left;
             gap: 15px;
             padding: 12px;
+            text-align: left;
         }
 
         .side-widget:first-child .tof-card .profile-img-container {
@@ -139,17 +142,24 @@
             margin: 0 !important;
         }
 
-        .side-widget:first-child .tof-card h3 { font-size: 0.9rem !important; }
-        .side-widget:first-child .tof-card p { font-size: 0.6rem !important; }
+        .side-widget:first-child .tof-card h3 { font-size: 0.95rem !important; margin: 0; }
+        .side-widget:first-child .tof-card p { font-size: 0.65rem !important; }
 
-        /* XP & Status detail disembunyikan di HP agar ringkas */
+        /* Sembunyikan info XP di HP agar tidak melompat saat di-klik */
         .desktop-only-info { display: none; }
 
-        /* POV tetap di Update Status (Feed paling atas) */
-        .feed-container { order: -1; }
+        /* Area Update Status tetap prioritas (Urutan tampil) */
+        .feed-container {
+            margin-top: 15px;
+        }
 
-        .social-lite-bar { flex-direction: column; gap: 10px; text-align: center; }
-        .grower-avatars { justify-content: center; }
+        /* Navigasi "Alat & Ilmu" di menu atas (jika ada) harus pakai static position */
+        .dropdown, .nav-menu {
+            position: relative !important;
+            transform: none !important;
+        }
+
+        .social-lite-bar { flex-direction: column; gap: 8px; text-align: center; }
     }
 </style>
 
@@ -161,14 +171,14 @@
         <div class="mini-avatar" style="background: #ff00ff; margin-left: 0;">👨‍🌾</div>
         <div class="mini-avatar" style="background: #00f2ff;">💻</div>
         <div class="mini-avatar" style="background: #8affff;">📈</div>
-        <span style="margin-left: 10px; color: #666; font-size: 0.7rem;">& 147 lainnya sedang berproses...</span>
+        <span style="margin-left: 10px; color: #666; font-size: 0.7rem;">& 147 lainnya...</span>
     </div>
 </div>
 
 <div class="medsos-layout">
     
     <div class="side-widget">
-        <div class="tof-card" style="text-align: center;">
+        <div class="tof-card" id="user-profile-card">
             <div class="profile-img-container" style="width: 80px; height: 80px; background: #0d0d0f; border: 2px solid #ff00ff; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;">
                 <span id="profile-icon" style="font-size: 2rem;">👤</span>
             </div>
@@ -176,7 +186,7 @@
                 <h3 id="display-name" style="color: #00f2ff; font-size: 1.1rem;">Visitor</h3>
                 <p id="display-role" style="font-size: 0.7rem; color: #666; letter-spacing: 1px;">BELUM TERHUBUNG</p>
                 
-                <button id="btn-connect" onclick="connectWallet()" style="width: 100%; margin-top: 15px; background: transparent; border: 1px solid #00f2ff; color: #00f2ff; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 0.7rem; font-weight: bold; transition: 0.3s;">
+                <button id="btn-connect" onclick="connectWallet()" style="width: 100%; margin-top: 10px; background: transparent; border: 1px solid #00f2ff; color: #00f2ff; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 0.7rem; font-weight: bold;">
                     CONNECT WALLET
                 </button>
             </div>
@@ -212,7 +222,6 @@
     </div>
 
     <div class="feed-container">
-        
         <div class="tof-card" style="padding: 15px; border-style: dashed; border-color: rgba(255,0,255,0.2);">
             <textarea id="main-post-area" placeholder="Connect Wallet & Verifikasi TOF untuk mulai posting..." style="width: 100%; background: transparent; border: none; color: #fff; outline: none; resize: none; min-height: 60px;" disabled></textarea>
             <div style="display: flex; justify-content: flex-end; gap: 10px; align-items: center; margin-top: 10px;">
@@ -244,7 +253,6 @@
                 <button class="btn-interact">⛏️ 1 Cangkul</button>
             </div>
         </div>
-
     </div>
 
     <div class="side-widget">
