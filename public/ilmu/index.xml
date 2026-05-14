@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ilmus on ToFarmer</title>
+    <link>http://localhost:1313/ilmu/</link>
+    <description>Recent content in Ilmus on ToFarmer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>id-id</language>
+    <lastBuildDate>Thu, 14 May 2026 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/ilmu/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI untuk Programming dan Coding Cepat</title>
+      <link>http://localhost:1313/ilmu/programming-cepat/</link>
+      <pubDate>Thu, 14 May 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/ilmu/programming-cepat/</guid>
+      <description>Membangun sistem digital mandiri memerlukan kecepatan dan akurasi. Gunakan panduan ini untuk menjadikan AI sebagai asisten pair-programming yang tangguh tanpa kehilangan nalar kritis Anda sebagai pengembang utama.
+  .post-container { font-family: &#39;Segoe UI&#39;, Roboto, Helvetica, Arial, sans-serif; color: #0B3D0B; line-height: 1.8; max-width: 850px; margin: 20px auto; padding: 0 20px; background: #f9f9f9; } .post-header { background: linear-gradient(135deg, #2d5a27 0%, #1e3f1a 100%); color: #ffffff !important; padding: 50px 30px; border-radius: 25px; text-align: center; margin-bottom: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.</description>
+    </item>
+    
+    <item>
+      <title>Ilmu Baku: Nanam Ubi Jalar Metode Pasti Panen</title>
+      <link>http://localhost:1313/ilmu/nanam-ubi/</link>
+      <pubDate>Thu, 14 May 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/ilmu/nanam-ubi/</guid>
+      <description>Ini adalah standarisasi cara menanam ubi jalar berdasarkan hasil eksperimen di Blok 1 dan Blok 2 Ladang Belajar ToFarmer. Gunakan panduan ini sebagai rujukan utama.
+  .post-container { font-family: &#39;Segoe UI&#39;, Roboto, Helvetica, Arial, sans-serif; color: #000000; line-height: 1.8; max-width: 850px; margin: 20px auto; padding: 0 20px; background: #f9f9f9; } .post-header { background: linear-gradient(135deg, #2d5a27 0%, #1e3f1a 100%); color: #ffffff !important; padding: 50px 30px; border-radius: 25px; text-align: center; margin-bottom: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.</description>
+    </item>
+    
+    <item>
+      <title>Panduan Cerdas Menggunakan AI</title>
+      <link>http://localhost:1313/ilmu/panduan-ai/</link>
+      <pubDate>Thu, 14 May 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/ilmu/panduan-ai/</guid>
+      <description>Di era informasi instan, nalar kritis adalah aset paling berharga. Panduan ini dirancang agar anggota ToFarmer dapat menggunakan AI sebagai alat bantu yang produktif tanpa kehilangan kendali atas kebenaran data.
+ 📥 Download PDF    .pocket-book-container { background: #0d0d0f; color: #e0e0e0; padding: 2rem; border-radius: 15px; border: 1px solid #2a2f4f; max-width: 800px; margin: 20px auto; font-family: &#39;Inter&#39;, sans-serif; line-height: 1.8; box-shadow: 0 10px 30px rgba(0,0,0,0.5); } .book-header { text-align: center; border-bottom: 2px solid #00f2ff; padding-bottom: 1.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ .Site.Title }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS UTAMA TOFARMER */
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter', sans-serif; }
+        
+        body { background:#0d0d0f; color:#e0e0e0; line-height:1.6; overflow-x: hidden; }
+        .container { max-width:1000px; margin:auto; padding:1rem; }
+
+        /* HEADER: LOGO + TEKS SEJAJAR */
+        header { text-align:center; padding:2rem 1rem; }
+        .header-brand { 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 15px; 
+            text-decoration: none; 
+        }
+        .header-logo { 
+            height: 50px; 
+            width: auto; 
+            filter: drop-shadow(0 0 5px rgba(0,242,255,0.5));
+        }
+        header h1 { 
+            font-size: 2.2rem; 
+            color: #00f2ff; 
+            text-shadow: 0 0 10px #00f2ff; 
+            letter-spacing: 1px;
+        }
+
+        /* NAVIGASI: TOMBOL NEON ULTRA STABIL */
+        nav { 
+            display: flex; 
+            gap: 15px; 
+            align-items: center; 
+            justify-content: center; 
+            flex-wrap: wrap; 
+            padding: 20px; 
+            margin-bottom: 2rem; 
+        }
+        
+        /* Dropdown Container: Diberi padding bawah agar tidak ada gap ke menu */
+        .dropdown { 
+            position: relative; 
+            display: inline-flex; 
+            align-items: center;
+            padding-bottom: 15px; 
+            margin-bottom: -15px; 
+        }
+        
+        /* Gaya Tombol Utama */
+        nav a, .dropbtn { 
+            text-decoration: none; 
+            color: #00f2ff; 
+            font-size: 0.85em; 
+            font-weight: 600; 
+            transition: all 0.3s ease; 
+            cursor: pointer; 
+            background: rgba(0, 242, 255, 0.05); 
+            border: 1px solid rgba(0, 242, 255, 0.3); 
+            padding: 10px 22px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        nav a:hover, .dropdown:hover .dropbtn { 
+            background: rgba(0, 242, 255, 0.2); 
+            border-color: #00f2ff;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* Gaya Dropdown Panel (Soft & Stabil) */
+        .dropdown-content { 
+            visibility: hidden;
+            opacity: 0;
+            display: block; /* Menggunakan opacity untuk efek fade */
+            position: absolute; 
+            background-color: #16161a; 
+            min-width: 220px; 
+            z-index: 999; 
+            border-radius: 12px; 
+            top: 50px; 
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            box-shadow: 0px 10px 30px rgba(0,0,0,0.9);
+            padding: 10px;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        /* Menampilkan menu dengan transisi halus */
+        .dropdown:hover > .dropdown-content { 
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+        
+        /* Item di dalam Dropdown */
+        .dropdown-content a { 
+            color: #aaa; 
+            padding: 12px 15px; 
+            text-decoration: none; 
+            display: block; 
+            font-size: 0.82em; 
+            transition: all 0.2s ease; 
+            text-align: left;
+            border-radius: 8px;
+            margin-bottom: 2px;
+            background: transparent;
+            border: none;
+            text-transform: none;
+        }
+
+        .dropdown-content a:hover { 
+            background: rgba(0, 242, 255, 0.1); 
+            color: #00f2ff; 
+            padding-left: 20px;
+        }
+
+        /* NESTED DROPDOWN (SUB-MENU SAMPING) */
+        .nested-dropdown { 
+            position: relative; 
+            width: 100%; 
+            padding-right: 15px; /* Gap penahan kursor ke samping */
+            margin-right: -15px;
+        }
+
+        .nested-content { 
+            visibility: hidden;
+            opacity: 0;
+            display: block;
+            position: absolute; 
+            left: 100%; 
+            top: -10px; 
+            background-color: #1a1a20; 
+            min-width: 230px; 
+            border-radius: 12px; 
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            box-shadow: 10px 10px 30px rgba(0,0,0,0.7); 
+            padding: 10px;
+            transition: all 0.3s ease;
+            transform: translateX(10px);
+        }
+        
+        .nested-dropdown:hover > .nested-content { 
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .nested-parent::after {
+            content: " »";
+            opacity: 0.5;
+        }
+
+        /* TEMPAT APLIKASI UTAMA */
+        .app-display { width: 100%; display: flex; justify-content: center; }
+
+        /* FOOTER */
+        .custom-footer-tofarmer { 
+            text-align: center; 
+            margin-top: 50px; 
+            padding: 20px; 
+            font-family: monospace; 
+            font-size: 12px; 
+            color: #8affff; 
+            border-top: none; 
+            opacity: 0.7; 
+        }
+
+        /* RESPONSIF HP */
+        @media screen and (max-width: 600px) {
+            header h1 { font-size: 1.6rem; }
+            nav { gap: 10px; padding: 10px; }
+            .dropdown-content { position: static; transform: none; width: 100%; opacity: 1; visibility: visible; display: none; }
+            .dropdown:hover .dropdown-content { display: block; }
+            .nested-content { position: static; transform: none; visibility: visible; opacity: 1; display: none; background: rgba(0,0,0,0.2); }
+            .nested-dropdown:hover .nested-content { display: block; }
+        }
+
+        /* WA FLOATING */
+        .wa-float { position: fixed; width: 60px; height: 60px; bottom: 20px; right: 20px; background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center; font-size: 30px; box-shadow: 0 0 15px rgba(0,0,0,0.3); z-index: 1000; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; animation: pulse-wa 2s infinite; }
+        @keyframes pulse-wa { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="header-brand">
+               <img src="/images/logo-tofarmer.png" alt="Logo ToFarmer" style="height: 100px; width: auto; filter: drop-shadow(0 0 5px rgba(0,242,255,0.5));">
+                <h1>{{ .Site.Title }}</h1>
+            </a>
+        </header>
+
+        <nav>
+            <div class='dropdown'>
+                <button class='dropbtn'>Menu ▼</button>
+                <div class='dropdown-content'>
+                    <a href='/'>🏠 Beranda (Titik Kumpul)</a>
+    								<a href='/tentang-tofarmer'>☕ Tentang ToFarmer</a>
+                    <a href='/portofolio'>🚀 Portofolio</a>
+                    <a href='/riwayat-transaksi'>🧮 Transparansi</a>
+                </div>
+            </div>
+
+            <div class='dropdown'>
+                <button class='dropbtn'>Alat ▼</button>
+                <div class='dropdown-content'>
+                    <a href='/alat/catatan-hidup'>🤖 Catatan Hidup</a>
+                   <a href='/alat/kalkulator-compounding'>🧮 Kalkulator Compounding</a>
+                </div>
+            </div>
+
+            <div class='dropdown'>
+                <button class='dropbtn'>ILMU ▼</button>
+                <div class='dropdown-content'>
+                    <div class='nested-dropdown'>
+                        <a class='nested-parent' href='#'>🌍 Ilmu Penting</a>
+                        <div class='nested-content'>
+                            <a href='/ilmu/panduan-ai'>🧠 Panduan Cerdas AI</a>
+                            <a href='/ilmu/programming-cepat'>🧠 AI Programming Cepat</a>
+                        </div>
+                    </div>
+                    <div class='nested-dropdown'>
+                        <a class='nested-parent' href='#'>📏 Ilmu Baku</a>
+                        <div class='nested-content'>
+                            <a href='/ilmu/nanam-ubi'>🌱 Nanam Ubi 🍠 (Pasti Panen)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="app-display">
+            {{ partial "titik-kumpul-app.html" . }}
+        </div>
+
+        <div class="custom-footer-tofarmer">
+            ToFarmer &middot; Bertumbuh dari praktik.
+        </div>
+    </div>
+
+    <a class="wa-float" href="https://wa.me/6285228028131?text=Halo%20ToFarmer" target="_blank">
+        <svg fill="white" height="35" viewBox="0 0 24 24" width="35">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217s.231.001.332.005c.109.004.258-.041.404.314l.542 1.312c.058.14.096.303.003.488l-.204.412c-.09.181-.191.314-.041.573.15.259.664 1.098 1.423 1.774.978.871 1.802 1.14 2.062 1.269.26.13.412.108.563-.065.151-.173.65-.759.824-1.019.173-.259.346-.217.585-.129l1.458.688c.239.115.398.193.456.29.058.097.058.561-.086.965z"/>
+        </svg>
+    </a>
+</body>
+</html>

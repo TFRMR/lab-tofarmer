@@ -1,0 +1,426 @@
+<style>
+  /* ROOT & DASAR */
+  :root { --cyan: #00ffff; --magenta: #ff00ff; --bg: #0b101a; --card: #161b33; }
+  
+  /* Modal Pendaftaran */
+  .modal-daftar { 
+    display:none; 
+    position:fixed; 
+    top:0; 
+    left:0; 
+    width:100%; 
+    height:100%; 
+    background:rgba(0,0,0,0.9); 
+    z-index:9999; 
+    align-items:flex-start; 
+    justify-content:center; 
+    padding:20px; 
+    box-sizing:border-box; 
+    overflow-y:auto; 
+  } 
+
+  .modal-content { 
+    background:var(--card); 
+    border:2px solid var(--cyan); 
+    border-radius:15px; 
+    width:100%; 
+    max-width:400px; 
+    padding:20px; 
+    position:relative; 
+    margin-top: 20px; 
+    max-height:90vh; 
+    overflow-y:auto; 
+  }
+
+  .step-box { display:none; }
+  .step-box.active { display:block; }
+  .syarat-teks { font-size:11px; color:#aaa; background:#000; padding:10px; border-radius:8px; height:150px; overflow-y:auto; margin-bottom:15px; border:1px solid #333; line-height:1.5; }
+  
+  /* Style Inti ToFarmer */
+  .tf-wrapper { background: var(--bg); color: #e0e0e0; font-family: 'Courier New', monospace; max-width: 600px; margin: 20px auto; border: 2px solid var(--cyan); border-radius: 20px; overflow: hidden; box-shadow: 0 0 30px rgba(0, 255, 255, 0.1); }
+  
+  #btn-buka-daftar {
+      background: #ff00ff !important;
+      color: #000 !important;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 11px !important;
+      font-weight: 900 !important;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+      transition: 0.2s;
+  }
+  #btn-buka-daftar:hover { background: #ffffff !important; box-shadow: 0 0 20px #ff00ff; transform: scale(1.05); }
+
+  .btn-back-glow {
+      background: none;
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      padding: 8px 15px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 15px;
+      display: inline-block;
+      transition: 0.3s;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+      text-shadow: 0 0 5px var(--cyan);
+  }
+  .btn-back-glow:hover {
+      background: var(--cyan);
+      color: #000;
+      box-shadow: 0 0 20px var(--cyan), 0 0 40px var(--cyan);
+  }
+
+  #all-profiles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; padding: 15px; }
+  .mini-card { background: var(--card); border: 1px solid #1f264d; border-radius: 12px; padding: 8px; text-align: center; cursor: pointer; transition: 0.3s; }
+  .mini-card:hover { border-color: var(--cyan); transform: scale(1.02); }
+  .mini-foto { width: 100%; aspect-ratio: 1/1; max-width: 50px; border-radius: 50%; border: 2px solid var(--cyan); object-fit: cover; margin-bottom: 5px; }
+  
+  .tf-header { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; padding: 25px; border-bottom: 1px solid #1f264d; position: relative; }
+  .tf-rank { position: absolute; top: 10px; right: 15px; font-size: 10px; background: var(--cyan); color: #000; padding: 2px 8px; border-radius: 4px; font-weight: bold; z-index: 10; }
+  .tf-foto { width: 90px; height: 90px; border: 2px solid var(--cyan); border-radius: 12px; object-fit: cover; }
+  .tf-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 20px; margin-bottom: 10px; }
+  .stat-item { background: rgba(255,255,255,0.05); padding: 8px; border-radius: 8px; font-size: 10px; border: 1px solid #1f264d; }
+  .stat-label { color: #666; display: block; font-size: 8px; text-transform: uppercase; }
+  .stat-value { color: var(--cyan); font-weight: bold; }
+  .tf-status-box { background: var(--card); padding: 15px; margin: 10px 20px 20px 20px; border-radius: 12px; border-left: 4px solid var(--magenta); font-size: 13px; word-wrap: break-word; }
+  .tf-input { width: 100%; background: #0d1125; border: 1px solid #2a3158; color: var(--cyan); padding: 10px; border-radius: 8px; margin-bottom: 10px; box-sizing: border-box; font-family: monospace; }
+  .tf-btn { width: 100%; background: var(--cyan); color: #000; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+  
+  .social-grid-single { border-top: 1px solid #1f264d; padding: 15px; }
+  .komen-item { background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px; margin: 8px 0; border-bottom: 1px solid #1a203d; position: relative; }
+  .komen-user { color: var(--cyan); font-weight: bold; font-size: 11px; cursor: pointer; text-decoration: none; }
+  .komen-user:hover { text-decoration: underline; color: #fff; }
+
+  #total-asset-info { 
+    padding: 15px 20px; 
+    color: #fff; 
+    font-size: 16px; 
+    font-family: monospace; 
+    font-weight: 900; 
+    text-align: center;
+    text-shadow: 0 0 10px var(--magenta), 0 0 20px var(--magenta); 
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* --- PERBAIKAN FITUR SCROLL TITIK KUMPUL --- */
+  #list-mading-container { 
+    height: 350px; 
+    overflow-y: auto; 
+    background: rgba(0,0,0,0.3); 
+    border-radius: 12px; 
+    border: 1px solid #1f264d; 
+    padding: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--cyan) transparent;
+  }
+  
+  #list-mading-container::-webkit-scrollbar { width: 4px; }
+  #list-mading-container::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 10px; }
+
+  .chat-glow { animation: neonEnter 1.5s ease-in-out infinite alternate; border: 1px solid var(--cyan) !important; background: rgba(0, 255, 255, 0.1) !important; }
+  @keyframes neonEnter { from { box-shadow: 0 0 5px var(--cyan); } to { box-shadow: 0 0 20px var(--cyan), 0 0 10px var(--magenta); } }
+
+  .locked-feature { background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; text-align: center; border: 1px dashed #333; margin: 20px; }
+  .admin-panel { display: none; padding: 20px; background: rgba(0,255,255,0.02); border-top: 1px solid #1f264d; }
+  .btn-kecil { background:none; border:1px solid #333; color:#666; padding: 4px 10px; border-radius: 5px; font-size:9px; cursor:pointer; transition: 0.2s; }
+  .btn-kecil:hover { border-color: #555; color: #888; }
+</style>
+
+<div class="tf-wrapper">
+  <div class="modal-daftar" id="modal-daftar">
+    <div class="modal-content">
+      <div class="step-box active" id="step-1">
+        <h4 style="color: var(--cyan); margin-top: 0px;">1. SYARAT &amp; PANDUAN</h4>
+        <div class="syarat-teks">
+          Selamat datang di Ekosistem ToFarmer.<br /><br />
+          <strong>ATURAN :</strong><br />
+          1. Kuota terbatas hanya untuk 20 orang.<br />
+          2. Jaga kebersihan Mading (Dilarang spam/iklan).<br />
+          3. Gunakan identitas asli.<br />
+          4. Akun baru mendapatkan foto profil default.<br /><br />
+          <strong>VERIFIKASI &amp; FOTO:</strong> Hubungi Admin melalui tombol <strong>SUPPORT</strong>.
+        </div>
+        <button class="tf-btn" onclick="nextStep(2)">SAYA SETUJU &amp; LANJUT</button>
+        <button onclick="tutupModal()" style="background: none; border: none; color: #666666; cursor: pointer; font-size: 10px; margin-top: 10px; width: 100%;">BATAL</button>
+      </div>
+      <div class="step-box" id="step-2">
+        <h4 style="color: var(--cyan); margin-top: 0px;">2. ISI DATA DIRI</h4>
+        <input class="tf-input" id="reg-nama" placeholder="Nama Asli" type="text" />
+        <input class="tf-input" id="reg-user" placeholder="Nickname (Username)" type="text" />
+        <input class="tf-input" id="reg-pass" placeholder="Password" type="password" />
+        <button class="tf-btn" id="btn-proses-daftar" onclick="prosesDaftar()">DAFTAR</button>
+        <button onclick="nextStep(1)" style="background: none; border: none; color: #666666; cursor: pointer; font-size: 10px; margin-top: 10px; width: 100%;">KEMBALI</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="section-list">
+    <div style="align-items: center; color: var(--cyan); display: flex; font-size: 12px; font-weight: bold; justify-content: space-between; padding: 20px 20px 0px;">
+      <span>📡 TOFARMER NETWORK</span>
+      <button id="btn-buka-daftar" onclick="bukaModal()">+ GABUNG EKOSISTEM</button>
+    </div>
+    <div id="total-asset-info">LOADING ASSETS...</div>
+    <div id="all-profiles-grid"></div>
+
+    <div class="social-grid-single">
+        <span style="font-size: 12px; font-weight: bold; color: var(--magenta);">📡 TITIK KUMPUL</span>
+        <div id="list-mading-container" onmouseout="isPausingChat=false" onmouseover="isPausingChat=true">
+            <div id="list-mading"></div>
+        </div>
+        <div style="display: flex; gap: 5px; margin-top: 10px;">
+          <input class="tf-input" id="msg-mading" style="margin: 0px;" type="text" placeholder="Tulis pesan..." />
+          <button class="tf-btn" onclick="kirimPesan('GLOBAL')" style="margin: 0px; width: 70px;">KIRIM</button>
+        </div>
+    </div>
+  </div>
+
+  <div id="section-detail" style="display: none;">
+    <button class="btn-back-glow" onclick="showList()">← KEMBALI KE BERANDA</button>
+    <div class="tf-header">
+      <div class="tf-rank" id="v-rank">--</div>
+      <img class="tf-foto" id="v-foto" src="" />
+      <div style="flex: 1 1 0%;">
+        <h3 id="v-nickname" style="color: var(--cyan); font-size: 18px; margin: 0px;">@...</h3>
+        <p style="color: var(--magenta); font-size: 10px; margin: 8px 0px 0px; opacity: 0.9;">POWER SCORE: <span id="v-power">0</span>%</p>
+      </div>
+    </div>
+    <div class="tf-stats-grid">
+      <div class="stat-item"><span class="stat-label">LEVEL</span><span class="stat-value" id="v-level">0</span></div>
+      <div class="stat-item"><span class="stat-label">XP</span><span class="stat-value" id="v-xp">0</span></div>
+      <div class="stat-item"><span class="stat-label">TOF ASSET</span><span class="stat-value" id="v-tof">0</span></div>
+      <div class="stat-item"><span class="stat-label">RANK</span><span class="stat-value" id="v-rank-text">--</span></div>
+    </div>
+    <div class="tf-status-box"><span style="font-size: 9px; color: var(--magenta);">#CatatanHidup:</span><br /><span id="v-status">...</span></div>
+    <div id="list-komen-profil" style="margin: 0px 20px;"></div>
+    <div style="display: flex; gap: 5px; padding: 10px 20px 20px;">
+      <input class="tf-input" id="msg-profil" style="margin: 0px;" type="text" placeholder="Tulis komentar..." />
+      <button class="tf-btn" onclick="kirimPesan(current_view_user)" style="margin: 0px; width: 80px;">Komentar</button>
+    </div>
+  </div>
+
+  <div class="locked-feature" id="panel-login-box">
+    <button class="tf-btn" onclick="toggleAuth()" style="font-size: 11px; padding: 5px 20px; width: auto;">LOGIN</button>
+    <div id="auth-form" style="display: none; margin-top: 15px;">
+      <input class="tf-input" id="user-in" placeholder="Username" type="text" />
+      <input class="tf-input" id="pass-in" placeholder="Password" type="password" />
+      <button class="tf-btn" onclick="prosesLogin()">MASUK SISTEM</button>
+    </div>
+  </div>
+
+  <div class="admin-panel" id="panel-admin">
+    <div style="display: flex; gap: 8px; justify-content: flex-end; text-align: right;">
+        <button class="btn-kecil" onclick="gantiPassword()">GANTI PASSWORD</button>
+        <button class="btn-kecil" onclick="logout()">LOGOUT</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const URL_API = "https://script.google.com/macros/s/AKfycbyBQQo5z1C1D11QZapKwHiNhUe1MHy0kugyou6qMBZSmWBBetAdPrOBHz0WF_mfHOb0/exec";
+  let ALL_USERS = [];
+  let current_view_user = "";
+  let isPausingChat = false;
+
+  window.onload = function() { 
+    fetchAllProfiles(); 
+    muatKomentar('GLOBAL', 'list-mading'); 
+    setInterval(() => { fetchAllProfiles(); muatKomentar('GLOBAL', 'list-mading'); }, 30000);
+    
+    const chatContainer = document.getElementById('list-mading-container');
+    
+    setInterval(() => {
+        if(!isPausingChat) {
+            if (chatContainer.scrollTop + chatContainer.offsetHeight >= chatContainer.scrollHeight - 2) {
+                chatContainer.scrollTop = 0; 
+            } else {
+                chatContainer.scrollTop += 1; 
+            }
+        }
+    }, 70); 
+  };
+
+  function gantiPassword() {
+    const user = localStorage.getItem("tf_user");
+    const passLama = prompt("Masukkan Password Lama:");
+    if (!passLama) return;
+    const passBaru = prompt("Masukkan Password Baru:");
+    if (!passBaru) return;
+    if (passBaru.length < 4) {
+        return alert("Password terlalu pendek! Minimal 4 karakter.");
+    }
+    fetch(`${URL_API}?action=update&username=${encodeURIComponent(user)}&password=${encodeURIComponent(passLama)}&new_pass=${encodeURIComponent(passBaru)}`)
+        .then(r => r.json())
+        .then(res => {
+            if (res.result === "Success") {
+                localStorage.removeItem("tf_user");
+                alert("Password berhasil diperbarui! Silakan login ulang.");
+                location.reload();
+            } else {
+                alert("Gagal: Password lama salah atau terjadi kesalahan.");
+            }
+        })
+        .catch(err => { alert("Error koneksi: " + err); });
+  }
+
+  function prosesDaftar() {
+    const nama = document.getElementById("reg-nama").value.trim();
+    const user = document.getElementById("reg-user").value.trim();
+    const pass = document.getElementById("reg-pass").value.trim();
+    if (!nama || !user || !pass) return alert("Data harus lengkap!");
+
+    const btn = document.getElementById("btn-proses-daftar");
+    btn.innerText = "MEMPROSES...";
+    btn.disabled = true;
+
+    fetch(`${URL_API}?action=daftar&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&nama_asli=${encodeURIComponent(nama)}`)
+        .then(r => r.json())
+        .then(res => {
+            if (res.result === "Success") { alert("Berhasil! Silakan Login."); location.reload(); }
+            else { alert("Gagal: " + res.result); }
+        })
+        .finally(() => { btn.innerText = "DAFTAR"; btn.disabled = false; });
+  }
+
+  function fetchAllProfiles() {
+    fetch(`${URL_API}?action=get_all`)
+    .then(r => r.json())
+    .then(data => {
+        if (!Array.isArray(data)) {
+            console.error("Data user invalid:", data);
+            return;
+        }
+        ALL_USERS = data; 
+        renderGrid(data); 
+        const total = data.reduce((sum, u) => sum + (parseInt(u.tof) || 0), 0);
+        document.getElementById("total-asset-info").innerText = `TOTAL ECOSYSTEM ASSETS: TOF ${total.toLocaleString()}`;
+        checkAuthStatus();
+    });
+  }
+
+  function renderGrid(data) {
+    let h = ""; 
+    data.forEach(u => {
+      h += `<div class="mini-card" onclick="showDetail('${u.username}')">
+        <img src="${u.foto || 'https://via.placeholder.com/50'}" class="mini-foto">
+        <div style="font-size:9px; color:var(--cyan); font-weight:bold;">@${u.username}</div>
+        <div style="font-size:7px; color:#666;">${u.rank || 'GROWER'}</div>
+      </div>`;
+    });
+    document.getElementById("all-profiles-grid").innerHTML = h;
+  }
+
+  function muatKomentar(target, elementId) {
+    fetch(`${URL_API}?action=get_komen&target=${target}`).then(r => r.json()).then(data => {
+      let h = ""; 
+      if(data && data.length > 0) {
+        data.reverse().forEach((k, index) => { 
+          const glow = (target === 'GLOBAL' && index === 0) ? "chat-glow" : "";
+          h += `<div class="komen-item ${glow}"><span class="komen-user" onclick="showDetail('${k.user}')">@${k.user}</span><br><span style="font-size:12px; color:#ccc;">${k.pesan}</span></div>`; 
+        });
+      }
+      document.getElementById(elementId).innerHTML = h;
+    });
+  }
+
+  function kirimPesan(target = 'GLOBAL') {
+    let u = localStorage.getItem("tf_user");
+    if(!u) return alert("Login dlu!");
+    const inputId = (target === 'GLOBAL') ? 'msg-mading' : 'msg-profil';
+    const m = document.getElementById(inputId).value;
+    if(!m) return;
+    fetch(`${URL_API}?action=kirim_komen&username=${encodeURIComponent(u)}&pesan=${encodeURIComponent(m)}&target=${target}`)
+      .then(() => { 
+        document.getElementById(inputId).value = ""; 
+        muatKomentar(target, (target === 'GLOBAL' ? 'list-mading' : 'list-komen-profil')); 
+      });
+  }
+
+  function bukaModal() { document.getElementById("modal-daftar").style.display = "flex"; }
+  function tutupModal() { document.getElementById("modal-daftar").style.display = "none"; }
+  function nextStep(s) {
+    document.querySelectorAll('.step-box').forEach(b => b.classList.remove('active'));
+    document.getElementById('step-'+s).classList.add('active');
+  }
+
+  function showDetail(username) {
+    current_view_user = username;
+    const d = ALL_USERS.find(u => u.username === username);
+    if(d) {
+        document.getElementById("section-list").style.display = "none";
+        document.getElementById("section-detail").style.display = "block";
+        document.getElementById("v-nickname").innerText = "@" + username;
+        document.getElementById("v-foto").src = d.foto || "https://via.placeholder.com/90";
+        document.getElementById("v-xp").innerText = d.xp || 0;
+        document.getElementById("v-power").innerText = d.power_score || 0;
+        document.getElementById("v-tof").innerText = d.tof || 0;
+        document.getElementById("v-level").innerText = d.level || 0;
+        document.getElementById("v-rank").innerText = d.rank || "-";
+        document.getElementById("v-rank-text").innerText = d.rank || "-";
+        document.getElementById("v-status").innerText = d.status || "Tidak ada catatan.";
+        muatKomentar(username, 'list-komen-profil');
+        window.scrollTo(0, 0);
+    }
+  }
+
+  function showList() { document.getElementById("section-list").style.display = "block"; document.getElementById("section-detail").style.display = "none"; }
+
+  function toggleAuth() { const x = document.getElementById("auth-form"); x.style.display = (x.style.display === "none") ? "block" : "none"; }
+
+  function prosesLogin() { 
+    const uInput = document.getElementById("user-in").value.trim();
+    const pInput = document.getElementById("pass-in").value.trim();
+    if (!uInput || !pInput) { return alert("Username & Password wajib diisi!"); }
+    fetch(`${URL_API}?action=login&username=${encodeURIComponent(uInput)}&password=${encodeURIComponent(pInput)}`)
+    .then(r => r.json())
+    .then(res => {
+        if (res.result === "Success") {
+            localStorage.setItem("tf_user", res.user.username);
+            alert("Login Berhasil! Selamat datang, " + res.user.username);
+            location.reload();
+        } else {
+            alert("LOGIN GAGAL: Username atau Password salah!");
+            document.getElementById("pass-in").value = "";
+        }
+    })
+    .catch(err => { alert("Error koneksi: " + err); });
+  }
+
+  function checkAuthStatus() {
+    const savedUser = localStorage.getItem("tf_user");
+    if (savedUser) {
+        document.getElementById("panel-login-box").style.display = "none";
+        document.getElementById("panel-admin").style.display = "block";
+        document.getElementById("btn-buka-daftar").style.display = "none";
+    } else {
+        document.getElementById("panel-login-box").style.display = "block";
+        document.getElementById("panel-admin").style.display = "none";
+        document.getElementById("btn-buka-daftar").style.display = "inline-block";
+    }
+  }
+
+  function logout() { localStorage.clear(); location.reload(); }
+
+  /* 🔐 SECURITY ADD-ON */
+  function tf_escapeHTML(str = "") {
+    return String(str).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+  }
+  function tf_sanitizeInput(value = "") {
+    return String(value).replace(/<script.*?>.*?<\/script>/gi, "").replace(/javascript:/gi, "").replace(/onerror=|onload=|onclick=/gi, "");
+  }
+  function tf_bindInputSecurity(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("input", () => { el.value = tf_sanitizeInput(el.value); });
+  }
+  ["reg-nama", "reg-user", "reg-pass", "user-in", "pass-in", "msg-mading", "msg-profil"].forEach(tf_bindInputSecurity);
+  console.log("🔐 ToFarmer Security V4 aktif");
+</script>
