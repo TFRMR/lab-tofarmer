@@ -15,7 +15,7 @@
         background: rgba(0, 242, 255, 0.03);
         border: 1px solid rgba(0, 242, 255, 0.1);
         border-radius: 12px;
-        margin-bottom: 25px;
+        margin-bottom: 15px;
         font-size: 0.8rem;
     }
 
@@ -37,6 +37,22 @@
         font-size: 10px;
         margin-left: -8px;
     }
+
+    /* INDIKATOR EKONOMI TOFARMER */
+    .economy-bar {
+        background: linear-gradient(90deg, rgba(255, 0, 255, 0.05), rgba(0, 242, 255, 0.05));
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 25px;
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+    }
+    .econ-item { display: flex; flex-direction: column; gap: 5px; }
+    .econ-label { font-size: 0.6rem; color: #666; letter-spacing: 1px; text-transform: uppercase; }
+    .econ-value { font-size: 1.1rem; color: #fff; font-weight: bold; font-family: monospace; }
+    .econ-symbol { color: #00f2ff; font-size: 0.7rem; margin-left: 5px; }
 
     /* Kolom Tengah: Feed */
     .feed-container {
@@ -151,8 +167,9 @@
             margin-top: 15px;
         }
 
+        .economy-bar { flex-direction: column; gap: 15px; padding: 10px; }
+
         /* STABILISASI MENU DROPDOWN DI HP */
-        /* Kita buat dropdown mendorong konten, bukan melayang */
         .dropdown, .nav-menu {
             position: relative !important;
             display: block !important;
@@ -160,8 +177,8 @@
         }
 
         .dropdown-content, .sub-dropdown {
-            position: relative !important; /* Statis mendorong konten */
-            display: none; /* Tetap sembunyi sebelum klik/hover */
+            position: relative !important; 
+            display: none; 
             width: 100% !important;
             left: 0 !important;
             top: 0 !important;
@@ -172,7 +189,6 @@
             padding-left: 15px !important;
         }
 
-        /* Tampilkan dropdown saat aktif tanpa melompat */
         .dropdown:hover > .dropdown-content, 
         .dropdown:focus-within > .dropdown-content {
             display: block !important;
@@ -197,6 +213,14 @@
         <div class="mini-avatar" style="background: #8affff;">📈</div>
         <span style="margin-left: 10px; color: #666; font-size: 0.7rem;">& 147 lainnya...</span>
     </div>
+</div>
+
+<div class="economy-bar">
+    <div class="econ-item">
+        <span class="econ-label">Total Aset Ekosistem</span>
+        <div class="econ-value" id="total-asset">0.00 <span class="econ-symbol">TOF</span></div>
+    </div>
+    
 </div>
 
 <div class="medsos-layout">
