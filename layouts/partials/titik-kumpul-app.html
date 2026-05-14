@@ -116,10 +116,36 @@
     }
     .tof-input:focus { border-color: #00f2ff; }
 
+    /* Perbaikan untuk Tampilan Mobile agar tidak lompat-lompat */
     @media (max-width: 1000px) {
-        .medsos-layout { grid-template-columns: 1fr; }
-        .side-widget { display: none; }
-        .social-lite-bar { flex-direction: column; gap: 10px; text-align: center; }
+        .medsos-layout { 
+            grid-template-columns: 1fr; /* Stack satu kolom saja */
+            display: flex;
+            flex-direction: column;
+        }
+        .side-widget { 
+            display: block; /* Tampilkan kembali di mobile */
+            width: 100%;
+            order: 2; /* Biarkan konten profil & panduan muncul setelah feed atau diatur urutannya */
+        }
+        /* Mengatur urutan agar Profil & Wallet muncul paling atas di HP */
+        .side-widget:first-child {
+            order: 1;
+        }
+        .feed-container {
+            order: 2;
+        }
+        .side-widget:last-child {
+            order: 3;
+        }
+        .social-lite-bar { 
+            flex-direction: column; 
+            gap: 10px; 
+            text-align: center; 
+        }
+        .grower-avatars {
+            justify-content: center;
+        }
     }
 </style>
 
@@ -145,7 +171,7 @@
             <h3 id="display-name" style="color: #00f2ff; font-size: 1.1rem;">Visitor</h3>
             <p id="display-role" style="font-size: 0.7rem; color: #666; letter-spacing: 1px;">BELUM TERHUBUNG</p>
             
-            <button id="btn-connect" onclick="connectWallet()" style="width: 100%; margin-top: 15px; background: transparent; border: 1px solid #00f2ff; color: #00f2ff; padding: 8px; border-radius: 5px; cursor: pointer; font-size: 0.7rem; font-weight: bold; transition: 0.3s;">
+            <button id="btn-connect" onclick="connectWallet()" style="width: 100%; margin-top: 15px; background: transparent; border: 1px solid #00f2ff; color: #00f2ff; padding: 12px; border-radius: 5px; cursor: pointer; font-size: 0.75rem; font-weight: bold; transition: 0.3s;">
                 CONNECT WALLET
             </button>
 
@@ -153,7 +179,7 @@
                 <h4 style="font-size: 0.65rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 10px;">LENGKAPI PROFIL</h4>
                 <input type="text" id="user-name" placeholder="Nama Samaran/Asli" class="tof-input">
                 <input type="text" id="user-role" placeholder="Keahlian (Contoh: Petani)" class="tof-input">
-                <button onclick="saveProfile()" style="width: 100%; background: #55efc4; color: #000; border: none; padding: 7px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.7rem;">SIMPAN DRAFT</button>
+                <button onclick="saveProfile()" style="width: 100%; background: #55efc4; color: #000; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.7rem;">SIMPAN DRAFT</button>
             </div>
         </div>
 
@@ -171,10 +197,10 @@
     <div class="feed-container">
         
         <div class="tof-card" style="padding: 15px; border-style: dashed; border-color: rgba(255,0,255,0.2);">
-            <textarea id="main-post-area" placeholder="Hubungkan Wallet & Verifikasi TOF untuk mulai posting..." style="width: 100%; background: transparent; border: none; color: #fff; outline: none; resize: none;" disabled></textarea>
-            <div style="display: flex; justify-content: flex-end; gap: 10px; align-items: center;">
+            <textarea id="main-post-area" placeholder="Hubungkan Wallet & Verifikasi TOF untuk mulai posting..." style="width: 100%; background: transparent; border: none; color: #fff; outline: none; resize: none; min-height: 60px;" disabled></textarea>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; align-items: center; margin-top: 10px;">
                 <span id="post-status-msg" style="font-size: 0.65rem; color: #666;">Status: Read Only</span>
-                <button id="btn-post" style="background: #333; color: #666; border: none; padding: 5px 15px; border-radius: 5px; font-weight: bold; font-size: 0.7rem; cursor: not-allowed;" disabled>KIRIM</button>
+                <button id="btn-post" style="background: #333; color: #666; border: none; padding: 8px 20px; border-radius: 5px; font-weight: bold; font-size: 0.7rem; cursor: not-allowed;" disabled>KIRIM</button>
             </div>
         </div>
 
