@@ -1,7 +1,13 @@
-baseURL = "http://localhost:1313/"
+baseURL = "https://TFRMR.github.io/lab-tofarmer/"
+canonifyURLs = true
 languageCode = "id-id"
 title = "ToFarmer"
+
+# Penting agar Script Web3 kita jalan
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+
+# Pindahkan hasil masak ke folder docs untuk GitHub
+publishDir = "docs"
