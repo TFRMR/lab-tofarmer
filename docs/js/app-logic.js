@@ -1,62 +1,34 @@
-// --- KONFIGURASI EKONOMI ---
+// --- 1. KONFIGURASI & INISIALISASI ---
 const KURS_IDR = 1; 
 
-// Inisialisasi Jembatan Pera Wallet dengan Pengaman (Agar tidak macet jika library telat load)
+// Inisialisasi Pera Wallet dengan Pengaman (Agar tidak mematikan script lain)
 let peraWallet;
 try {
     peraWallet = new PeraWalletConnect.PeraWalletConnect();
 } catch (e) {
-    console.warn("Pera Wallet belum siap, sistem login anggota tetap aktif.");
+    console.warn("Pera Wallet Library belum dimuat, fitur Web3 standby.");
 }
 
-// --- 1. FUNGSI EKONOMI ---
+// --- 2. FUNGSI EKONOMI (TOTAL ASET) ---
 function updateEconomyData() {
-    const totalAsetTof = 5000000; 
-    const totalIdr = totalAsetTof * KURS_IDR;
-
+    const totalAsetTof = 5000000; // Bisa diupdate manual di sini
     const assetDisplay = document.getElementById('total-asset');
-    const idrDisplay = document.getElementById('total-idr');
-
-    if(assetDisplay) assetDisplay.innerHTML = `${totalAsetTof.toLocaleString()} <span class="econ-symbol">TOF</span>`;
-    if(idrDisplay) idrDisplay.innerHTML = `Rp ${totalIdr.toLocaleString()}`;
-}
-
-// --- 2. FUNGSI KONEKSI WALLET ---
-async function connectWallet() {
-    if (!peraWallet) return alert("Library Wallet belum siap, Lur!");
-    try {
-        const accounts = await peraWallet.connect();
-        const address = accounts[0];
-        handleConnectSuccess(address);
-    } catch (error) {
-        console.log("Otomatis dibatalkan, masuk Jalur Manual...");
-        const manualAddress = prompt("Jalur Manual: Masukkan Alamat Algorand (58 Karakter):");
-        if (manualAddress && manualAddress.length === 58) {
-            handleConnectSuccess(manualAddress);
-        } else if (manualAddress) {
-            alert("Alamat tidak valid, Lur!");
-        }
+    if(assetDisplay) {
+        assetDisplay.innerHTML = `${totalAsetTof.toLocaleString()} <span class="econ-symbol">TOF</span>`;
     }
 }
 
-function handleConnectSuccess(address) {
-    localStorage.setItem('tof_user_address', address);
-    updateUI(address);
-    alert("Wallet Terhubung!");
-}
-
-// --- 3. FUNGSI LOGIN TRADISIONAL (USERNAME PERSISTENT) ---
+// --- 3. FUNGSI LOGIN ANGGOTA (DENGAN DATA JSON) ---
 async function prosesLogin() {
     const userIn = document.getElementById('user').value;
     const passIn = document.getElementById('pass').value;
 
-    console.log("Mencoba login untuk:", userIn);
+    console.log("Memulai validasi srawung untuk:", userIn);
 
     try {
         const url = 'https://tfrmr.github.io/lab-tofarmer/data/users.json';
         const resp = await fetch(url);
-        
-        if (!resp.ok) throw new Error("File users.json tidak ditemukan di server!");
+        if (!resp.ok) throw new Error("Gagal terhubung ke database warga.");
         
         const allUsers = await resp.json();
         const dataUser = allUsers[userIn];
@@ -66,38 +38,15 @@ async function prosesLogin() {
             localStorage.setItem('username', userIn); 
             localStorage.setItem('userData', JSON.stringify(dataUser));
             
-            console.log("Login Berhasil! Data tersimpan.");
             alert("Wilujeng Sumping, @" + userIn);
+            // Pindah ke halaman profil/titik kumpul post
             window.location.href = "/lab-tofarmer/posts/halo-tofarmer/"; 
         } else {
             alert("Username atau Password salah, Lur!");
         }
     } catch (e) {
-        console.error("DETEKSI ERROR:", e.message);
-        alert("Error Sistem: " + e.message);
-    }
-}
-
-// --- 4. FUNGSI PENDAFTARAN WARGA ---
-function prosesDaftar() {
-    const nama = prompt("Nama Lengkap:");
-    const nick = prompt("Nickname / Username:");
-    const alamat = prompt("Alamat / Domisili:");
-    const hobi = prompt("Hobi / Keahlian:");
-    const pass = prompt("Buat Password:");
-
-    if (nama && nick && pass) {
-        const pesan = `Halo Mastermind, saya ingin daftar ekosistem ToFarmer.%0A%0A` +
-                      `Nama: ${nama}%0A` +
-                      `Nickname: ${nick}%0A` +
-                      `Alamat: ${alamat}%0A` +
-                      `Hobi: ${hobi}%0A` +
-                      `Password: ${pass}`;
-        
-        window.open(`https://wa.me/628XXXXXXXXX?text=${pesan}`, '_blank');
-        alert("Data terformat! Silahkan kirim ke WhatsApp Mastermind.");
-    } else {
-        alert("Data wajib diisi semua, Lur!");
+        console.error("Login Error:", e.message);
+        alert("Sistem sibuk: " + e.message);
     }
 }
 
@@ -106,102 +55,119 @@ function logout() {
     window.location.href = "/lab-tofarmer/";
 }
 
-// --- 5. FUNGSI SIMPAN PROFIL ---
-function saveProfile() {
-    const name = document.getElementById('user-name').value;
-    const role = document.getElementById('user-role').value;
-    if (name && role) {
-        localStorage.setItem('tof_user_name', name);
-        localStorage.setItem('tof_user_role', role);
-        alert("Profil disimpan!");
-        location.reload(); 
-    } else {
-        alert("Isi dulu Nama dan Keahlian, Lur!");
+// --- 4. FUNGSI WEB3 (PERA WALLET) ---
+async function connectWallet() {
+    if (!peraWallet) return alert("Sistem Wallet belum siap, silakan refresh.");
+    try {
+        const accounts = await peraWallet.connect();
+        const address = accounts[0];
+        localStorage.setItem('tof_user_address', address);
+        updateUI(address);
+        alert("Wallet Terhubung!");
+    } catch (error) {
+        console.log("Masuk Jalur Manual...");
+        const manualAddress = prompt("Jalur Manual: Masukkan Alamat Algorand Anda:");
+        if (manualAddress && manualAddress.length === 58) {
+            localStorage.setItem('tof_user_address', manualAddress);
+            updateUI(manualAddress);
+        }
     }
 }
 
-// --- 6. FUNGSI INTERAKSI ---
+// --- 5. UPDATE UI (PERSISTENT & DYNAMIC CONTENT) ---
+function updateUI(address) {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const username = localStorage.getItem('username');
+    const dataStr = localStorage.getItem('userData');
+
+    if (isLoggedIn === 'true' && dataStr) {
+        const data = JSON.parse(dataStr);
+        
+        // Elemen-elemen Beranda & Profil
+        const loginForm = document.getElementById('login-form');
+        const panduan = document.getElementById('panduan-gabung');
+        const dashboard = document.getElementById('user-dashboard');
+        const displayName = document.getElementById('display-name');
+        
+        // Sembunyikan Form Login (Agar Beranda Bersih)
+        if(loginForm) loginForm.setAttribute("style", "display:none !important");
+        if(panduan) panduan.setAttribute("style", "display:none !important");
+        
+        // Tampilkan & Isi Data Dashboard
+        if(dashboard) {
+            dashboard.setAttribute("style", "display:block !important");
+            if(displayName) displayName.innerText = "@" + username;
+            
+            // Statistik dari JSON
+            const xpVal = document.getElementById('user-xp');
+            const tofVal = document.getElementById('user-tof');
+            const userImg = document.getElementById('user-img');
+            const userIcon = document.getElementById('profile-icon');
+            
+            if(xpVal) xpVal.innerText = data.xp.toLocaleString();
+            if(tofVal) tofVal.innerText = data.tof.toLocaleString() + " TOF";
+            
+            // Foto Profil
+            if(userImg && data.img) {
+                userImg.src = data.img;
+                userImg.style.display = 'block';
+                if(userIcon) userIcon.style.display = 'none';
+            }
+
+            // Data Dinamis (Alamat & Hobi)
+            const infoAlamat = document.getElementById('info-alamat');
+            const infoHobi = document.getElementById('info-hobi');
+            if(infoAlamat) infoAlamat.innerText = data.alamat || "Menoreh";
+            if(infoHobi) infoHobi.innerText = data.hobi || "Grower";
+        }
+
+        // Aktifkan Fitur Posting
+        const postArea = document.getElementById('main-post-area');
+        const btnPost = document.getElementById('btn-post');
+        const statusMsg = document.getElementById('post-status-msg');
+        
+        if(postArea) {
+            postArea.disabled = false;
+            postArea.placeholder = "Halo @" + username + ", bagikan progresmu...";
+            if(btnPost) {
+                btnPost.disabled = false;
+                btnPost.style.background = "#00f2ff";
+                btnPost.style.color = "#000";
+                btnPost.style.cursor = "pointer";
+            }
+            if(statusMsg) {
+                statusMsg.innerText = "Status: Online";
+                statusMsg.style.color = "#55efc4";
+            }
+        }
+    }
+
+    // Status Wallet
+    if (address) {
+        const btnConnect = document.getElementById('btn-connect');
+        if(btnConnect) {
+            btnConnect.innerText = "WALLET ACTIVE";
+            btnConnect.style.borderColor = "#55efc4";
+            btnConnect.style.color = "#55efc4";
+        }
+        const displayRole = document.getElementById('display-role');
+        if(displayRole) displayRole.innerText = "ADDR: " + address.substring(0,6) + "...";
+    }
+}
+
+// --- 6. INTERAKSI SOSIAL ---
 function sruputKopi(element) {
-    let count = parseInt(element.innerText.replace(/[^0-9]/g, ''));
+    let count = parseInt(element.innerText.replace(/[^0-9]/g, '')) || 0;
     count++;
     element.innerHTML = `☕ ${count} Sruput`;
     element.style.color = "#00f2ff";
     element.style.textShadow = "0 0 8px #00f2ff";
 }
 
-// --- 7. FUNGSI UPDATE UI (DASHBOARD & PERSISTENT SESSION) ---
-function updateUI(address) {
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    const username = localStorage.getItem('username');
-    const dataStr = localStorage.getItem('userData');
-
-    // A. Update Info Wallet
-    if (address) {
-        const shortAddress = address.substring(0, 6) + "..." + address.substring(52);
-        const displayRole = document.getElementById('display-role');
-        if(displayRole) displayRole.innerText = "ADDR: " + shortAddress;
-
-        const btnConnect = document.getElementById('btn-connect');
-        if(btnConnect) {
-            btnConnect.innerText = "CONNECTED";
-            btnConnect.style.borderColor = "#55efc4";
-            btnConnect.disabled = true;
-        }
-    }
-
-    // B. Logika Persistent: Force tampilan jika sudah login
-    if (isLoggedIn === 'true' && dataStr) {
-        const data = JSON.parse(dataStr);
-        const loginForm = document.getElementById('login-form');
-        const userDashboard = document.getElementById('user-dashboard');
-        const displayName = document.getElementById('display-name');
-        const panduan = document.getElementById('panduan-gabung');
-        const profileSetup = document.getElementById('profile-setup');
-
-        // Sembunyikan elemen login secara paksa di halaman mana pun
-        if(loginForm) loginForm.setAttribute("style", "display:none !important");
-        if(panduan) panduan.setAttribute("style", "display:none !important");
-        if(profileSetup) profileSetup.setAttribute("style", "display:none !important");
-        
-        if(userDashboard) {
-            userDashboard.setAttribute("style", "display:block !important");
-            if(displayName) displayName.innerText = "@" + username;
-
-            // Isi statistik dari JSON
-            const xpDisplay = document.getElementById('user-xp');
-            const tofDisplay = document.getElementById('user-tof');
-            const imgDisplay = document.getElementById('user-img');
-            
-            if(xpDisplay) xpDisplay.innerText = data.xp.toLocaleString();
-            if(tofDisplay) tofDisplay.innerText = data.tof.toLocaleString() + " TOF";
-            
-            if(imgDisplay && data.img) {
-                imgDisplay.src = data.img;
-                imgDisplay.style.display = 'block';
-            }
-
-            // Aktifkan akses posting
-            const postArea = document.getElementById('main-post-area');
-            const btnPost = document.getElementById('btn-post');
-            if (postArea) {
-                postArea.disabled = false;
-                postArea.placeholder = "Halo @" + username + ", apa progresmu hari ini?";
-                if(btnPost) {
-                    btnPost.disabled = false;
-                    btnPost.style.background = "#00f2ff";
-                }
-            }
-        }
-    } else {
-        // Jika belum login
-        if(document.getElementById('login-form')) document.getElementById('login-form').style.display = 'block';
-        if(document.getElementById('user-dashboard')) document.getElementById('user-dashboard').style.display = 'none';
-    }
-}
-
-// --- 8. RITUAL AUTO-RUN SAAT REFRESH ---
+// --- 7. AUTO-RUN (KEPALA SISTEM) ---
 window.onload = function() {
     updateEconomyData();
+    
     const savedAddress = localStorage.getItem('tof_user_address');
     updateUI(savedAddress);
 
