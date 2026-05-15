@@ -100,12 +100,40 @@ Ada sebuah kesedihan yang tak tertulis setiap kali seorang petani senior meningg
     </item>
     
     <item>
+      <title>Pemulihan Akses</title>
+      <link>https://TFRMR.github.io/lab-tofarmer/lupa-password/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://TFRMR.github.io/lab-tofarmer/lupa-password/</guid>
+      <description> 🔐 LUPA PASSWORD? Demi keamanan desentralisasi, sistem tidak menyimpan password dalam teks biasa. Silakan hubungi Mastermind melalui jalur privat untuk reset manual. HUBUNGI MASTERMIND   ← KEMBALI KE BERANDA </description>
+    </item>
+    
+    <item>
+      <title>Pendaftaran Warga Baru</title>
+      <link>https://TFRMR.github.io/lab-tofarmer/daftar/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://TFRMR.github.io/lab-tofarmer/daftar/</guid>
+      <description> FORMULIR WARGA Data ini akan tercatat dalam ekosistem JSON ToFarmer.
+DAFTAR SEKARANG   ← KEMBALI    function submitPendaftaran() { alert(&#34;Mastermind, fungsi simpan otomatis ke JSON membutuhkan Backend (PHP/Node.js). Untuk saat ini, data Anda telah dikonversi ke format JSON. Silakan kirim ke pengelola untuk di-input ke server.&#34;); // Logika pengumpulan data bisa ditambahkan di sini } </description>
+    </item>
+    
+    <item>
       <title>Profil </title>
       <link>https://TFRMR.github.io/lab-tofarmer/profil/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://TFRMR.github.io/lab-tofarmer/profil/</guid>
       <description>@Memuat... KASTA LEVEL --   XP Points 0   Power Score 0%   TOF Asset 0   Terakhir terlihat: --    /** * LOGIKA RANKING &amp; LEVELING (Translasi Rumus Python Mastermind) */ function getTofRankAndLevel(xp) { let title = &#34;GROWER&#34;; let level = 1; let color = &#34;#888&#34;; // Warna default Grower if (xp = 33000) { title = &#34;ELITE&#34;; level = 91 + Math.</description>
+    </item>
+    
+    <item>
+      <title>Pusat Fitur &amp; Ilmu</title>
+      <link>https://TFRMR.github.io/lab-tofarmer/fitur/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://TFRMR.github.io/lab-tofarmer/fitur/</guid>
+      <description>/* CSS tetap sama, tidak ada perubahan pada gaya visual */ .fitur-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-top: 20px; margin-bottom: 40px; } .fitur-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0, 242, 255, 0.03); border: 1px solid rgba(0, 242, 255, 0.15); border-radius: 18px; padding: 25px 15px; text-decoration: none; color: #fff; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center; } .fitur-btn:hover { background: rgba(0, 242, 255, 0.</description>
     </item>
     
   </channel>

@@ -1,0 +1,35 @@
+---
+title: "Pendaftaran Warga Baru"
+url: "/daftar/"
+layout: "index"
+---
+
+<div class="tof-card" style="max-width: 500px; margin: auto;">
+    <h2 style="color: #00f2ff; text-align: center; margin-bottom: 20px;">FORMULIR WARGA</h2>
+    <p style="color: #666; font-size: 0.8rem; text-align: center; margin-bottom: 25px;">Data ini akan tercatat dalam ekosistem JSON ToFarmer.</p>
+
+    <form id="form-daftar-mandiri">
+        <input type="text" id="reg-user" placeholder="Username (Tanpa Spasi)" class="tof-input" required>
+        <input type="text" id="reg-nama" placeholder="Nama Lengkap" class="tof-input" required>
+        <input type="text" id="reg-alamat" placeholder="Alamat / Lokasi" class="tof-input">
+        <input type="text" id="reg-hobi" placeholder="Hobi / Keahlian" class="tof-input">
+        <input type="number" id="reg-hp" placeholder="No. HP / WhatsApp" class="tof-input" required>
+        <input type="text" id="reg-quote" placeholder="Kata Favorit / Motto" class="tof-input">
+        <input type="password" id="reg-pass" placeholder="Buat Password" class="tof-input" required>
+        
+        <button type="button" onclick="submitPendaftaran()" style="background: #00f2ff; color: #000; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer;">
+            DAFTAR SEKARANG
+        </button>
+    </form>
+
+    <div style="text-align: center; margin-top: 25px;">
+        <a href="../" style="color: #555; text-decoration: none; font-size: 0.75rem;">← KEMBALI</a>
+    </div>
+</div>
+
+<script>
+function submitPendaftaran() {
+    alert("Mastermind, fungsi simpan otomatis ke JSON membutuhkan Backend (PHP/Node.js). Untuk saat ini, data Anda telah dikonversi ke format JSON. Silakan kirim ke pengelola untuk di-input ke server.");
+    // Logika pengumpulan data bisa ditambahkan di sini
+}
+</script>

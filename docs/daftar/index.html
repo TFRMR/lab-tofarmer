@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pendaftaran Warga Baru | ToFarmer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+         
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter', sans-serif; }
+        body { background:#0d0d0f; color:#e0e0e0; line-height:1.8; overflow-x: hidden; }
+        .container { max-width:1000px; margin:auto; padding:1rem; }
+
+         
+        header { text-align:center; padding:2rem 1rem; }
+        .header-brand { display: inline-flex; align-items: center; justify-content: center; gap: 15px; text-decoration: none; }
+        .header-logo { height: 50px; width: auto; filter: drop-shadow(0 0 5px rgba(0,242,255,0.5)); }
+        header h1 { font-size: 2.2rem; color: #00f2ff; text-shadow: 0 0 10px #00f2ff; letter-spacing: 1px; }
+
+        nav { display: flex; gap: 12px; align-items: center; justify-content: center; flex-wrap: wrap; padding: 20px; margin-bottom: 2rem; }
+        nav a { 
+            text-decoration: none; color: #00f2ff; font-size: 0.85em; font-weight: 600; 
+            background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.3); 
+            padding: 10px 20px; border-radius: 8px; text-transform: uppercase;
+        }
+        nav a:hover { background: rgba(0, 242, 255, 0.2); border-color: #00f2ff; box-shadow: 0 0 15px rgba(0, 242, 255, 0.4); color: #fff; }
+
+         
+        .content-area { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            background: #16161a; 
+            padding: 3rem; 
+            border-radius: 20px; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .content-area h1 { color: #00f2ff; margin-bottom: 1rem; font-size: 2.5rem; line-height: 1.2; }
+        .meta-info { color: #666; font-size: 0.8rem; margin-bottom: 2rem; font-family: monospace; }
+        
+         
+        .post-body { font-size: 1.1rem; color: #d1d1d1; }
+        .post-body h2, .post-body h3 { color: #ff00ff; margin: 2rem 0 1rem; text-shadow: 0 0 5px rgba(255, 0, 255, 0.2); }
+        .post-body p { margin-bottom: 1.5rem; }
+        .post-body img { max-width: 100%; border-radius: 10px; border: 1px solid #333; margin: 1rem 0; }
+        .post-body a { color: #00f2ff; text-decoration: none; border-bottom: 1px dashed #00f2ff; }
+        .post-body blockquote { border-left: 4px solid #00f2ff; padding-left: 20px; font-style: italic; color: #aaa; margin: 2rem 0; }
+
+         
+        .custom-footer-tofarmer { text-align: center; margin-top: 50px; padding: 20px; font-family: monospace; font-size: 12px; color: #8affff; opacity: 0.7; }
+
+        @media screen and (max-width: 600px) {
+            .content-area { padding: 1.5rem; }
+            .content-area h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../" class="header-brand">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhzXfCj2gYXzyKmWfs871-jqeTvs6345OTXsndg-mLpIUzsDxvk2JByeMIv5G0XJOT1V3WoGBqUJAhBxuXFkO_IP6Hb98YPCS6KJNrIaG7IB8eeI9gBT5iH-8P2F7qOBY4UfJ6v9g18PnWwcjNAEzYpya-qgtEc5jwiM9IUeQ1i-XZC9RJTHYsbp2FfNYw/s389/logo.png" alt="Logo" class="header-logo">
+                <h1>ToFarmer</h1>
+            </a>
+        </header>
+
+        <nav>
+            <a href="../">🏠 Kembali ke Beranda</a>
+        </nav>
+
+        <article class="content-area">
+            <h1>Pendaftaran Warga Baru</h1>
+            <div class="meta-info">Diposting pada: 01 January 0001</div>
+            
+            <div class="post-body">
+                
+<div class="tof-card" style="max-width: 500px; margin: auto;">
+    <h2 style="color: #00f2ff; text-align: center; margin-bottom: 20px;">FORMULIR WARGA</h2>
+    <p style="color: #666; font-size: 0.8rem; text-align: center; margin-bottom: 25px;">Data ini akan tercatat dalam ekosistem JSON ToFarmer.</p>
+
+    <form id="form-daftar-mandiri">
+        <input type="text" id="reg-user" placeholder="Username (Tanpa Spasi)" class="tof-input" required>
+        <input type="text" id="reg-nama" placeholder="Nama Lengkap" class="tof-input" required>
+        <input type="text" id="reg-alamat" placeholder="Alamat / Lokasi" class="tof-input">
+        <input type="text" id="reg-hobi" placeholder="Hobi / Keahlian" class="tof-input">
+        <input type="number" id="reg-hp" placeholder="No. HP / WhatsApp" class="tof-input" required>
+        <input type="text" id="reg-quote" placeholder="Kata Favorit / Motto" class="tof-input">
+        <input type="password" id="reg-pass" placeholder="Buat Password" class="tof-input" required>
+        
+        <button type="button" onclick="submitPendaftaran()" style="background: #00f2ff; color: #000; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer;">
+            DAFTAR SEKARANG
+        </button>
+    </form>
+
+    <div style="text-align: center; margin-top: 25px;">
+        <a href="../" style="color: #555; text-decoration: none; font-size: 0.75rem;">← KEMBALI</a>
+    </div>
+</div>
+
+<script>
+function submitPendaftaran() {
+    alert("Mastermind, fungsi simpan otomatis ke JSON membutuhkan Backend (PHP/Node.js). Untuk saat ini, data Anda telah dikonversi ke format JSON. Silakan kirim ke pengelola untuk di-input ke server.");
+    // Logika pengumpulan data bisa ditambahkan di sini
+}
+</script>
+            </div>
+        </article>
+
+        <div class="custom-footer-tofarmer">
+            ToFarmer &middot; Bertumbuh dari praktik.
+        </div>
+    </div>
+</body>
+</html>

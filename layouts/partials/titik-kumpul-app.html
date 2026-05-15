@@ -7,7 +7,7 @@
         align-items: start;
     }
 
-    /* Social Proof yang lebih ramping dan ramah */
+    /* Social Proof yang lebih ramping dan ramah (Adaptif untuk HP) */
     .social-lite-bar {
         display: flex;
         justify-content: space-between;
@@ -18,6 +18,8 @@
         border-radius: 12px;
         margin-bottom: 15px;
         font-size: 0.8rem;
+        gap: 15px;
+        overflow: hidden;
     }
 
     /* KONTEN FOTO BERTUMPUK DENGAN FITUR GULIR MANUAL INFINITY */
@@ -27,13 +29,14 @@
         gap: -12px; /* Efek tumpukan standar */
         overflow-x: auto; /* Memungkinkan gulir horizontal manual */
         overflow-y: hidden;
-        max-width: 400px; /* Lebar area gulir diperluas agar lebih lega */
+        max-width: 400px; 
         padding: 10px 5px;
         scrollbar-width: none; /* Sembunyikan scrollbar Firefox */
         -ms-overflow-style: none; /* Sembunyikan scrollbar IE/Edge */
         cursor: grab;
         scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch;
+        flex-shrink: 1;
     }
 
     #grower-photos::-webkit-scrollbar {
@@ -164,7 +167,7 @@
 #login-form button, 
 #user-dashboard button,
 #btn-connect {
-    width: 125% !important;   
+    width: 100% !important;   /* Perbaikan: Gunakan 100% agar pas di layar HP */
     display: block !important; 
     box-sizing: border-box;   
     padding: 14px 12px;        
@@ -261,17 +264,35 @@
         }
 
         .dropdown:hover > .dropdown-content { display: block !important; }
-        .social-lite-bar { flex-direction: column; gap: 8px; text-align: center; }
+        
+        /* FIX HP: Foto di atas, teks statistik di bawah agar tidak tumpang tindih */
+        .social-lite-bar { 
+            flex-direction: column; 
+            gap: 10px; 
+            text-align: center; 
+            padding: 15px;
+        }
+        #grower-photos {
+            max-width: 100%;
+            justify-content: center;
+        }
+        .stat-badge-container {
+            width: 100%;
+            background: rgba(13,13,15,0.9);
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 242, 255, 0.2);
+        }
     }
 </style>
 
 <div class="social-lite-bar">
-    <div style="display: flex; align-items: center; gap: 10px; width: 100%; overflow: hidden;">
-        <div id="grower-photos">
-            </div>
-        <div style="color: #00f2ff; font-weight: 600; letter-spacing: 0.5px; white-space: nowrap; flex-shrink: 0; background: rgba(13,13,15,0.9); padding: 5px 10px; border-radius: 8px; border: 1px solid rgba(0, 242, 255, 0.2);">
-            📡 <span>Ekosistem Terhubung: <b id="count-growers">0</b> Growers + <b id="count-elite" style="color:#ff00ff;">0</b> Elite Aktif</span> 
+    <div id="grower-photos">
         </div>
+    <div class="stat-badge-container">
+        <a href="{{ "" | relURL }}" style="text-decoration: none; color: #00f2ff; font-weight: 600; letter-spacing: 0.5px; white-space: nowrap;">
+            📡 <span>Ekosistem: <b id="count-growers">0</b> Growers + <b id="count-elite" style="color:#ff00ff;">0</b> Elite</span> 
+        </a>
     </div>
 </div>
 
@@ -292,9 +313,10 @@
                 <button onclick="prosesLogin()" style="background: #00f2ff; color: #000; border: none; font-weight: bold; cursor: pointer; font-size: 0.7rem;">MASUK SISTEM</button>
                 
                 <div class="login-footer-links">
-                    <a href="https://wa.me/6285228028131?text=Halo%20Mastermind,%20saya%20ingin%20daftar%20ToFarmer" target="_blank">DAFTAR BARU</a>
-                    <a href="#">LUPA PASSWORD?</a>
-                </div>
+    <a href="{{ "daftar/" | relURL }}">DAFTAR BARU</a>
+    
+    <a href="{{ "lupa-password/" | relURL }}">LUPA PASSWORD?</a>
+</div>
             </div>
 
             <div id="user-dashboard" style="display: none;">
@@ -359,7 +381,7 @@
 
         <div class="post-card">
             <div class="post-header">
-                <a href="/profil?user=Cyber_Farmer" class="user-id">@Cyber_Farmer</a>
+                <a href="{{ "profil?user=Cyber_Farmer" | relURL }}" class="user-id">@Cyber_Farmer</a>
                 <span class="post-time">10 Menit Lalu</span>
             </div>
             <p class="post-text">Pipa pengiriman GitHub sudah terpasang. Sekarang ekosistem ToFarmer punya "Brankas" kode yang aman di Linux Lite. Siap untuk fase Algorand!</p>
@@ -371,7 +393,7 @@
 
         <div class="post-card" style="border-left-color: #00f2ff;">
             <div class="post-header">
-                <a href="/profil?user=Quantum_Grow" class="user-id">@Quantum_Grow</a>
+                <a href="{{ "profil?user=Quantum_Grow" | relURL }}" class="user-id">@Quantum_Grow</a>
                 <span class="post-time">2 Jam Lalu</span>
             </div>
             <p class="post-text">Baru saja selesai memindahkan bibit ubi dari hot bed ke Blok 2. Struktur tanah terlihat sangat subur setelah rotasi kompos kemarin.</p>

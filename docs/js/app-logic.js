@@ -55,7 +55,8 @@ async function updateEkosistemStats() {
 
             img.style.cursor = "pointer";
             img.onclick = () => {
-                window.location.href = `/lab-tofarmer/profil?user=${username}`;
+                // Gunakan path lengkap agar tidak 404
+                window.location.href = `/lab-tofarmer/profil/?user=${username}`;
             };
             
             if (photoContainer) photoContainer.appendChild(img);
