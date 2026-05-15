@@ -11,3 +11,4 @@ title = "ToFarmer"
 
 # Pindahkan hasil masak ke folder docs untuk GitHub
 publishDir = "docs"
+
