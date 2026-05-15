@@ -1,5 +1,5 @@
 baseURL = "https://TFRMR.github.io/lab-tofarmer/"
-canonifyURLs = true
+canonifyURLs = false         # GANTI INI JADI FALSE
 languageCode = "id-id"
 title = "ToFarmer"
 
