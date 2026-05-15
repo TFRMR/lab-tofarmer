@@ -491,27 +491,43 @@
     
     <div class="side-widget">
         <div class="tof-card" id="user-profile-card">
-            <div class="profile-img-container" style="width: 80px; height: 80px; background: #0d0d0f; border: 2px solid #ff00ff; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;">
-                <span id="profile-icon" style="font-size: 2rem;">👤</span>
-            </div>
-            <div>
-                <h3 id="display-name" style="color: #00f2ff; font-size: 1.1rem;">Visitor</h3>
-                <p id="display-role" style="font-size: 0.7rem; color: #666; letter-spacing: 1px;">BELUM TERHUBUNG</p>
-                
-                <button id="btn-connect" onclick="connectWallet()" style="width: 100%; margin-top: 10px; background: transparent; border: 1px solid #00f2ff; color: #00f2ff; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 0.7rem; font-weight: bold;">
-                    CONNECT WALLET
-                </button>
+            <div id="login-form">
+                <h4 style="font-size: 0.7rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 12px; text-align: center;">AKSES WARGA</h4>
+                <input type="text" id="user" placeholder="Username" class="tof-input">
+                <input type="password" id="pass" placeholder="Password" class="tof-input">
+                <button onclick="prosesLogin()" style="width: 100%; background: #00f2ff; color: #000; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.7rem;">MASUK SISTEM</button>
             </div>
 
-            <div class="desktop-only-info" style="margin-top: 20px; text-align: left; font-size: 0.8rem; width: 100%;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                    <span style="color: #aaa;">Status:</span>
-                    <span style="color: #55efc4;">Guest</span>
+            <div id="user-dashboard" style="display: none;">
+                <div class="profile-img-container" style="width: 80px; height: 80px; background: #0d0d0f; border: 2px solid #ff00ff; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                    <img id="user-img" src="" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                    <span id="profile-icon" style="font-size: 2rem;">👤</span>
                 </div>
-                <div style="display: flex; justify-content: space-between;">
-                    <span style="color: #aaa;">XP:</span>
-                    <span style="color: #ff00ff;">0 / 1.000</span>
+                <div style="text-align: center;">
+                    <h3 id="display-name" style="color: #00f2ff; font-size: 1.1rem;">Visitor</h3>
+                    <p id="display-role" style="font-size: 0.7rem; color: #666; letter-spacing: 1px; margin-bottom: 10px;">GUEST</p>
+                    
+                    <div class="desktop-only-info" style="margin-top: 15px; text-align: left; font-size: 0.8rem; width: 100%;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="color: #aaa;">XP:</span>
+                            <span id="user-xp" style="color: #ff00ff; font-weight: bold;">0</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="color: #aaa;">Saldo:</span>
+                            <span id="user-tof" style="color: #00f2ff; font-weight: bold;">0 TOF</span>
+                        </div>
+                    </div>
+
+                    <button onclick="logout()" style="width: 100%; margin-top: 15px; background: rgba(255,0,0,0.1); border: 1px solid #ff4757; color: #ff4757; padding: 8px; border-radius: 5px; cursor: pointer; font-size: 0.65rem; font-weight: bold;">
+                        KELUAR
+                    </button>
                 </div>
+            </div>
+
+            <div id="web3-connection-area" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; text-align: center;">
+                <button id="btn-connect" onclick="connectWallet()" style="width: 100%; background: transparent; border: 1px solid #00f2ff; color: #00f2ff; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 0.7rem; font-weight: bold;">
+                    CONNECT WALLET
+                </button>
             </div>
 
             <div id="profile-setup" style="display: none; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; text-align: left; width: 100%;">
@@ -525,19 +541,19 @@
         <div class="tof-card" id="panduan-gabung">
             <h4 style="font-size: 0.7rem; color: #55efc4; letter-spacing: 1px; margin-bottom: 12px;">PANDUAN GABUNG</h4>
             <ul style="color: #aaa; font-size: 0.75rem; padding-left: 15px; line-height: 1.6; list-style: none;">
-                <li style="margin-bottom: 5px;">1. Unduh <a href="https://perawallet.app/" target="_blank" style="color: #00f2ff; text-decoration: none;">Pera Wallet</a></li>
-                <li style="margin-bottom: 5px;">2. Hubungkan Wallet Anda</li>
-                <li style="margin-bottom: 5px;">3. Lengkapi Profil & Simpan</li>
-                <li>4. Aktivasi via Mastermind</li>
+                <li style="margin-bottom: 5px;">1. Login dengan Akun ToFarmer</li>
+                <li style="margin-bottom: 5px;">2. Hubungkan Pera Wallet (Opsional)</li>
+                <li style="margin-bottom: 5px;">3. Kumpulkan XP dari Aktivitas</li>
+                <li>4. Pantau Asset & Reward TOF</li>
             </ul>
         </div>
     </div>
 
     <div class="feed-container">
         <div class="tof-card" style="padding: 15px; border-style: dashed; border-color: rgba(255,0,255,0.2);">
-            <textarea id="main-post-area" placeholder="Connect Wallet & Verifikasi TOF untuk mulai posting..." style="width: 100%; background: transparent; border: none; color: #fff; outline: none; resize: none; min-height: 60px;" disabled></textarea>
+            <textarea id="main-post-area" placeholder="Silahkan Login untuk mulai membagikan progres..." style="width: 100%; background: transparent; border: none; color: #fff; outline: none; resize: none; min-height: 60px;" disabled></textarea>
             <div style="display: flex; justify-content: flex-end; gap: 10px; align-items: center; margin-top: 10px;">
-                <span id="post-status-msg" style="font-size: 0.65rem; color: #666;">Status: Read Only</span>
+                <span id="post-status-msg" style="font-size: 0.65rem; color: #666;">Status: Login Required</span>
                 <button id="btn-post" style="background: #333; color: #666; border: none; padding: 8px 20px; border-radius: 5px; font-weight: bold; font-size: 0.7rem; cursor: not-allowed;" disabled>KIRIM</button>
             </div>
         </div>
@@ -587,7 +603,6 @@
 
 </div>
 <script src="https://unpkg.com/@perawallet/connect@1.3.3/dist/index.js"></script>
-
 <script src="https://TFRMR.github.io/lab-tofarmer/js/app-logic.js"></script>
         </div>
 

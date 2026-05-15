@@ -87,7 +87,16 @@ function saveProfile() {
     }
 }
 
-// --- 5. FUNGSI UPDATE UI (INTEGRASI DASHBOARD) ---
+// --- 5. FUNGSI INTERAKSI (SRUPUT KOPI) ---
+function sruputKopi(element) {
+    let count = parseInt(element.innerText.replace(/[^0-9]/g, ''));
+    count++;
+    element.innerHTML = `☕ ${count} Sruput`;
+    element.style.color = "#00f2ff";
+    element.style.textShadow = "0 0 8px #00f2ff";
+}
+
+// --- 6. FUNGSI UPDATE UI (INTEGRASI DASHBOARD & POST AREA) ---
 function updateUI(address) {
     // A. Update Info Wallet
     if (address) {
@@ -120,10 +129,32 @@ function updateUI(address) {
         const xpDisplay = document.getElementById('user-xp');
         const tofDisplay = document.getElementById('user-tof');
         const imgDisplay = document.getElementById('user-img');
+        const iconDisplay = document.getElementById('profile-icon');
         
-        if(xpDisplay) xpDisplay.innerText = data.xp.toLocaleString() + " XP";
+        if(xpDisplay) xpDisplay.innerText = data.xp.toLocaleString();
         if(tofDisplay) tofDisplay.innerText = data.tof.toLocaleString() + " TOF";
-        if(imgDisplay && data.img) imgDisplay.src = data.img;
+        
+        if(imgDisplay && data.img) {
+            imgDisplay.src = data.img;
+            imgDisplay.style.display = 'block';
+            if(iconDisplay) iconDisplay.style.display = 'none';
+        }
+
+        // C. Aktifkan Akses Posting
+        const postArea = document.getElementById('main-post-area');
+        const btnPost = document.getElementById('btn-post');
+        const postMsg = document.getElementById('post-status-msg');
+
+        if (postArea) {
+            postArea.disabled = false;
+            postArea.placeholder = "Apa progresmu hari ini, Lur?";
+            btnPost.disabled = false;
+            btnPost.style.background = "#00f2ff";
+            btnPost.style.color = "#000";
+            btnPost.style.cursor = "pointer";
+            postMsg.innerText = "Status: Terverifikasi";
+            postMsg.style.color = "#55efc4";
+        }
     }
 
     const profileForm = document.getElementById('profile-setup');
@@ -133,7 +164,7 @@ function updateUI(address) {
     if(panduan) panduan.style.display = 'none';
 }
 
-// --- 6. RITUAL AUTO-RUN SAAT REFRESH ---
+// --- 7. RITUAL AUTO-RUN SAAT REFRESH ---
 window.onload = function() {
     updateEconomyData();
 
