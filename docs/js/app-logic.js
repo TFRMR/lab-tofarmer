@@ -45,7 +45,6 @@ async function prosesLogin() {
     const passIn = document.getElementById('pass').value;
 
     try {
-        // Gunakan jalur absolut GitHub Pages agar fetch tidak nyasar
         const resp = await fetch('https://TFRMR.github.io/lab-tofarmer/data/users.json');
         const allUsers = await resp.json();
         const dataUser = allUsers[userIn];
@@ -56,7 +55,7 @@ async function prosesLogin() {
             localStorage.setItem('userData', JSON.stringify(dataUser));
             
             alert("Wilujeng Sumping, @" + userIn);
-            // Redirect paksa ke halaman utama agar state ter-reset bersih
+            // Redirect ke halaman profil/dashboard dinamis
             window.location.href = "/lab-tofarmer/posts/halo-tofarmer/"; 
         } else {
             alert("Username atau Password salah, Lur!");
@@ -124,7 +123,7 @@ function updateUI(address) {
     const username = localStorage.getItem('username');
     const data = JSON.parse(localStorage.getItem('userData'));
 
-    // A. Update Info Wallet
+    // A. Update Info Wallet (Hanya tampil di Profil setelah Login)
     if (address) {
         const shortAddress = address.substring(0, 6) + "..." + address.substring(52);
         const displayRole = document.getElementById('display-role');
@@ -138,24 +137,27 @@ function updateUI(address) {
         }
     }
 
-    // B. Logika Dominan: Paksa tampilan jika sudah login
+    // B. Logika Persistent: Force tampilan jika sudah login
     if (isLoggedIn === 'true' && data) {
         const loginForm = document.getElementById('login-form');
         const userDashboard = document.getElementById('user-dashboard');
         const displayName = document.getElementById('display-name');
         const panduan = document.getElementById('panduan-gabung');
         const profileSetup = document.getElementById('profile-setup');
+        const web3Area = document.getElementById('web3-connection-area');
 
-        // Gunakan setAttribute style untuk menimpa CSS yang mungkin menghalangi (Force Display)
+        // Sembunyikan elemen login secara paksa
         if(loginForm) loginForm.setAttribute("style", "display:none !important");
         if(panduan) panduan.setAttribute("style", "display:none !important");
         if(profileSetup) profileSetup.setAttribute("style", "display:none !important");
         
+        // Tampilkan Dashboard & Data Dinamis
         if(userDashboard) {
             userDashboard.setAttribute("style", "display:block !important");
             if(displayName) displayName.innerText = "@" + username;
+            if(web3Area) web3Area.style.display = "block"; // Tampilkan wallet area di profil
 
-            // ISI DATA STATISTIK
+            // Isi statistik dari JSON
             const xpDisplay = document.getElementById('user-xp');
             const tofDisplay = document.getElementById('user-tof');
             const imgDisplay = document.getElementById('user-img');
@@ -170,7 +172,7 @@ function updateUI(address) {
                 if(iconDisplay) iconDisplay.style.display = 'none';
             }
 
-            // AKTIFKAN AKSES POSTING
+            // Aktifkan akses posting
             const postArea = document.getElementById('main-post-area');
             const btnPost = document.getElementById('btn-post');
             const postMsg = document.getElementById('post-status-msg');
@@ -178,18 +180,23 @@ function updateUI(address) {
             if (postArea) {
                 postArea.disabled = false;
                 postArea.placeholder = "Halo @" + username + ", apa progresmu hari ini?";
-                btnPost.disabled = false;
-                btnPost.style.background = "#00f2ff";
-                btnPost.style.color = "#000";
-                btnPost.style.cursor = "pointer";
-                postMsg.innerText = "Status: Online";
-                postMsg.style.color = "#55efc4";
+                if(btnPost) {
+                    btnPost.disabled = false;
+                    btnPost.style.background = "#00f2ff";
+                    btnPost.style.color = "#000";
+                    btnPost.style.cursor = "pointer";
+                }
+                if(postMsg) {
+                    postMsg.innerText = "Status: Online";
+                    postMsg.style.color = "#55efc4";
+                }
             }
         }
     } else {
-        // Pastikan form login muncul jika belum login
+        // Jika belum login
         if(document.getElementById('login-form')) document.getElementById('login-form').style.display = 'block';
         if(document.getElementById('user-dashboard')) document.getElementById('user-dashboard').style.display = 'none';
+        if(document.getElementById('web3-connection-area')) document.getElementById('web3-connection-area').style.display = 'none';
     }
 }
 
