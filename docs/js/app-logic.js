@@ -45,7 +45,8 @@ async function prosesLogin() {
     const passIn = document.getElementById('pass').value;
 
     try {
-        const resp = await fetch('/lab-tofarmer/data/users.json');
+        // Gunakan jalur absolut GitHub Pages agar fetch tidak nyasar
+        const resp = await fetch('https://TFRMR.github.io/lab-tofarmer/data/users.json');
         const allUsers = await resp.json();
         const dataUser = allUsers[userIn];
 
@@ -55,7 +56,7 @@ async function prosesLogin() {
             localStorage.setItem('userData', JSON.stringify(dataUser));
             
             alert("Wilujeng Sumping, @" + userIn);
-            // REDIRECT agar halaman benar-benar bersih
+            // Redirect paksa ke halaman utama agar state ter-reset bersih
             window.location.href = "/lab-tofarmer/posts/halo-tofarmer/"; 
         } else {
             alert("Username atau Password salah, Lur!");
@@ -137,55 +138,56 @@ function updateUI(address) {
         }
     }
 
-    // B. Logika Dominan: Jika Anggota sudah Login
+    // B. Logika Dominan: Paksa tampilan jika sudah login
     if (isLoggedIn === 'true' && data) {
-        // SEMBUNYIKAN SEMUA FORM LOGIN DAN PANDUAN
         const loginForm = document.getElementById('login-form');
         const userDashboard = document.getElementById('user-dashboard');
         const displayName = document.getElementById('display-name');
         const panduan = document.getElementById('panduan-gabung');
         const profileSetup = document.getElementById('profile-setup');
 
-        if(loginForm) loginForm.style.display = 'none';
-        if(panduan) panduan.style.display = 'none';
-        if(profileSetup) profileSetup.style.display = 'none';
+        // Gunakan setAttribute style untuk menimpa CSS yang mungkin menghalangi (Force Display)
+        if(loginForm) loginForm.setAttribute("style", "display:none !important");
+        if(panduan) panduan.setAttribute("style", "display:none !important");
+        if(profileSetup) profileSetup.setAttribute("style", "display:none !important");
         
-        // TAMPILKAN DASHBOARD
-        if(userDashboard) userDashboard.style.display = 'block';
-        if(displayName) displayName.innerText = "@" + username;
+        if(userDashboard) {
+            userDashboard.setAttribute("style", "display:block !important");
+            if(displayName) displayName.innerText = "@" + username;
 
-        // ISI DATA STATISTIK
-        const xpDisplay = document.getElementById('user-xp');
-        const tofDisplay = document.getElementById('user-tof');
-        const imgDisplay = document.getElementById('user-img');
-        const iconDisplay = document.getElementById('profile-icon');
-        
-        if(xpDisplay) xpDisplay.innerText = data.xp.toLocaleString();
-        if(tofDisplay) tofDisplay.innerText = data.tof.toLocaleString() + " TOF";
-        
-        if(imgDisplay && data.img) {
-            imgDisplay.src = data.img;
-            imgDisplay.style.display = 'block';
-            if(iconDisplay) iconDisplay.style.display = 'none';
-        }
+            // ISI DATA STATISTIK
+            const xpDisplay = document.getElementById('user-xp');
+            const tofDisplay = document.getElementById('user-tof');
+            const imgDisplay = document.getElementById('user-img');
+            const iconDisplay = document.getElementById('profile-icon');
+            
+            if(xpDisplay) xpDisplay.innerText = data.xp.toLocaleString();
+            if(tofDisplay) tofDisplay.innerText = data.tof.toLocaleString() + " TOF";
+            
+            if(imgDisplay && data.img) {
+                imgDisplay.src = data.img;
+                imgDisplay.style.display = 'block';
+                if(iconDisplay) iconDisplay.style.display = 'none';
+            }
 
-        // AKTIFKAN AKSES POSTING
-        const postArea = document.getElementById('main-post-area');
-        const btnPost = document.getElementById('btn-post');
-        const postMsg = document.getElementById('post-status-msg');
+            // AKTIFKAN AKSES POSTING
+            const postArea = document.getElementById('main-post-area');
+            const btnPost = document.getElementById('btn-post');
+            const postMsg = document.getElementById('post-status-msg');
 
-        if (postArea) {
-            postArea.disabled = false;
-            postArea.placeholder = "Halo @" + username + ", apa progresmu hari ini?";
-            btnPost.disabled = false;
-            btnPost.style.background = "#00f2ff";
-            btnPost.style.color = "#000";
-            btnPost.style.cursor = "pointer";
-            postMsg.innerText = "Status: Online";
-            postMsg.style.color = "#55efc4";
+            if (postArea) {
+                postArea.disabled = false;
+                postArea.placeholder = "Halo @" + username + ", apa progresmu hari ini?";
+                btnPost.disabled = false;
+                btnPost.style.background = "#00f2ff";
+                btnPost.style.color = "#000";
+                btnPost.style.cursor = "pointer";
+                postMsg.innerText = "Status: Online";
+                postMsg.style.color = "#55efc4";
+            }
         }
     } else {
-        // Jika belum login, pastikan form login muncul jika ada
+        // Pastikan form login muncul jika belum login
         if(document.getElementById('login-form')) document.getElementById('login-form').style.display = 'block';
         if(document.getElementById('user-dashboard')) document.getElementById('user-dashboard').style.display = 'none';
     }
@@ -195,7 +197,7 @@ function updateUI(address) {
 window.onload = function() {
     updateEconomyData();
 
-    // Cek status session di memori lokal
+    // Jalankan Update UI untuk mengecek status Login & Wallet
     const savedAddress = localStorage.getItem('tof_user_address');
     updateUI(savedAddress);
 
