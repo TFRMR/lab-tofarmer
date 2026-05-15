@@ -51,11 +51,12 @@ async function prosesLogin() {
 
         if (dataUser && dataUser.password === passIn) {
             localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('username', userIn); // Simpan Username untuk Sapaan
+            localStorage.setItem('username', userIn); 
             localStorage.setItem('userData', JSON.stringify(dataUser));
             
             alert("Wilujeng Sumping, @" + userIn);
-            location.reload(); 
+            // REDIRECT agar halaman benar-benar bersih
+            window.location.href = "/lab-tofarmer/posts/halo-tofarmer/"; 
         } else {
             alert("Username atau Password salah, Lur!");
         }
@@ -65,7 +66,7 @@ async function prosesLogin() {
     }
 }
 
-// --- 4. FUNGSI PENDAFTARAN WARGA (VIA WHATSAPP FORMATTER) ---
+// --- 4. FUNGSI PENDAFTARAN WARGA ---
 function prosesDaftar() {
     const nama = prompt("Nama Lengkap:");
     const nick = prompt("Nickname / Username:");
@@ -90,7 +91,7 @@ function prosesDaftar() {
 
 function logout() {
     localStorage.clear();
-    location.reload();
+    window.location.href = "/lab-tofarmer/";
 }
 
 // --- 5. FUNGSI SIMPAN PROFIL ---
@@ -136,19 +137,24 @@ function updateUI(address) {
         }
     }
 
-    // B. Logika Persistent Session & Dashboard
+    // B. Logika Dominan: Jika Anggota sudah Login
     if (isLoggedIn === 'true' && data) {
+        // SEMBUNYIKAN SEMUA FORM LOGIN DAN PANDUAN
         const loginForm = document.getElementById('login-form');
         const userDashboard = document.getElementById('user-dashboard');
         const displayName = document.getElementById('display-name');
+        const panduan = document.getElementById('panduan-gabung');
+        const profileSetup = document.getElementById('profile-setup');
 
         if(loginForm) loginForm.style.display = 'none';
-        if(userDashboard) userDashboard.style.display = 'block';
+        if(panduan) panduan.style.display = 'none';
+        if(profileSetup) profileSetup.style.display = 'none';
         
-        // Sapaan menggunakan USERNAME (Bukan Real Name)
+        // TAMPILKAN DASHBOARD
+        if(userDashboard) userDashboard.style.display = 'block';
         if(displayName) displayName.innerText = "@" + username;
 
-        // Update Statistik dari JSON
+        // ISI DATA STATISTIK
         const xpDisplay = document.getElementById('user-xp');
         const tofDisplay = document.getElementById('user-tof');
         const imgDisplay = document.getElementById('user-img');
@@ -163,7 +169,7 @@ function updateUI(address) {
             if(iconDisplay) iconDisplay.style.display = 'none';
         }
 
-        // Aktifkan Akses Posting
+        // AKTIFKAN AKSES POSTING
         const postArea = document.getElementById('main-post-area');
         const btnPost = document.getElementById('btn-post');
         const postMsg = document.getElementById('post-status-msg');
@@ -178,16 +184,14 @@ function updateUI(address) {
             postMsg.innerText = "Status: Online";
             postMsg.style.color = "#55efc4";
         }
+    } else {
+        // Jika belum login, pastikan form login muncul jika ada
+        if(document.getElementById('login-form')) document.getElementById('login-form').style.display = 'block';
+        if(document.getElementById('user-dashboard')) document.getElementById('user-dashboard').style.display = 'none';
     }
-
-    const profileForm = document.getElementById('profile-setup');
-    if(profileForm && address) profileForm.style.display = 'block';
-
-    const panduan = document.getElementById('panduan-gabung');
-    if(panduan) panduan.style.display = 'none';
 }
 
-// --- 8. RITUAL AUTO-RUN SAAT REFRESH (MENJAGA SESSION) ---
+// --- 8. RITUAL AUTO-RUN SAAT REFRESH ---
 window.onload = function() {
     updateEconomyData();
 
