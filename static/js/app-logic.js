@@ -18,15 +18,12 @@ function updateEconomyData() {
 
 // --- 2. FUNGSI KONEKSI (OTOMATIS & MANUAL) ---
 async function connectWallet() {
-    // A. JALUR OTOMATIS (Mencoba buka Pera Wallet)
     try {
         const accounts = await peraWallet.connect();
         const address = accounts[0];
         handleConnectSuccess(address);
     } catch (error) {
         console.log("Otomatis dibatalkan, masuk Jalur Manual...");
-        
-        // B. JALUR MANUAL (Cadangan jika User ingin input manual)
         const manualAddress = prompt("Jalur Manual: Masukkan Alamat Algorand (58 Karakter):");
         if (manualAddress && manualAddress.length === 58) {
             handleConnectSuccess(manualAddress);
@@ -36,14 +33,47 @@ async function connectWallet() {
     }
 }
 
-// Fungsi pembantu saat koneksi berhasil
 function handleConnectSuccess(address) {
     localStorage.setItem('tof_user_address', address);
     updateUI(address);
     alert("Wallet Terhubung!");
 }
 
-// --- 3. FUNGSI SIMPAN PROFIL ---
+// --- 3. FUNGSI LOGIN TRADISIONAL (INTEGRASI DATA JSON) ---
+async function prosesLogin() {
+    const userIn = document.getElementById('user').value;
+    const passIn = document.getElementById('pass').value;
+
+    try {
+        // Ambil data Buku Induk dari folder data
+        const resp = await fetch('/lab-tofarmer/data/users.json');
+        const allUsers = await resp.json();
+
+        // Cari data berdasarkan Key Username
+        const dataUser = allUsers[userIn];
+
+        if (dataUser && dataUser.password === passIn) {
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('username', userIn);
+            localStorage.setItem('userData', JSON.stringify(dataUser));
+            
+            alert("Wilujeng Sumping, " + (dataUser.real_name || userIn));
+            location.reload(); 
+        } else {
+            alert("Username atau Password salah, Lur!");
+        }
+    } catch (e) {
+        console.error("Gagal load database:", e);
+        alert("Gagal mengambil data warga. Pastikan file JSON ada.");
+    }
+}
+
+function logout() {
+    localStorage.clear();
+    location.reload();
+}
+
+// --- 4. FUNGSI SIMPAN PROFIL ---
 function saveProfile() {
     const name = document.getElementById('user-name').value;
     const role = document.getElementById('user-role').value;
@@ -57,40 +87,64 @@ function saveProfile() {
     }
 }
 
-// --- 4. FUNGSI UPDATE UI ---
+// --- 5. FUNGSI UPDATE UI (INTEGRASI DASHBOARD) ---
 function updateUI(address) {
-    if (!address) return;
-    const shortAddress = address.substring(0, 6) + "..." + address.substring(52);
-    
-    const profileForm = document.getElementById('profile-setup');
-    if(profileForm) profileForm.style.display = 'block';
+    // A. Update Info Wallet
+    if (address) {
+        const shortAddress = address.substring(0, 6) + "..." + address.substring(52);
+        const displayRole = document.getElementById('display-role');
+        if(displayRole) displayRole.innerText = "ADDR: " + shortAddress;
 
-    document.getElementById('display-name').innerText = localStorage.getItem('tof_user_name') || "Member Baru";
-    document.getElementById('display-role').innerText = "ADDR: " + shortAddress;
-
-    const btnConnect = document.getElementById('btn-connect');
-    if(btnConnect) {
-        btnConnect.innerText = "CONNECTED";
-        btnConnect.style.borderColor = "#55efc4";
-        btnConnect.disabled = true;
+        const btnConnect = document.getElementById('btn-connect');
+        if(btnConnect) {
+            btnConnect.innerText = "CONNECTED";
+            btnConnect.style.borderColor = "#55efc4";
+            btnConnect.disabled = true;
+        }
     }
+
+    // B. Update Dashboard Jika Login Tradisional Aktif
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+        const data = JSON.parse(localStorage.getItem('userData'));
+        const username = localStorage.getItem('username');
+        
+        const loginForm = document.getElementById('login-form');
+        const userDashboard = document.getElementById('user-dashboard');
+        const displayName = document.getElementById('display-name');
+
+        if(loginForm) loginForm.style.display = 'none';
+        if(userDashboard) userDashboard.style.display = 'block';
+        if(displayName) displayName.innerText = data.real_name || username;
+
+        // Update Info Tambahan dari JSON ke UI (jika elemennya ada)
+        const xpDisplay = document.getElementById('user-xp');
+        const tofDisplay = document.getElementById('user-tof');
+        const imgDisplay = document.getElementById('user-img');
+        
+        if(xpDisplay) xpDisplay.innerText = data.xp.toLocaleString() + " XP";
+        if(tofDisplay) tofDisplay.innerText = data.tof.toLocaleString() + " TOF";
+        if(imgDisplay && data.img) imgDisplay.src = data.img;
+    }
+
+    const profileForm = document.getElementById('profile-setup');
+    if(profileForm && address) profileForm.style.display = 'block';
 
     const panduan = document.getElementById('panduan-gabung');
     if(panduan) panduan.style.display = 'none';
 }
 
-// --- 5. RITUAL AUTO-RUN SAAT REFRESH ---
+// --- 6. RITUAL AUTO-RUN SAAT REFRESH ---
 window.onload = function() {
     updateEconomyData();
 
-    // Re-koneksi otomatis sesi Pera Wallet jika masih aktif
+    // Jalankan Update UI untuk mengecek status Login & Wallet
+    const savedAddress = localStorage.getItem('tof_user_address');
+    updateUI(savedAddress);
+
+    // Re-koneksi otomatis sesi Pera Wallet
     peraWallet.reconnectSession().then((accounts) => {
         if (accounts.length > 0) {
             updateUI(accounts[0]);
-        } else {
-            // Jika tidak ada sesi Pera, cek memori manual
-            const savedAddress = localStorage.getItem('tof_user_address');
-            if (savedAddress) updateUI(savedAddress);
         }
     });
 };
