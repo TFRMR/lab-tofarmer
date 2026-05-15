@@ -99,5 +99,14 @@ Sistem ToFarmer beroperasi dengan prinsip transparansi total. Setiap unit TOF (1
 Ada sebuah kesedihan yang tak tertulis setiap kali seorang petani senior meninggal dunia.</description>
     </item>
     
+    <item>
+      <title>Profil </title>
+      <link>https://TFRMR.github.io/lab-tofarmer/profil/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://TFRMR.github.io/lab-tofarmer/profil/</guid>
+      <description>@Memuat... KASTA LEVEL --   XP Points 0   Power Score 0%   TOF Asset 0   Terakhir terlihat: --    /** * LOGIKA RANKING &amp; LEVELING (Translasi Rumus Python Mastermind) */ function getTofRankAndLevel(xp) { let title = &#34;GROWER&#34;; let level = 1; let color = &#34;#888&#34;; // Warna default Grower if (xp = 33000) { title = &#34;ELITE&#34;; level = 91 + Math.</description>
+    </item>
+    
   </channel>
 </rss>
