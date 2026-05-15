@@ -475,30 +475,27 @@
 
     @media (max-width: 850px) {
         .medsos-layout { 
-            display: block; 
+            display: flex;
+            flex-direction: column;
         }
         
         .side-widget {
             max-width: 100%;
+            order: 2;  
         }
 
-        .side-widget:first-child .tof-card {
-            display: grid;
-            grid-template-columns: 60px 1fr;
-            align-items: center;
-            gap: 15px;
-            padding: 12px;
-            text-align: left;
+         
+        #user-profile-card-container {
+            order: 10 !important;
         }
 
-        .side-widget:first-child .tof-card .profile-img-container {
-            width: 60px !important;
-            height: 60px !important;
-            margin: 0 !important;
+        .feed-container { 
+            width: 100%;
+            order: 1;  
+            margin-top: 15px; 
         }
 
         .desktop-only-info { display: none; }
-        .feed-container { margin-top: 15px; }
         .economy-bar { flex-direction: column; gap: 15px; padding: 10px; }
 
         .dropdown, .nav-menu {
@@ -560,7 +557,7 @@
 </div>
 
 <div class="medsos-layout">
-    <div class="side-widget">
+    <div class="side-widget" id="user-profile-card-container">
         <div class="tof-card" id="user-profile-card">
             <div id="login-form">
                 <h4 style="font-size: 0.7rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 12px; text-align: center;">AKSES WARGA </h4>
@@ -569,10 +566,9 @@
                 <button onclick="prosesLogin()" style="background: #00f2ff; color: #000; border: none; font-weight: bold; cursor: pointer; font-size: 0.7rem;">MASUK SISTEM</button>
                 
                 <div class="login-footer-links">
-    <a href="./daftar/">DAFTAR BARU</a>
-    
-    <a href="./lupa-password/">LUPA PASSWORD?</a>
-</div>
+                    <a href="./daftar/">DAFTAR BARU</a>
+                    <a href="./lupa-password/">LUPA PASSWORD?</a>
+                </div>
             </div>
 
             <div id="user-dashboard" style="display: none;">
@@ -614,16 +610,6 @@
                 <button onclick="saveProfile()" style="background: #55efc4; color: #000; border: none; font-weight: bold; cursor: pointer; font-size: 0.7rem;">SIMPAN DRAFT</button>
             </div>
         </div>
-
-        <div class="tof-card" id="panduan-gabung">
-            <h4 style="font-size: 0.7rem; color: #55efc4; letter-spacing: 1px; margin-bottom: 12px;">PANDUAN GABUNG</h4>
-            <ul style="color: #aaa; font-size: 0.75rem; padding-left: 15px; line-height: 1.6; list-style: none;">
-                <li style="margin-bottom: 5px;">1. Login dengan Akun ToFarmer</li>
-                <li style="margin-bottom: 5px;">2. Hubungkan Pera Wallet di Profil</li>
-                <li style="margin-bottom: 5px;">3. Kumpulkan XP dari Aktivitas</li>
-                <li>4. Pantau Asset & Reward TOF</li>
-            </ul>
-        </div>
     </div>
 
     <div class="feed-container">
@@ -661,7 +647,7 @@
     </div>
 
     <div class="side-widget">
-        <div class="tof-card">
+        <div class="tof-card" style="margin-bottom: 25px;">
             <h4 style="font-size: 0.7rem; color: #00f2ff; letter-spacing: 2px; margin-bottom: 20px;">TARGET FASE 1</h4>
             <div style="background: rgba(0,0,0,0.5); height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 10px;">
                 <div style="width: 36%; height: 100%; background: linear-gradient(90deg, #00f2ff, #ff00ff);"></div>
