@@ -146,7 +146,7 @@ function updateUI(address) {
         const profileSetup = document.getElementById('profile-setup');
         const web3Area = document.getElementById('web3-connection-area');
 
-        // Sembunyikan elemen login secara paksa
+        // Sembunyikan elemen login secara paksa menggunakan !important via JS
         if(loginForm) loginForm.setAttribute("style", "display:none !important");
         if(panduan) panduan.setAttribute("style", "display:none !important");
         if(profileSetup) profileSetup.setAttribute("style", "display:none !important");
@@ -157,11 +157,17 @@ function updateUI(address) {
             if(displayName) displayName.innerText = "@" + username;
             if(web3Area) web3Area.style.display = "block"; // Tampilkan wallet area di profil
 
-            // Isi statistik dari JSON
+            // Isi statistik murni dari JSON (users.json)
             const xpDisplay = document.getElementById('user-xp');
             const tofDisplay = document.getElementById('user-tof');
             const imgDisplay = document.getElementById('user-img');
             const iconDisplay = document.getElementById('profile-icon');
+            
+            // Tambahan data dinamis (Alamat & Hobi jika elemennya ada)
+            const infoAlamat = document.getElementById('info-alamat');
+            const infoHobi = document.getElementById('info-hobi');
+            if(infoAlamat) infoAlamat.innerText = data.alamat || "Menoreh";
+            if(infoHobi) infoHobi.innerText = data.hobi || "Bertani Kode";
             
             if(xpDisplay) xpDisplay.innerText = data.xp.toLocaleString();
             if(tofDisplay) tofDisplay.innerText = data.tof.toLocaleString() + " TOF";
@@ -193,7 +199,7 @@ function updateUI(address) {
             }
         }
     } else {
-        // Jika belum login
+        // Jika belum login, pastikan form login muncul & dashboard hilang
         if(document.getElementById('login-form')) document.getElementById('login-form').style.display = 'block';
         if(document.getElementById('user-dashboard')) document.getElementById('user-dashboard').style.display = 'none';
         if(document.getElementById('web3-connection-area')) document.getElementById('web3-connection-area').style.display = 'none';
