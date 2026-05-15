@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 	<meta name="generator" content="Hugo 0.92.2" />
-<link rel="icon" type="image/png" href="/ikonhexa-fav.png">
+<link rel="icon" type="image/png" href="https://TFRMR.github.io/lab-tofarmer/ikonhexa-fav.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ToFarmer</title>
@@ -86,7 +86,7 @@
             position: absolute; 
             background-color: #16161a; 
             min-width: 220px; 
-            z-index: 999; 
+            z-index: 9999 !important;
             border-radius: 12px; 
             top: 50px; 
             left: 50%;
@@ -199,7 +199,7 @@
         }
 
          
-        @media screen and (max-width: 600px) {
+        @media screen and (max-width: 850px) {
             header h1 { font-size: 1.6rem; }
             nav { gap: 10px; padding: 10px; }
             .dropdown-content { position: static; transform: none; width: 100%; opacity: 1; visibility: visible; display: none; }
@@ -216,8 +216,8 @@
 <body>
     <div class="container">
         <header>
-            <a href="/" class="header-brand">
-               <img src="/images/logo-tofarmer.png" alt="Logo ToFarmer" class="header-logo">
+            <a href="https://TFRMR.github.io/lab-tofarmer/" class="header-brand">
+               <img src="https://TFRMR.github.io/lab-tofarmer/images/logo-tofarmer.png" alt="Logo ToFarmer" class="header-logo">
                <h1>ToFarmer</h1>
             </a>
         </header>
@@ -226,18 +226,18 @@
             <div class='dropdown'>
                 <button class='dropbtn'>Menu ▼</button>
                 <div class='dropdown-content'>
-                    <a href='/'>🏠 Beranda (Titik Kumpul)</a>
-                    <a href='/tentang-tofarmer'>☕ Tentang ToFarmer</a>
-                    <a href='/portofolio'>🚀 Portofolio</a>
-                    <a href='/riwayat-transaksi'>🧮 Transparansi</a>
+                    <a href='https://TFRMR.github.io/lab-tofarmer/'>🏠 Beranda (Titik Kumpul)</a>
+                    <a href='https://TFRMR.github.io/lab-tofarmer/tentang-tofarmer'>☕ Tentang ToFarmer</a>
+                    <a href='https://TFRMR.github.io/lab-tofarmer/portofolio'>🚀 Portofolio</a>
+                    <a href='https://TFRMR.github.io/lab-tofarmer/riwayat-transaksi'>🧮 Transparansi</a>
                 </div>
             </div>
 
             <div class='dropdown'>
                 <button class='dropbtn'>Alat ▼</button>
                 <div class='dropdown-content'>
-                    <a href='/alat/catatan-hidup'>🤖 Catatan Hidup</a>
-                   <a href='/alat/kalkulator-compounding'>🧮 Kalkulator Compounding</a>
+                    <a href='https://TFRMR.github.io/lab-tofarmer/alat/catatan-hidup'>🤖 Catatan Hidup</a>
+                   <a href='https://TFRMR.github.io/lab-tofarmer/alat/kalkulator-compounding'>🧮 Kalkulator Compounding</a>
                 </div>
             </div>
 
@@ -247,14 +247,14 @@
                     <div class='nested-dropdown'>
                         <a class='nested-parent' href='#'>🌍 Ilmu Penting</a>
                         <div class='nested-content'>
-                            <a href='/ilmu/panduan-ai'>🧠 Panduan Cerdas AI</a>
-                            <a href='/ilmu/programming-cepat'>🧠 AI Programming Cepat</a>
+                            <a href='https://TFRMR.github.io/lab-tofarmer/ilmu/panduan-ai'>🧠 Panduan Cerdas AI</a>
+                            <a href='https://TFRMR.github.io/lab-tofarmer/ilmu/programming-cepat'>🧠 AI Programming Cepat</a>
                         </div>
                     </div>
                     <div class='nested-dropdown'>
                         <a class='nested-parent' href='#'>📏 Ilmu Baku</a>
                         <div class='nested-content'>
-                            <a href='/ilmu/nanam-ubi'>🌱 Nanam Ubi 🍠 (Pasti Panen)</a>
+                            <a href='https://TFRMR.github.io/lab-tofarmer/ilmu/nanam-ubi'>🌱 Nanam Ubi 🍠 (Pasti Panen)</a>
                         </div>
                     </div>
                 </div>
@@ -263,9 +263,10 @@
 
         <div class="app-display">
             <style>
+     
     .medsos-layout {
         display: grid;
-        grid-template-columns: 280px 1fr 300px;
+        grid-template-columns: 300px 1fr 300px;
         gap: 25px;
         align-items: start;
     }
@@ -329,7 +330,7 @@
         background: rgba(28, 28, 33, 0.6);
         border-radius: 15px;
         padding: 20px;
-        border-left: 4px solid #ff00ff;  
+        border-left: 4px solid #ff00ff;
         transition: 0.3s;
     }
 
@@ -344,7 +345,6 @@
         font-size: 0.8rem;
     }
 
-     
     .user-id { 
         color: #00f2ff; 
         font-weight: bold; 
@@ -359,7 +359,6 @@
     .post-time { color: #555; }
     .post-text { color: #d1d1d1; font-size: 0.95rem; }
 
-     
     .interaction-bar {
         display: flex;
         gap: 20px;
@@ -382,31 +381,70 @@
 
     .btn-interact:hover { color: #00f2ff; }
 
-     
-    .tof-input {
-        width: 100%; 
-        background: #0d0d0f; 
-        border: 1px solid #333; 
-        color: #fff; 
-        padding: 8px; 
-        font-size: 0.75rem; 
-        margin-bottom: 8px; 
-        border-radius: 4px;
-        outline: none;
+ 
+.tof-input, 
+#login-form button, 
+#user-dashboard button,
+#btn-connect {
+    width: 100% !important;    
+    display: block !important;  
+    box-sizing: border-box;    
+    padding: 14px 12px;        
+    margin-bottom: 15px;       
+    border-radius: 8px;
+    font-size: 1rem;           
+    outline: none;
+    border: 1px solid #333;
+    background: #0d0d0f;
+    color: #fff;
+}
+
+.tof-input::placeholder {
+    color: #666;               
+}
+
+.tof-input:focus { 
+    border-color: #00f2ff; 
+    box-shadow: 0 0 8px rgba(0, 242, 255, 0.2);
+}
+
+ 
+.login-footer-links {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px 5px;
+}
+
+    .login-footer-links a {
+        font-size: 0.75rem;
+        color: #666;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: 0.3s;
     }
-    .tof-input:focus { border-color: #00f2ff; }
+
+    .login-footer-links a:hover { color: #00f2ff; }
 
      
-    @media (max-width: 1000px) {
+    .side-widget {
+        margin-bottom: 25px;
+        width: 100%;
+        max-width: 320px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    @media (max-width: 850px) {
         .medsos-layout { 
             display: block; 
         }
         
         .side-widget {
-            margin-bottom: 15px;
+            max-width: 100%;
         }
 
-         
         .side-widget:first-child .tof-card {
             display: grid;
             grid-template-columns: 60px 1fr;
@@ -417,30 +455,22 @@
         }
 
         .side-widget:first-child .tof-card .profile-img-container {
-            width: 50px !important;
-            height: 50px !important;
+            width: 60px !important;
+            height: 60px !important;
             margin: 0 !important;
         }
 
-        .side-widget:first-child .tof-card h3 { font-size: 0.95rem !important; margin: 0; }
-        .side-widget:first-child .tof-card p { font-size: 0.65rem !important; }
-
         .desktop-only-info { display: none; }
-
-        .feed-container {
-            margin-top: 15px;
-        }
-
+        .feed-container { margin-top: 15px; }
         .economy-bar { flex-direction: column; gap: 15px; padding: 10px; }
 
-         
         .dropdown, .nav-menu {
             position: relative !important;
             display: block !important;
             width: 100% !important;
         }
 
-        .dropdown-content, .sub-dropdown {
+        .dropdown-content {
             position: relative !important; 
             display: none; 
             width: 100% !important;
@@ -449,21 +479,11 @@
             box-shadow: none !important;
             transform: none !important;
             background: rgba(0, 242, 255, 0.05) !important;
-            border: 1px solid rgba(0, 242, 255, 0.1) !important;
             padding-left: 15px !important;
         }
 
-        .dropdown:hover > .dropdown-content, 
-        .dropdown:focus-within > .dropdown-content {
-            display: block !important;
-        }
-
-        .social-lite-bar { 
-            flex-direction: column; 
-            gap: 8px; 
-            text-align: center;
-            height: auto !important;
-        }
+        .dropdown:hover > .dropdown-content { display: block !important; }
+        .social-lite-bar { flex-direction: column; gap: 8px; text-align: center; }
     }
 </style>
 
@@ -484,33 +504,52 @@
         <span class="econ-label">Total Aset Ekosistem</span>
         <div class="econ-value" id="total-asset">0.00 <span class="econ-symbol">TOF</span></div>
     </div>
-    
 </div>
 
 <div class="medsos-layout">
-    
     <div class="side-widget">
         <div class="tof-card" id="user-profile-card">
-            <div class="profile-img-container" style="width: 80px; height: 80px; background: #0d0d0f; border: 2px solid #ff00ff; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;">
-                <span id="profile-icon" style="font-size: 2rem;">👤</span>
-            </div>
-            <div>
-                <h3 id="display-name" style="color: #00f2ff; font-size: 1.1rem;">Visitor</h3>
-                <p id="display-role" style="font-size: 0.7rem; color: #666; letter-spacing: 1px;">BELUM TERHUBUNG</p>
+            <div id="login-form">
+                <h4 style="font-size: 0.7rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 12px; text-align: center;">AKSES WARGA</h4>
+                <input type="text" id="user" placeholder="Username" class="tof-input">
+                <input type="password" id="pass" placeholder="Password" class="tof-input">
+                <button onclick="prosesLogin()" style="background: #00f2ff; color: #000; border: none; font-weight: bold; cursor: pointer; font-size: 0.7rem;">MASUK SISTEM</button>
                 
-                <button id="btn-connect" onclick="connectWallet()" style="width: 100%; margin-top: 10px; background: transparent; border: 1px solid #00f2ff; color: #00f2ff; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 0.7rem; font-weight: bold;">
-                    CONNECT WALLET
-                </button>
+                <div class="login-footer-links">
+                    <a href="https://wa.me/6285228028131?text=Halo%20Mastermind,%20saya%20ingin%20daftar%20ToFarmer" target="_blank">DAFTAR BARU</a>
+                    <a href="#">LUPA PASSWORD?</a>
+                </div>
             </div>
 
-            <div class="desktop-only-info" style="margin-top: 20px; text-align: left; font-size: 0.8rem; width: 100%;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                    <span style="color: #aaa;">Status:</span>
-                    <span style="color: #55efc4;">Guest</span>
+            <div id="user-dashboard" style="display: none;">
+                <div class="profile-img-container" style="width: 80px; height: 80px; background: #0d0d0f; border: 2px solid #ff00ff; border-radius: 100%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                    <img id="user-img" src="" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                    <span id="profile-icon" style="font-size: 2rem;">👤</span>
                 </div>
-                <div style="display: flex; justify-content: space-between;">
-                    <span style="color: #aaa;">XP:</span>
-                    <span style="color: #ff00ff;">0 / 1.000</span>
+                <div style="text-align: center;">
+                    <h3 id="display-name" style="color: #00f2ff; font-size: 1.1rem;">Visitor</h3>
+                    <p id="display-role" style="font-size: 0.7rem; color: #666; letter-spacing: 1px; margin-bottom: 10px;">GUEST</p>
+                    
+                    <div class="desktop-only-info" style="margin-top: 15px; text-align: left; font-size: 0.8rem; width: 100%;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="color: #aaa;">XP:</span>
+                            <span id="user-xp" style="color: #ff00ff; font-weight: bold;">0</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="color: #aaa;">Saldo:</span>
+                            <span id="user-tof" style="color: #00f2ff; font-weight: bold;">0 TOF</span>
+                        </div>
+                    </div>
+
+                    <div id="web3-connection-area" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
+                        <button id="btn-connect" onclick="connectWallet()" style="background: transparent; border: 1px solid #00f2ff; color: #00f2ff; cursor: pointer; font-size: 0.7rem; font-weight: bold;">
+                            CONNECT WALLET
+                        </button>
+                    </div>
+
+                    <button onclick="logout()" style="margin-top: 15px; background: rgba(255,0,0,0.1); border: 1px solid #ff4757; color: #ff4757; cursor: pointer; font-size: 0.65rem; font-weight: bold;">
+                        KELUAR
+                    </button>
                 </div>
             </div>
 
@@ -518,50 +557,50 @@
                 <h4 style="font-size: 0.65rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 10px;">LENGKAPI PROFIL</h4>
                 <input type="text" id="user-name" placeholder="Nama Samaran" class="tof-input">
                 <input type="text" id="user-role" placeholder="Keahlian" class="tof-input">
-                <button onclick="saveProfile()" style="width: 100%; background: #55efc4; color: #000; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.7rem;">SIMPAN DRAFT</button>
+                <button onclick="saveProfile()" style="background: #55efc4; color: #000; border: none; font-weight: bold; cursor: pointer; font-size: 0.7rem;">SIMPAN DRAFT</button>
             </div>
         </div>
 
         <div class="tof-card" id="panduan-gabung">
             <h4 style="font-size: 0.7rem; color: #55efc4; letter-spacing: 1px; margin-bottom: 12px;">PANDUAN GABUNG</h4>
             <ul style="color: #aaa; font-size: 0.75rem; padding-left: 15px; line-height: 1.6; list-style: none;">
-                <li style="margin-bottom: 5px;">1. Unduh <a href="https://perawallet.app/" target="_blank" style="color: #00f2ff; text-decoration: none;">Pera Wallet</a></li>
-                <li style="margin-bottom: 5px;">2. Hubungkan Wallet Anda</li>
-                <li style="margin-bottom: 5px;">3. Lengkapi Profil & Simpan</li>
-                <li>4. Aktivasi via Mastermind</li>
+                <li style="margin-bottom: 5px;">1. Login dengan Akun ToFarmer</li>
+                <li style="margin-bottom: 5px;">2. Hubungkan Pera Wallet di Profil</li>
+                <li style="margin-bottom: 5px;">3. Kumpulkan XP dari Aktivitas</li>
+                <li>4. Pantau Asset & Reward TOF</li>
             </ul>
         </div>
     </div>
 
     <div class="feed-container">
         <div class="tof-card" style="padding: 15px; border-style: dashed; border-color: rgba(255,0,255,0.2);">
-            <textarea id="main-post-area" placeholder="Connect Wallet & Verifikasi TOF untuk mulai posting..." style="width: 100%; background: transparent; border: none; color: #fff; outline: none; resize: none; min-height: 60px;" disabled></textarea>
+            <textarea id="main-post-area" placeholder="Silahkan Login untuk mulai membagikan progres..." style="width: 100%; background: transparent; border: none; color: #fff; outline: none; resize: none; min-height: 60px;" disabled></textarea>
             <div style="display: flex; justify-content: flex-end; gap: 10px; align-items: center; margin-top: 10px;">
-                <span id="post-status-msg" style="font-size: 0.65rem; color: #666;">Status: Read Only</span>
+                <span id="post-status-msg" style="font-size: 0.65rem; color: #666;">Status: Login Required</span>
                 <button id="btn-post" style="background: #333; color: #666; border: none; padding: 8px 20px; border-radius: 5px; font-weight: bold; font-size: 0.7rem; cursor: not-allowed;" disabled>KIRIM</button>
             </div>
         </div>
 
         <div class="post-card">
             <div class="post-header">
-                <a href="/profil?user=Cyber_Farmer" class="user-id">@Cyber_Farmer</a>
+                <a href="https://TFRMR.github.io/lab-tofarmer/profil?user=Cyber_Farmer" class="user-id">@Cyber_Farmer</a>
                 <span class="post-time">10 Menit Lalu</span>
             </div>
             <p class="post-text">Pipa pengiriman GitHub sudah terpasang. Sekarang ekosistem ToFarmer punya "Brankas" kode yang aman di Linux Lite. Siap untuk fase Algorand!</p>
             <div class="interaction-bar">
-                <button class="btn-interact">☕ 12 Sruput</button>
+                <button class="btn-interact" onclick="sruputKopi(this)">☕ 12 Sruput</button>
                 <button class="btn-interact">⛏️ 3 Cangkul</button>
             </div>
         </div>
 
         <div class="post-card" style="border-left-color: #00f2ff;">
             <div class="post-header">
-                <a href="/profil?user=Quantum_Grow" class="user-id">@Quantum_Grow</a>
+                <a href="https://TFRMR.github.io/lab-tofarmer/profil?user=Quantum_Grow" class="user-id">@Quantum_Grow</a>
                 <span class="post-time">2 Jam Lalu</span>
             </div>
             <p class="post-text">Baru saja selesai memindahkan bibit ubi dari hot bed ke Blok 2. Struktur tanah terlihat sangat subur setelah rotasi kompos kemarin.</p>
             <div class="interaction-bar">
-                <button class="btn-interact">☕ 8 Sruput</button>
+                <button class="btn-interact" onclick="sruputKopi(this)">☕ 8 Sruput</button>
                 <button class="btn-interact">⛏️ 1 Cangkul</button>
             </div>
         </div>
@@ -584,11 +623,10 @@
             <p style="font-size: 0.8rem; color: #aaa; line-height: 1.4;">"Kita tidak sedang membangun sekadar web, kita sedang membangun peradaban ubi yang cerdas teknologi."</p>
         </div>
     </div>
-
 </div>
-<script src="https://unpkg.com/@perawallet/connect@1.3.3/dist/index.js"></script>
 
-<script src="/js/app-logic.js"></script>
+<script src="https://unpkg.com/@perawallet/connect@1.3.3/dist/index.js"></script>
+<script src="https://TFRMR.github.io/lab-tofarmer/js/app-logic.js"></script>
         </div>
 
         <div class="custom-footer-tofarmer">

@@ -1,7 +1,8 @@
 <style>
+    /* LAYOUT UTAMA */
     .medsos-layout {
         display: grid;
-        grid-template-columns: 280px 1fr 300px;
+        grid-template-columns: 300px 1fr 300px;
         gap: 25px;
         align-items: start;
     }
@@ -65,7 +66,7 @@
         background: rgba(28, 28, 33, 0.6);
         border-radius: 15px;
         padding: 20px;
-        border-left: 4px solid #ff00ff; /* Magenta Pilar 5 */
+        border-left: 4px solid #ff00ff;
         transition: 0.3s;
     }
 
@@ -80,7 +81,6 @@
         font-size: 0.8rem;
     }
 
-    /* Style Link Profil */
     .user-id { 
         color: #00f2ff; 
         font-weight: bold; 
@@ -95,7 +95,6 @@
     .post-time { color: #555; }
     .post-text { color: #d1d1d1; font-size: 0.95rem; }
 
-    /* Aksi: Sruput Kopi & Cangkul */
     .interaction-bar {
         display: flex;
         gap: 20px;
@@ -118,47 +117,70 @@
 
     .btn-interact:hover { color: #00f2ff; }
 
-    /* Input Profil Styling */
-    .tof-input {
-        width: 100%; 
-        background: #0d0d0f; 
-        border: 1px solid #333; 
-        color: #fff; 
-        padding: 8px; 
-        font-size: 0.75rem; 
-        margin-bottom: 8px; 
-        border-radius: 4px;
-        outline: none;
-    }
-    .tof-input:focus { border-color: #00f2ff; }
+/* INPUT & BUTTON STYLING (DIJAMIN LEGA DI HP) */
+.tof-input, 
+#login-form button, 
+#user-dashboard button,
+#btn-connect {
+    width: 100% !important;   /* Memaksa lebar penuh */
+    display: block !important; /* Memastikan dia mengambil satu baris penuh */
+    box-sizing: border-box;   /* Menghitung padding agar tidak melebar keluar */
+    padding: 14px 12px;       /* Lebih tinggi sedikit agar mudah diketik jari */
+    margin-bottom: 15px;      /* Jarak antar kotak lebih lega */
+    border-radius: 8px;
+    font-size: 1rem;          /* Ukuran teks pas untuk layar HP */
+    outline: none;
+    border: 1px solid #333;
+    background: #0d0d0f;
+    color: #fff;
+}
 
-    /* Helper Links Login */
-    .login-footer-links {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 12px;
-        padding: 0 5px;
-    }
+.tof-input::placeholder {
+    color: #666;              /* Warna teks bantuan agar jelas */
+}
+
+.tof-input:focus { 
+    border-color: #00f2ff; 
+    box-shadow: 0 0 8px rgba(0, 242, 255, 0.2);
+}
+
+/* Perbaikan area teks link di bawah agar tidak mepet */
+.login-footer-links {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px 5px;
+}
+
     .login-footer-links a {
-        font-size: 0.6rem;
+        font-size: 0.75rem;
         color: #666;
         text-decoration: none;
-        letter-spacing: 0.5px;
+        white-space: nowrap;
         transition: 0.3s;
     }
+
     .login-footer-links a:hover { color: #00f2ff; }
 
-    /* PERBAIKAN STABILITAS MOBILE TOTAL */
-    @media (max-width: 1000px) {
+    /* RESPONSIVE STRATEGY */
+    .side-widget {
+        margin-bottom: 25px;
+        width: 100%;
+        max-width: 320px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    @media (max-width: 850px) {
         .medsos-layout { 
             display: block; 
         }
         
         .side-widget {
-            margin-bottom: 15px;
+            max-width: 100%;
         }
 
-        /* Kotak Visitor Minimalis */
         .side-widget:first-child .tof-card {
             display: grid;
             grid-template-columns: 60px 1fr;
@@ -169,30 +191,22 @@
         }
 
         .side-widget:first-child .tof-card .profile-img-container {
-            width: 50px !important;
-            height: 50px !important;
+            width: 60px !important;
+            height: 60px !important;
             margin: 0 !important;
         }
 
-        .side-widget:first-child .tof-card h3 { font-size: 0.95rem !important; margin: 0; }
-        .side-widget:first-child .tof-card p { font-size: 0.65rem !important; }
-
         .desktop-only-info { display: none; }
-
-        .feed-container {
-            margin-top: 15px;
-        }
-
+        .feed-container { margin-top: 15px; }
         .economy-bar { flex-direction: column; gap: 15px; padding: 10px; }
 
-        /* STABILISASI MENU DROPDOWN DI HP */
         .dropdown, .nav-menu {
             position: relative !important;
             display: block !important;
             width: 100% !important;
         }
 
-        .dropdown-content, .sub-dropdown {
+        .dropdown-content {
             position: relative !important; 
             display: none; 
             width: 100% !important;
@@ -201,21 +215,11 @@
             box-shadow: none !important;
             transform: none !important;
             background: rgba(0, 242, 255, 0.05) !important;
-            border: 1px solid rgba(0, 242, 255, 0.1) !important;
             padding-left: 15px !important;
         }
 
-        .dropdown:hover > .dropdown-content, 
-        .dropdown:focus-within > .dropdown-content {
-            display: block !important;
-        }
-
-        .social-lite-bar { 
-            flex-direction: column; 
-            gap: 8px; 
-            text-align: center;
-            height: auto !important;
-        }
+        .dropdown:hover > .dropdown-content { display: block !important; }
+        .social-lite-bar { flex-direction: column; gap: 8px; text-align: center; }
     }
 </style>
 
@@ -236,27 +240,25 @@
         <span class="econ-label">Total Aset Ekosistem</span>
         <div class="econ-value" id="total-asset">0.00 <span class="econ-symbol">TOF</span></div>
     </div>
-    
 </div>
 
 <div class="medsos-layout">
-    
     <div class="side-widget">
         <div class="tof-card" id="user-profile-card">
             <div id="login-form">
                 <h4 style="font-size: 0.7rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 12px; text-align: center;">AKSES WARGA</h4>
                 <input type="text" id="user" placeholder="Username" class="tof-input">
                 <input type="password" id="pass" placeholder="Password" class="tof-input">
-                <button onclick="prosesLogin()" style="width: 100%; background: #00f2ff; color: #000; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.7rem;">MASUK SISTEM</button>
+                <button onclick="prosesLogin()" style="background: #00f2ff; color: #000; border: none; font-weight: bold; cursor: pointer; font-size: 0.7rem;">MASUK SISTEM</button>
                 
                 <div class="login-footer-links">
-                    <a href="https://wa.me/628XXXXXXXXX?text=Halo%20Mastermind,%20saya%20ingin%20daftar%20ToFarmer" target="_blank">DAFTAR BARU</a>
-                    <a href="#" style="font-size: 0.55rem; opacity: 0.6;">LUPA PASSWORD?</a>
+                    <a href="https://wa.me/6285228028131?text=Halo%20Mastermind,%20saya%20ingin%20daftar%20ToFarmer" target="_blank">DAFTAR BARU</a>
+                    <a href="#">LUPA PASSWORD?</a>
                 </div>
             </div>
 
             <div id="user-dashboard" style="display: none;">
-                <div class="profile-img-container" style="width: 80px; height: 80px; background: #0d0d0f; border: 2px solid #ff00ff; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                <div class="profile-img-container" style="width: 80px; height: 80px; background: #0d0d0f; border: 2px solid #ff00ff; border-radius: 100%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
                     <img id="user-img" src="" style="width: 100%; height: 100%; object-fit: cover; display: none;">
                     <span id="profile-icon" style="font-size: 2rem;">👤</span>
                 </div>
@@ -276,12 +278,12 @@
                     </div>
 
                     <div id="web3-connection-area" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
-                        <button id="btn-connect" onclick="connectWallet()" style="width: 100%; background: transparent; border: 1px solid #00f2ff; color: #00f2ff; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 0.7rem; font-weight: bold;">
+                        <button id="btn-connect" onclick="connectWallet()" style="background: transparent; border: 1px solid #00f2ff; color: #00f2ff; cursor: pointer; font-size: 0.7rem; font-weight: bold;">
                             CONNECT WALLET
                         </button>
                     </div>
 
-                    <button onclick="logout()" style="width: 100%; margin-top: 15px; background: rgba(255,0,0,0.1); border: 1px solid #ff4757; color: #ff4757; padding: 8px; border-radius: 5px; cursor: pointer; font-size: 0.65rem; font-weight: bold;">
+                    <button onclick="logout()" style="margin-top: 15px; background: rgba(255,0,0,0.1); border: 1px solid #ff4757; color: #ff4757; cursor: pointer; font-size: 0.65rem; font-weight: bold;">
                         KELUAR
                     </button>
                 </div>
@@ -291,7 +293,7 @@
                 <h4 style="font-size: 0.65rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 10px;">LENGKAPI PROFIL</h4>
                 <input type="text" id="user-name" placeholder="Nama Samaran" class="tof-input">
                 <input type="text" id="user-role" placeholder="Keahlian" class="tof-input">
-                <button onclick="saveProfile()" style="width: 100%; background: #55efc4; color: #000; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.7rem;">SIMPAN DRAFT</button>
+                <button onclick="saveProfile()" style="background: #55efc4; color: #000; border: none; font-weight: bold; cursor: pointer; font-size: 0.7rem;">SIMPAN DRAFT</button>
             </div>
         </div>
 
@@ -357,10 +359,7 @@
             <p style="font-size: 0.8rem; color: #aaa; line-height: 1.4;">"Kita tidak sedang membangun sekadar web, kita sedang membangun peradaban ubi yang cerdas teknologi."</p>
         </div>
     </div>
-
 </div>
 
-
 <script src="https://unpkg.com/@perawallet/connect@1.3.3/dist/index.js"></script>
-
-<script src="/lab-tofarmer/js/app-logic.js"></script>
+<script src="{{ "js/app-logic.js" | relURL }}"></script>
