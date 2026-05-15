@@ -1,8 +1,13 @@
 // --- KONFIGURASI EKONOMI ---
 const KURS_IDR = 1; 
 
-// Inisialisasi Jembatan Pera Wallet
-const peraWallet = new PeraWalletConnect.PeraWalletConnect();
+// Inisialisasi Jembatan Pera Wallet dengan PENGAMAN agar tidak error jika library belum dimuat
+let peraWallet;
+try {
+    peraWallet = new PeraWalletConnect.PeraWalletConnect();
+} catch (e) {
+    console.warn("Pera Wallet Library belum dimuat sempurna, sistem login anggota tetap aktif.");
+}
 
 // --- 1. FUNGSI EKONOMI ---
 function updateEconomyData() {
@@ -18,6 +23,10 @@ function updateEconomyData() {
 
 // --- 2. FUNGSI KONEKSI WALLET ---
 async function connectWallet() {
+    if (!peraWallet) {
+        alert("Library Wallet belum siap, Lur. Coba refresh halaman.");
+        return;
+    }
     try {
         const accounts = await peraWallet.connect();
         const address = accounts[0];
@@ -208,9 +217,11 @@ window.onload = function() {
     const savedAddress = localStorage.getItem('tof_user_address');
     updateUI(savedAddress);
 
-    peraWallet.reconnectSession().then((accounts) => {
-        if (accounts.length > 0) {
-            updateUI(accounts[0]);
-        }
-    });
+    if (peraWallet && typeof peraWallet.reconnectSession === 'function') {
+        peraWallet.reconnectSession().then((accounts) => {
+            if (accounts.length > 0) {
+                updateUI(accounts[0]);
+            }
+        });
+    }
 };
