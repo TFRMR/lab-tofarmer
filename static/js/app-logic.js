@@ -6,7 +6,7 @@ const peraWallet = new PeraWalletConnect.PeraWalletConnect();
 
 // --- 1. FUNGSI EKONOMI ---
 function updateEconomyData() {
-    const totalAsetTof = 5000000; // Contoh: 5 Juta TOF
+    const totalAsetTof = 5000000; 
     const totalIdr = totalAsetTof * KURS_IDR;
 
     const assetDisplay = document.getElementById('total-asset');
@@ -44,8 +44,14 @@ async function prosesLogin() {
     const userIn = document.getElementById('user').value;
     const passIn = document.getElementById('pass').value;
 
+    console.log("Mencoba login untuk:", userIn);
+
     try {
-        const resp = await fetch('https://TFRMR.github.io/lab-tofarmer/data/users.json');
+        const url = 'https://tfrmr.github.io/lab-tofarmer/data/users.json';
+        const resp = await fetch(url);
+        
+        if (!resp.ok) throw new Error("File users.json tidak ditemukan di server!");
+        
         const allUsers = await resp.json();
         const dataUser = allUsers[userIn];
 
@@ -54,15 +60,15 @@ async function prosesLogin() {
             localStorage.setItem('username', userIn); 
             localStorage.setItem('userData', JSON.stringify(dataUser));
             
+            console.log("Login Berhasil! Data tersimpan.");
             alert("Wilujeng Sumping, @" + userIn);
-            // Redirect ke halaman profil/dashboard dinamis
             window.location.href = "/lab-tofarmer/posts/halo-tofarmer/"; 
         } else {
             alert("Username atau Password salah, Lur!");
         }
     } catch (e) {
-        console.error("Gagal load database:", e);
-        alert("Gagal mengambil data warga.");
+        console.error("DETEKSI ERROR:", e.message);
+        alert("Error Sistem: " + e.message);
     }
 }
 
@@ -83,7 +89,7 @@ function prosesDaftar() {
                       `Password: ${pass}`;
         
         window.open(`https://wa.me/628XXXXXXXXX?text=${pesan}`, '_blank');
-        alert("Data terformat! Silahkan kirim ke WhatsApp Mastermind untuk diaktivasi.");
+        alert("Data terformat! Silahkan kirim ke WhatsApp Mastermind.");
     } else {
         alert("Data wajib diisi semua, Lur!");
     }
@@ -123,7 +129,6 @@ function updateUI(address) {
     const username = localStorage.getItem('username');
     const data = JSON.parse(localStorage.getItem('userData'));
 
-    // A. Update Info Wallet (Hanya tampil di Profil setelah Login)
     if (address) {
         const shortAddress = address.substring(0, 6) + "..." + address.substring(52);
         const displayRole = document.getElementById('display-role');
@@ -137,7 +142,6 @@ function updateUI(address) {
         }
     }
 
-    // B. Logika Persistent: Force tampilan jika sudah login
     if (isLoggedIn === 'true' && data) {
         const loginForm = document.getElementById('login-form');
         const userDashboard = document.getElementById('user-dashboard');
@@ -146,24 +150,20 @@ function updateUI(address) {
         const profileSetup = document.getElementById('profile-setup');
         const web3Area = document.getElementById('web3-connection-area');
 
-        // Sembunyikan elemen login secara paksa menggunakan !important via JS
         if(loginForm) loginForm.setAttribute("style", "display:none !important");
         if(panduan) panduan.setAttribute("style", "display:none !important");
         if(profileSetup) profileSetup.setAttribute("style", "display:none !important");
         
-        // Tampilkan Dashboard & Data Dinamis
         if(userDashboard) {
             userDashboard.setAttribute("style", "display:block !important");
             if(displayName) displayName.innerText = "@" + username;
-            if(web3Area) web3Area.style.display = "block"; // Tampilkan wallet area di profil
+            if(web3Area) web3Area.style.display = "block";
 
-            // Isi statistik murni dari JSON (users.json)
             const xpDisplay = document.getElementById('user-xp');
             const tofDisplay = document.getElementById('user-tof');
             const imgDisplay = document.getElementById('user-img');
             const iconDisplay = document.getElementById('profile-icon');
             
-            // Tambahan data dinamis (Alamat & Hobi jika elemennya ada)
             const infoAlamat = document.getElementById('info-alamat');
             const infoHobi = document.getElementById('info-hobi');
             if(infoAlamat) infoAlamat.innerText = data.alamat || "Menoreh";
@@ -178,7 +178,6 @@ function updateUI(address) {
                 if(iconDisplay) iconDisplay.style.display = 'none';
             }
 
-            // Aktifkan akses posting
             const postArea = document.getElementById('main-post-area');
             const btnPost = document.getElementById('btn-post');
             const postMsg = document.getElementById('post-status-msg');
@@ -190,7 +189,6 @@ function updateUI(address) {
                     btnPost.disabled = false;
                     btnPost.style.background = "#00f2ff";
                     btnPost.style.color = "#000";
-                    btnPost.style.cursor = "pointer";
                 }
                 if(postMsg) {
                     postMsg.innerText = "Status: Online";
@@ -199,22 +197,17 @@ function updateUI(address) {
             }
         }
     } else {
-        // Jika belum login, pastikan form login muncul & dashboard hilang
         if(document.getElementById('login-form')) document.getElementById('login-form').style.display = 'block';
         if(document.getElementById('user-dashboard')) document.getElementById('user-dashboard').style.display = 'none';
-        if(document.getElementById('web3-connection-area')) document.getElementById('web3-connection-area').style.display = 'none';
     }
 }
 
-// --- 8. RITUAL AUTO-RUN SAAT REFRESH ---
+// --- 8. RITUAL AUTO-RUN ---
 window.onload = function() {
     updateEconomyData();
-
-    // Jalankan Update UI untuk mengecek status Login & Wallet
     const savedAddress = localStorage.getItem('tof_user_address');
     updateUI(savedAddress);
 
-    // Re-koneksi Pera Wallet jika ada sesi aktif
     peraWallet.reconnectSession().then((accounts) => {
         if (accounts.length > 0) {
             updateUI(accounts[0]);
