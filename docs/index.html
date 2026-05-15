@@ -397,6 +397,22 @@
     .tof-input:focus { border-color: #00f2ff; }
 
      
+    .login-footer-links {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 12px;
+        padding: 0 5px;
+    }
+    .login-footer-links a {
+        font-size: 0.6rem;
+        color: #666;
+        text-decoration: none;
+        letter-spacing: 0.5px;
+        transition: 0.3s;
+    }
+    .login-footer-links a:hover { color: #00f2ff; }
+
+     
     @media (max-width: 1000px) {
         .medsos-layout { 
             display: block; 
@@ -496,6 +512,11 @@
                 <input type="text" id="user" placeholder="Username" class="tof-input">
                 <input type="password" id="pass" placeholder="Password" class="tof-input">
                 <button onclick="prosesLogin()" style="width: 100%; background: #00f2ff; color: #000; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.7rem;">MASUK SISTEM</button>
+                
+                <div class="login-footer-links">
+                    <a href="https://wa.me/628XXXXXXXXX?text=Halo%20Mastermind,%20saya%20ingin%20daftar%20ToFarmer" target="_blank">DAFTAR BARU</a>
+                    <a href="#" style="font-size: 0.55rem; opacity: 0.6;">LUPA PASSWORD?</a>
+                </div>
             </div>
 
             <div id="user-dashboard" style="display: none;">
@@ -518,16 +539,16 @@
                         </div>
                     </div>
 
+                    <div id="web3-connection-area" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
+                        <button id="btn-connect" onclick="connectWallet()" style="width: 100%; background: transparent; border: 1px solid #00f2ff; color: #00f2ff; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 0.7rem; font-weight: bold;">
+                            CONNECT WALLET
+                        </button>
+                    </div>
+
                     <button onclick="logout()" style="width: 100%; margin-top: 15px; background: rgba(255,0,0,0.1); border: 1px solid #ff4757; color: #ff4757; padding: 8px; border-radius: 5px; cursor: pointer; font-size: 0.65rem; font-weight: bold;">
                         KELUAR
                     </button>
                 </div>
-            </div>
-
-            <div id="web3-connection-area" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; text-align: center;">
-                <button id="btn-connect" onclick="connectWallet()" style="width: 100%; background: transparent; border: 1px solid #00f2ff; color: #00f2ff; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 0.7rem; font-weight: bold;">
-                    CONNECT WALLET
-                </button>
             </div>
 
             <div id="profile-setup" style="display: none; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; text-align: left; width: 100%;">
@@ -542,7 +563,7 @@
             <h4 style="font-size: 0.7rem; color: #55efc4; letter-spacing: 1px; margin-bottom: 12px;">PANDUAN GABUNG</h4>
             <ul style="color: #aaa; font-size: 0.75rem; padding-left: 15px; line-height: 1.6; list-style: none;">
                 <li style="margin-bottom: 5px;">1. Login dengan Akun ToFarmer</li>
-                <li style="margin-bottom: 5px;">2. Hubungkan Pera Wallet (Opsional)</li>
+                <li style="margin-bottom: 5px;">2. Hubungkan Pera Wallet di Profil</li>
                 <li style="margin-bottom: 5px;">3. Kumpulkan XP dari Aktivitas</li>
                 <li>4. Pantau Asset & Reward TOF</li>
             </ul>
@@ -565,7 +586,7 @@
             </div>
             <p class="post-text">Pipa pengiriman GitHub sudah terpasang. Sekarang ekosistem ToFarmer punya "Brankas" kode yang aman di Linux Lite. Siap untuk fase Algorand!</p>
             <div class="interaction-bar">
-                <button class="btn-interact">☕ 12 Sruput</button>
+                <button class="btn-interact" onclick="sruputKopi(this)">☕ 12 Sruput</button>
                 <button class="btn-interact">⛏️ 3 Cangkul</button>
             </div>
         </div>
@@ -577,7 +598,7 @@
             </div>
             <p class="post-text">Baru saja selesai memindahkan bibit ubi dari hot bed ke Blok 2. Struktur tanah terlihat sangat subur setelah rotasi kompos kemarin.</p>
             <div class="interaction-bar">
-                <button class="btn-interact">☕ 8 Sruput</button>
+                <button class="btn-interact" onclick="sruputKopi(this)">☕ 8 Sruput</button>
                 <button class="btn-interact">⛏️ 1 Cangkul</button>
             </div>
         </div>
