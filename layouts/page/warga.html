@@ -100,8 +100,7 @@
 
         <div class="total-assets-frame">
             <span class="total-label">Total Ecosystem Assets</span>
-            {{ $total := 0 }}{{ range .Site.Data.users }}{{ $total = add $total .tof }}{{ end }}
-            <span class="total-value">TOF {{ lang.NumFmt 0 $total }}</span>
+            <span class="total-value" id="web3-total-network">TOF 0,00</span>
         </div>
     </div>
 
@@ -123,7 +122,7 @@
                 {{ $level = math.Max 1 (math.Min (div $xp 100) 30) }}
             {{ end }}
 
-            <div class="member-card">
+            <div class="member-card data-wallet" data-address="{{ $data.wallet_address }}">
                 <div>
                     <div class="pic-wrapper">
                         <img class="member-pic" src="{{ $data.img }}" onerror="this.src='https://via.placeholder.com/150/f8fafc/94a3b8?text={{ $username }}'">
@@ -135,7 +134,7 @@
                 <div>
                     <div class="stats-box">
                         <div><span class="stat-label">Power Level</span><span class="stat-val">{{ $data.power }}%</span></div>
-                        <div><span class="stat-label">TOF Assets</span><span class="stat-val">{{ lang.NumFmt 0 $data.tof }}</span></div>
+                        <div><span class="stat-label">TOF Assets</span><span class="stat-val p-card-tof">0 TOF</span></div>
                     </div>
                     
                     <div style="margin-bottom: 12px; font-size: 0.7rem; color: #94a3b8; font-weight: bold;">
@@ -149,6 +148,74 @@
         {{ end }}
     </div>
 </div>
+
+<script>
+    /**
+     * 📡 ROBOT WEB3 NETWORK: KETUK DATA DARI NODE ALGORAND REKOR DESIMAL 6
+     */
+    async function dapatkanSaldoWargaNet(walletAddress) {
+        if (!walletAddress || walletAddress.trim() === "") return 0;
+        
+        const ASSET_ID_TOF = 3558306283;
+        const NODE_URL = "https://mainnet-api.algonode.cloud";
+        
+        try {
+            const response = await fetch(`${NODE_URL}/v2/accounts/${walletAddress.trim()}`);
+            if (!response.ok) return 0;
+            
+            const accountInfo = await response.json();
+            
+            if (accountInfo['assets'] && accountInfo['assets'].length > 0) {
+                const tokenTof = accountInfo['assets'].find(ast => Number(ast['asset-id']) === Number(ASSET_ID_TOF));
+                if (tokenTof) {
+                    let saldoMentah = Number(tokenTof['amount']);
+                    // Jembatan Konversi Desimal 6 milik ToFarmer
+                    return saldoMentah / 1000000;
+                }
+            }
+            return 0;
+        } catch (error) {
+            console.error("Gagal menjemput logistik saldo blockchain:", error);
+            return 0;
+        }
+    }
+
+    async function inisialisasiWeb3Network() {
+        const kartuWarga = document.querySelectorAll('.data-wallet');
+        let totalAkumulasiAset = 0;
+
+        // Proses pelacakan seluruh dompet kartu warga secara paralel (serentak)
+        const janjiMasingMasingDompet = Array.from(kartuWarga).map(async (kartu) => {
+            const alamatDompet = kartu.getAttribute('data-address');
+            const elemenSaldoKartu = kartu.querySelector('.p-card-tof');
+
+            if (alamatDompet && alamatDompet.trim() !== "") {
+                if (elemenSaldoKartu) elemenSaldoKartu.innerText = "Sync...";
+                
+                const saldoBlockchain = await dapatkanSaldoWargaNet(alamatDompet);
+                totalAkumulasiAset += saldoBlockchain;
+
+                if (elemenSaldoKartu) {
+                    elemenSaldoKartu.innerText = saldoBlockchain.toLocaleString('id-ID', {minimumFractionDigits: 0, maximumFractionDigits: 2}) + " TOF";
+                }
+            } else {
+                if (elemenSaldoKartu) elemenSaldoKartu.innerText = "0 TOF";
+            }
+        });
+
+        // Tunggu semua kartu warga ditarik saldonya dari internet
+        await Promise.all(janjiMasingMasingDompet);
+
+        // Suntik hasil penjumlahan total aset live ke papan neon atas network
+        const papanTotalNet = document.getElementById('web3-total-network');
+        if (papanTotalNet) {
+            papanTotalNet.innerText = "TOF " + totalAkumulasiAset.toLocaleString('id-ID', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+    }
+
+    // Jalankan sistem pelacakan otomatis saat seluruh dokumen rampung dimuat
+    window.addEventListener('DOMContentLoaded', inisialisasiWeb3Network);
+</script>
 
 </body>
 </html>
