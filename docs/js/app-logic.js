@@ -163,7 +163,55 @@ function logout() {
     location.reload();
 }
 
-// JALANKAN FUNGSI OTOMATIS SAAT WEB DIBUKA
+// Fungsi baru dengan sistem deteksi jalur ganda (Dual-Path) & pengunci ID Target
+async function loadMadingEkosistem() {
+    try {
+        // Jalur 1: Coba jalur domain murni (tofarmer.xyz/data/mading.json)
+        let response = await fetch('/data/mading.json');
+        
+        // Jalur 2: Jika gagal/404, langsung otomatis belok ke jalur GitHub Pages (/lab-tofarmer/)
+        if (!response.ok) {
+            response = await fetch('/lab-tofarmer/data/mading.json');
+        }
+        
+        if (!response.ok) throw new Error('Berkas mading.json tidak ditemukan di kedua jalur');
+
+        const daftarMading = await response.json();
+        
+        // Langsung tembak kotak mading menggunakan ID khusus (anti-salah-sasaran)
+        const madingCard = document.getElementById('kotak-mading-ekosistem');
+
+        if (madingCard) {
+            // Bersihkan layout statis bawaan Hugo, sisakan judul H4 neonnya
+            madingCard.innerHTML = '<h4 style="font-size: 0.7rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 15px; position: sticky; top: 0; background: #1c1c21; padding-bottom: 5px; z-index: 5;">MADING EKOSISTEM</h4>';
+            
+            if (daftarMading.length === 0) {
+                madingCard.innerHTML += '<p style="font-size: 0.8rem; color: #666; text-align: center;">Belum ada arsip mading.</p>';
+                return;
+            }
+
+            // Urut cetak artikel kiriman HP, otomatis yang paling fresh berada di barisan atas
+            daftarMading.forEach(artikel => {
+                const artikelBox = document.createElement('div');
+                artikelBox.style.marginBottom = "15px";
+                artikelBox.style.borderBottom = "1px solid rgba(255, 0, 255, 0.1)";
+                artikelBox.style.paddingBottom = "12px";
+
+                artikelBox.innerHTML = `
+                    <b style="color: #00f2ff; font-size: 0.85rem; display: block; margin-bottom: 4px;">${artikel.judul}</b>
+                    <span style="color: #555; font-size: 0.65rem; display: block; margin-bottom: 8px; font-family: monospace;">📅 ${artikel.tanggal}</span>
+                    <p style="font-size: 0.8rem; color: #d1d1d1; line-height: 1.4; margin: 0; white-space: pre-wrap;">${artikel.isi}</p>
+                `;
+                madingCard.appendChild(artikelBox);
+            });
+        }
+    } catch (error) {
+        console.error("Gagal sinkronisasi widget mading:", error);
+    }
+}
+
+// JALANKAN FUNGSI OTOMATIS SAAT WEB DIBUKA (Antrean Diperbarui)
 document.addEventListener('DOMContentLoaded', () => {
     updateEkosistemStats();
+    loadMadingEkosistem(); // <-- Robot penjemput mading resmi diaktifkan di sini!
 });
