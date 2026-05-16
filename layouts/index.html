@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<link rel="icon" type="image/png" href="/ikonhexa-fav.png">
+    <script>var exports = {};</script>
+    
+    <link rel="icon" type="image/png" href="{{ "ikonhexa-fav.png" | relURL }}">
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ .Site.Title }}</title>
@@ -48,7 +51,7 @@
         .dropdown { 
             position: relative; 
             display: inline-flex; 
-            align-items: center;
+            align-items: center; 
             padding-bottom: 15px; 
             margin-bottom: -15px; 
         }
@@ -70,9 +73,9 @@
             text-transform: uppercase;
         }
         
-        nav a:hover, .dropdown:hover .dropbtn { 
+        nav a:hover, .dropdown:hover .dropbtn, .dropdown.active .dropbtn { 
             background: rgba(0, 242, 255, 0.2); 
-            border-color: #00f2ff;
+            border-color: #00f2ff; 
             box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
             color: #fff;
             transform: translateY(-2px);
@@ -97,7 +100,8 @@
             pointer-events: none;
         }
 
-        .dropdown:hover > .dropdown-content { 
+        /* Logic Tampil lewat Class Active (JS Control) */
+        .dropdown.active > .dropdown-content { 
             visibility: visible;
             opacity: 1;
             transform: translateX(-50%) translateY(0);
@@ -202,7 +206,7 @@
             header h1 { font-size: 1.6rem; }
             nav { gap: 10px; padding: 10px; }
             .dropdown-content { position: static; transform: none; width: 100%; opacity: 1; visibility: visible; display: none; }
-            .dropdown:hover .dropdown-content { display: block; }
+            .dropdown.active .dropdown-content { display: block; }
             .nested-content { position: static; transform: none; visibility: visible; opacity: 1; display: none; background: rgba(0,0,0,0.2); }
             .nested-dropdown:hover .nested-content { display: block; }
         }
@@ -215,50 +219,38 @@
 <body>
     <div class="container">
         <header>
-            <a href="/" class="header-brand">
-               <img src="/images/logo-tofarmer.png" alt="Logo ToFarmer" class="header-logo">
+            <a href="{{ "" | relURL }}" class="header-brand">
+               <img src="{{ "images/logo-tofarmer.png" | relURL }}" alt="Logo ToFarmer" class="header-logo">
                <h1>{{ .Site.Title }}</h1>
             </a>
         </header>
 
-        <nav>
-            <div class='dropdown'>
-                <button class='dropbtn'>Menu ▼</button>
-                <div class='dropdown-content'>
-                    <a href='/'>🏠 Beranda (Titik Kumpul)</a>
-                    <a href='/tentang-tofarmer'>☕ Tentang ToFarmer</a>
-                    <a href='/portofolio'>🚀 Portofolio</a>
-                    <a href='/riwayat-transaksi'>🧮 Transparansi</a>
-                </div>
-            </div>
+       <nav>
+    <a href='{{ "" | relURL }}' class="nav-simple-btn">🏠 TITIK KUMPUL</a>
+    <a href='{{ "fitur/" | relURL }}' class="nav-simple-btn" style="border-color: #ff00ff; color: #ff00ff;">🛠️ FITUR & ILMU</a>
+</nav>
 
-            <div class='dropdown'>
-                <button class='dropbtn'>Alat ▼</button>
-                <div class='dropdown-content'>
-                    <a href='/alat/catatan-hidup'>🤖 Catatan Hidup</a>
-                   <a href='/alat/kalkulator-compounding'>🧮 Kalkulator Compounding</a>
-                </div>
-            </div>
+<style>
+    /* CSS Navigasi Baru yang Super Sederhana */
+    .nav-simple-btn {
+        text-decoration: none;
+        color: #00f2ff;
+        font-size: 0.8rem;
+        font-weight: bold;
+        background: rgba(0, 242, 255, 0.05);
+        border: 1px solid rgba(0, 242, 255, 0.3);
+        padding: 12px 25px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        letter-spacing: 1px;
+    }
 
-            <div class='dropdown'>
-                <button class='dropbtn'>ILMU ▼</button>
-                <div class='dropdown-content'>
-                    <div class='nested-dropdown'>
-                        <a class='nested-parent' href='#'>🌍 Ilmu Penting</a>
-                        <div class='nested-content'>
-                            <a href='/ilmu/panduan-ai'>🧠 Panduan Cerdas AI</a>
-                            <a href='/ilmu/programming-cepat'>🧠 AI Programming Cepat</a>
-                        </div>
-                    </div>
-                    <div class='nested-dropdown'>
-                        <a class='nested-parent' href='#'>📏 Ilmu Baku</a>
-                        <div class='nested-content'>
-                            <a href='/ilmu/nanam-ubi'>🌱 Nanam Ubi 🍠 (Pasti Panen)</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
+    .nav-simple-btn:hover {
+        background: rgba(0, 242, 255, 0.2);
+        box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+        transform: translateY(-2px);
+    }
+</style>
 
         <div class="app-display">
             {{ partial "titik-kumpul-app.html" . }}
@@ -274,5 +266,36 @@
             <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217s.231.001.332.005c.109.004.258-.041.404.314l.542 1.312c.058.14.096.303.003.488l-.204.412c-.09.181-.191.314-.041.573.15.259.664 1.098 1.423 1.774.978.871 1.802 1.14 2.062 1.269.26.13.412.108.563-.065.151-.173.65-.759.824-1.019.173-.259.346-.217.585-.129l1.458.688c.239.115.398.193.456.29.058.097.058.561-.086.965z"/>
         </svg>
     </a>
+
+    <script>
+        // FUNGSI TOGGLE DROPDOWN CERDAS
+        function toggleMenu(event, btn) {
+            event.stopPropagation(); // Mencegah event bubbling ke window
+            const parent = btn.parentElement;
+            
+            // Cek apakah menu ini sudah terbuka
+            const isOpen = parent.classList.contains('active');
+
+            // Tutup semua dropdown yang sedang terbuka (biar rapi)
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+
+            // Jika sebelumnya tertutup, sekarang buka (Toggle ON)
+            // Jika sebelumnya sudah buka, maka baris di atas sudah menutupnya (Toggle OFF)
+            if (!isOpen) {
+                parent.classList.add('active');
+            }
+        }
+
+        // Klik di mana saja di luar menu untuk menutup
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                document.querySelectorAll('.dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        }
+    </script>
 </body>
 </html>

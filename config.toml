@@ -1,14 +1,15 @@
 baseURL = "https://TFRMR.github.io/lab-tofarmer/"
-canonifyURLs = false         # GANTI INI JADI FALSE
 languageCode = "id-id"
 title = "ToFarmer"
 
-# Penting agar Script Web3 kita jalan
+# --- PERBAIKAN KRUSIAL DISINI ---
+canonifyURLs = true           # Ubah jadi true agar Hugo otomatis memperbaiki path link
+relativeURLs = true           # Tambahkan ini agar semua link bersifat relatif terhadap posisi file
+# --------------------------------
+
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
 
-# Pindahkan hasil masak ke folder docs untuk GitHub
 publishDir = "docs"
-

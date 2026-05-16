@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profil  | ToFarmer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+         
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter', sans-serif; }
+        body { background:#0d0d0f; color:#e0e0e0; line-height:1.8; overflow-x: hidden; }
+        .container { max-width:1000px; margin:auto; padding:1rem; }
+
+         
+        header { text-align:center; padding:2rem 1rem; }
+        .header-brand { display: inline-flex; align-items: center; justify-content: center; gap: 15px; text-decoration: none; }
+        .header-logo { height: 50px; width: auto; filter: drop-shadow(0 0 5px rgba(0,242,255,0.5)); }
+        header h1 { font-size: 2.2rem; color: #00f2ff; text-shadow: 0 0 10px #00f2ff; letter-spacing: 1px; }
+
+        nav { display: flex; gap: 12px; align-items: center; justify-content: center; flex-wrap: wrap; padding: 20px; margin-bottom: 2rem; }
+        nav a { 
+            text-decoration: none; color: #00f2ff; font-size: 0.85em; font-weight: 600; 
+            background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.3); 
+            padding: 10px 20px; border-radius: 8px; text-transform: uppercase;
+        }
+        nav a:hover { background: rgba(0, 242, 255, 0.2); border-color: #00f2ff; box-shadow: 0 0 15px rgba(0, 242, 255, 0.4); color: #fff; }
+
+         
+        .content-area { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            background: #16161a; 
+            padding: 3rem; 
+            border-radius: 20px; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .content-area h1 { color: #00f2ff; margin-bottom: 1rem; font-size: 2.5rem; line-height: 1.2; }
+        .meta-info { color: #666; font-size: 0.8rem; margin-bottom: 2rem; font-family: monospace; }
+        
+         
+        .post-body { font-size: 1.1rem; color: #d1d1d1; }
+        .post-body h2, .post-body h3 { color: #ff00ff; margin: 2rem 0 1rem; text-shadow: 0 0 5px rgba(255, 0, 255, 0.2); }
+        .post-body p { margin-bottom: 1.5rem; }
+        .post-body img { max-width: 100%; border-radius: 10px; border: 1px solid #333; margin: 1rem 0; }
+        .post-body a { color: #00f2ff; text-decoration: none; border-bottom: 1px dashed #00f2ff; }
+        .post-body blockquote { border-left: 4px solid #00f2ff; padding-left: 20px; font-style: italic; color: #aaa; margin: 2rem 0; }
+
+         
+        .custom-footer-tofarmer { text-align: center; margin-top: 50px; padding: 20px; font-family: monospace; font-size: 12px; color: #8affff; opacity: 0.7; }
+
+        @media screen and (max-width: 600px) {
+            .content-area { padding: 1.5rem; }
+            .content-area h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../" class="header-brand">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhzXfCj2gYXzyKmWfs871-jqeTvs6345OTXsndg-mLpIUzsDxvk2JByeMIv5G0XJOT1V3WoGBqUJAhBxuXFkO_IP6Hb98YPCS6KJNrIaG7IB8eeI9gBT5iH-8P2F7qOBY4UfJ6v9g18PnWwcjNAEzYpya-qgtEc5jwiM9IUeQ1i-XZC9RJTHYsbp2FfNYw/s389/logo.png" alt="Logo" class="header-logo">
+                <h1>ToFarmer</h1>
+            </a>
+        </header>
+
+        <nav>
+            <a href="../">🏠 Kembali ke Beranda</a>
+        </nav>
+
+        <article class="content-area">
+            <h1>Profil </h1>
+            <div class="meta-info">Diposting pada: 01 January 0001</div>
+            
+            <div class="post-body">
+                
+<div class="tof-card" id="profile-container" style="text-align: center; max-width: 600px; margin: 50px auto;">
+    <img id="p-img" src="" style="width: 150px; height: 150px; border-radius: 50%; border: 3px solid #333; object-fit: cover; margin-bottom: 20px; transition: all 0.5s ease;">
+    
+    <h2 id="p-username" style="color: #00f2ff; margin-bottom: 5px;">@Memuat...</h2>
+    
+    <div id="p-rank-box" style="margin-bottom: 20px;">
+        <span id="p-rank-title" style="font-size: 0.7rem; letter-spacing: 3px; font-weight: bold; padding: 4px 12px; border-radius: 20px; background: rgba(255,255,255,0.05); color: #666;">KASTA</span>
+        <div id="p-level" style="font-size: 1.2rem; color: #fff; font-weight: bold; margin-top: 10px; font-family: monospace;">LEVEL --</div>
+    </div>
+    
+    <p id="p-desc" style="color: #aaa; margin-bottom: 25px; font-style: italic; font-size: 0.9rem; line-height: 1.5;"></p>
+    
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+        <div>
+            <div style="font-size: 0.6rem; color: #666; text-transform: uppercase; margin-bottom: 5px;">XP Points</div>
+            <div id="p-xp" style="font-weight: bold; color: #fff;">0</div>
+        </div>
+        <div>
+            <div style="font-size: 0.6rem; color: #666; text-transform: uppercase; margin-bottom: 5px;">Power Score</div>
+            <div id="p-power" style="font-weight: bold; color: #55efc4;">0%</div>
+        </div>
+        <div>
+            <div style="font-size: 0.6rem; color: #666; text-transform: uppercase; margin-bottom: 5px;">TOF Asset</div>
+            <div id="p-tof" style="font-weight: bold; color: #00f2ff;">0</div>
+        </div>
+    </div>
+
+    <div id="p-lastseen" style="margin-top: 25px; font-size: 0.65rem; color: #444; font-family: monospace;">
+        Terakhir terlihat: --
+    </div>
+</div>
+
+<script>
+    /**
+     * LOGIKA RANKING & LEVELING (Translasi Rumus Python Mastermind)
+     */
+    function getTofRankAndLevel(xp) {
+        let title = "GROWER";
+        let level = 1;
+        let color = "#888"; // Warna default Grower
+
+        if (xp >= 33000) {
+            title = "ELITE";
+            level = 91 + Math.min(Math.floor((xp - 33000) / 1000), 8);
+            color = "#ff00ff"; // Neon Magenta
+        } 
+        else if (xp >= 9000) {
+            title = "SPECIALIST";
+            level = 61 + Math.min(Math.floor((xp - 9000) / 500), 29);
+            color = "#00f2ff"; // Neon Cyan
+        } 
+        else if (xp >= 3000) {
+            title = "PRO";
+            level = 31 + Math.min(Math.floor((xp - 3000) / 200), 29);
+            color = "#55efc4"; // Soft Green
+        } 
+        else {
+            title = "GROWER";
+            level = Math.max(1, Math.min(Math.floor(xp / 100), 30));
+            color = "#aaa"; // Grey
+        }
+
+        return { title, level, color };
+    }
+
+    async function loadProfile() {
+        const params = new URLSearchParams(window.location.search);
+        const userKey = params.get('user');
+
+        try {
+            const response = await fetch('/lab-tofarmer/data/users.json');
+            const database = await response.json();
+
+            if (database[userKey]) {
+                const u = database[userKey];
+                const xp = u.xp || 0;
+                const rankData = getTofRankAndLevel(xp);
+
+                // 1. Tampilkan Identitas (Privasi Terjaga)
+                document.getElementById('p-img').src = u.img;
+                document.getElementById('p-username').innerText = "@" + userKey;
+                document.getElementById('p-desc').innerText = u.desc;
+                
+                // 2. Tampilkan Rank & Level dengan Styling Dinamis
+                const rankTitle = document.getElementById('p-rank-title');
+                rankTitle.innerText = rankData.title;
+                rankTitle.style.color = rankData.color;
+                rankTitle.style.border = `1px solid ${rankData.color}`;
+                rankTitle.style.background = `${rankData.color}15`; // Transparansi 15%
+
+                const levelText = document.getElementById('p-level');
+                levelText.innerText = "LEVEL " + rankData.level;
+                
+                // Efek Khusus Elite/Specialist pada Foto
+                document.getElementById('p-img').style.borderColor = rankData.color;
+                if (rankData.title === "ELITE") {
+                    document.getElementById('p-img').style.boxShadow = `0 0 20px ${rankData.color}66`;
+                }
+
+                // 3. Statistik Teknis
+                document.getElementById('p-xp').innerText = xp.toLocaleString();
+                document.getElementById('p-power').innerText = (u.power || 0) + "%";
+                document.getElementById('p-tof').innerText = (u.tof || 0).toLocaleString() + " TOF";
+                document.getElementById('p-lastseen').innerText = "DATA SYNC: " + (u.last_seen || "--");
+
+            } else {
+                document.getElementById('p-username').innerText = "Warga Tidak Terdeteksi";
+                document.getElementById('p-desc').innerText = "User tidak terdaftar dalam protokol ekosistem.";
+            }
+        } catch (error) {
+            console.error("Protokol Gagal:", error);
+        }
+    }
+    
+    window.onload = loadProfile;
+</script>
+            </div>
+        </article>
+
+        <div class="custom-footer-tofarmer">
+            ToFarmer &middot; Bertumbuh dari praktik.
+        </div>
+    </div>
+</body>
+</html>

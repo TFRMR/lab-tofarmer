@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToFarmer Network</title>
+    <style>
+        /* BACKGROUND FUTURISTIK MODERN (DEEP DARK) */
+        body { 
+            background: #0d0d0f; 
+            color: #fff; 
+            margin: 0; 
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(0, 242, 255, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(255, 0, 255, 0.08) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        .network-container { padding: 40px 20px; max-width: 1200px; margin: auto; }
+
+        /* HEADER SECTION */
+        .network-header { text-align: center; margin-bottom: 60px; }
+        .network-header h1 { font-size: 2.2rem; letter-spacing: 10px; font-weight: 900; color: #fff; margin-bottom: 30px; text-transform: uppercase; }
+        
+        /* TOMBOL KEMBALI DI ATAS TOTAL ASSET */
+        .back-nav-top { margin-bottom: 35px; }
+        .btn-back { 
+            text-decoration: none; color: #00f2ff; font-size: 0.75rem; font-weight: bold; letter-spacing: 3px;
+            border: 1px solid rgba(0, 242, 255, 0.3); padding: 12px 35px; border-radius: 50px; transition: 0.3s;
+            background: rgba(0, 242, 255, 0.03); display: inline-block;
+        }
+        .btn-back:hover { background: #00f2ff; color: #000; box-shadow: 0 0 20px rgba(0,242,255,0.4); border-color: #00f2ff; }
+
+        /* TOTAL ASSET FRAME */
+        .total-assets-frame {
+            display: inline-block;
+            background: rgba(13, 13, 15, 0.7);
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            padding: 20px 50px;
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+        .total-label { font-size: 0.6rem; color: #555; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 5px; }
+        .total-value { font-size: 1.8rem; font-weight: bold; color: #00f2ff; font-family: monospace; }
+
+        /* GRID SYSTEM */
+        .member-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+
+        /* MEMBER CARD: SEJUK & BERSIH */
+        .member-card { 
+            background: #ffffff; 
+            color: #1e293b;
+            border-radius: 30px; 
+            padding: 35px 25px; 
+            text-align: center; 
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 540px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border: none;
+        }
+        .member-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(0,242,255,0.2); }
+
+        .pic-wrapper { width: 120px; height: 120px; margin: 0 auto 20px; border-radius: 50%; padding: 4px; background: #f1f5f9; border: 1px solid #e2e8f0; }
+        .member-pic { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #000; }
+
+        /* RANK BADGE */
+        .rank-badge { font-size: 0.65rem; font-weight: 800; padding: 6px 16px; border-radius: 50px; text-transform: uppercase; margin-bottom: 15px; display: inline-block; letter-spacing: 1px; }
+        .rank-ELITE { background: #00f2ff; color: #000; box-shadow: 0 4px 10px rgba(0,242,255,0.2); }
+        .rank-SPECIALIST { background: #a855f7; color: #fff; }
+        .rank-PRO { background: #3b82f6; color: #fff; }
+        .rank-GROWER { background: #22c55e; color: #fff; }
+
+        .member-name { font-size: 1.4rem; font-weight: 800; color: #0f172a; margin-bottom: 10px; text-transform: uppercase; }
+        .bio-text { font-size: 0.85rem; color: #64748b; line-height: 1.6; min-height: 45px; }
+
+        .stats-box { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f8fafc; padding: 15px; border-radius: 20px; margin: 15px 0; border: 1px solid #f1f5f9; }
+        .stat-label { font-size: 0.55rem; color: #94a3b8; text-transform: uppercase; font-weight: bold; }
+        .stat-val { font-size: 0.95rem; font-weight: 800; color: #1e293b; }
+
+        .btn-view { width: 100%; padding: 15px; border-radius: 15px; text-decoration: none; font-weight: 800; font-size: 0.8rem; background: #0d0d0f; color: #fff; display: block; transition: 0.3s; box-sizing: border-box; }
+        .btn-view:hover { background: #00f2ff; color: #000; }
+
+        .last-seen { font-size: 0.55rem; color: #94a3b8; margin-top: 15px; font-family: monospace; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+<div class="network-container">
+    <div class="network-header">
+        <h1>WARGA NETWORK</h1>
+        
+        <div class="back-nav-top">
+            <a href='{{ "" | relURL }}' class="btn-back">← KEMBALI KE TITIK KUMPUL</a>
+        </div>
+
+        <div class="total-assets-frame">
+            <span class="total-label">Total Ecosystem Assets</span>
+            {{ $total := 0 }}{{ range .Site.Data.users }}{{ $total = add $total .tof }}{{ end }}
+            <span class="total-value">TOF {{ lang.NumFmt 0 $total }}</span>
+        </div>
+    </div>
+
+    <div class="member-grid">
+        {{ range $username, $data := .Site.Data.users }}
+            
+            {{ $rank := "GROWER" }}{{ $level := 1 }}{{ $xp := $data.xp }}
+            {{ if ge $xp 33000 }}
+                {{ $rank = "ELITE" }}
+                {{ $level = add 91 (math.Min (div (sub $xp 33000) 1000) 8) }}
+            {{ else if ge $xp 9000 }}
+                {{ $rank = "SPECIALIST" }}
+                {{ $level = add 61 (math.Min (div (sub $xp 9000) 500) 29) }}
+            {{ else if ge $xp 3000 }}
+                {{ $rank = "PRO" }}
+                {{ $level = add 31 (math.Min (div (sub $xp 3000) 200) 29) }}
+            {{ else }}
+                {{ $rank = "GROWER" }}
+                {{ $level = math.Max 1 (math.Min (div $xp 100) 30) }}
+            {{ end }}
+
+            <div class="member-card">
+                <div>
+                    <div class="pic-wrapper">
+                        <img class="member-pic" src="{{ $data.img }}" onerror="this.src='https://via.placeholder.com/150/f8fafc/94a3b8?text={{ $username }}'">
+                    </div>
+                    <div class="rank-badge rank-{{ $rank }}">{{ $rank }} // LVL {{ $level }}</div>
+                    <div class="member-name">{{ $username }}</div>
+                    <p class="bio-text">"{{ $data.desc }}"</p>
+                </div>
+                <div>
+                    <div class="stats-box">
+                        <div><span class="stat-label">Power Level</span><span class="stat-val">{{ $data.power }}%</span></div>
+                        <div><span class="stat-label">TOF Assets</span><span class="stat-val">{{ lang.NumFmt 0 $data.tof }}</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px; font-size: 0.7rem; color: #94a3b8; font-weight: bold;">
+                        CURRENT XP: {{ lang.NumFmt 0 $xp }}
+                    </div>
+
+                    <a href='../../profil?user={{ $username }}' class="btn-view">ACCESS PROFILE WALL</a>
+                    <div class="last-seen">LAST ACTIVE: {{ $data.last_seen }}</div>
+                </div>
+            </div>
+        {{ end }}
+    </div>
+</div>
+
+</body>
+</html>

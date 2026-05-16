@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToFarmer Network</title>
+    <style>
+         
+        body { 
+            background: #0d0d0f; 
+            color: #fff; 
+            margin: 0; 
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(0, 242, 255, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(255, 0, 255, 0.08) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        .network-container { padding: 40px 20px; max-width: 1200px; margin: auto; }
+
+         
+        .network-header { text-align: center; margin-bottom: 60px; }
+        .network-header h1 { font-size: 2.2rem; letter-spacing: 10px; font-weight: 900; color: #fff; margin-bottom: 30px; text-transform: uppercase; }
+        
+         
+        .back-nav-top { margin-bottom: 35px; }
+        .btn-back { 
+            text-decoration: none; color: #00f2ff; font-size: 0.75rem; font-weight: bold; letter-spacing: 3px;
+            border: 1px solid rgba(0, 242, 255, 0.3); padding: 12px 35px; border-radius: 50px; transition: 0.3s;
+            background: rgba(0, 242, 255, 0.03); display: inline-block;
+        }
+        .btn-back:hover { background: #00f2ff; color: #000; box-shadow: 0 0 20px rgba(0,242,255,0.4); border-color: #00f2ff; }
+
+         
+        .total-assets-frame {
+            display: inline-block;
+            background: rgba(13, 13, 15, 0.7);
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            padding: 20px 50px;
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+        .total-label { font-size: 0.6rem; color: #555; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 5px; }
+        .total-value { font-size: 1.8rem; font-weight: bold; color: #00f2ff; font-family: monospace; }
+
+         
+        .member-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+
+         
+        .member-card { 
+            background: #ffffff; 
+            color: #1e293b;
+            border-radius: 30px; 
+            padding: 35px 25px; 
+            text-align: center; 
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 540px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border: none;
+        }
+        .member-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(0,242,255,0.2); }
+
+        .pic-wrapper { width: 120px; height: 120px; margin: 0 auto 20px; border-radius: 50%; padding: 4px; background: #f1f5f9; border: 1px solid #e2e8f0; }
+        .member-pic { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #000; }
+
+         
+        .rank-badge { font-size: 0.65rem; font-weight: 800; padding: 6px 16px; border-radius: 50px; text-transform: uppercase; margin-bottom: 15px; display: inline-block; letter-spacing: 1px; }
+        .rank-ELITE { background: #00f2ff; color: #000; box-shadow: 0 4px 10px rgba(0,242,255,0.2); }
+        .rank-SPECIALIST { background: #a855f7; color: #fff; }
+        .rank-PRO { background: #3b82f6; color: #fff; }
+        .rank-GROWER { background: #22c55e; color: #fff; }
+
+        .member-name { font-size: 1.4rem; font-weight: 800; color: #0f172a; margin-bottom: 10px; text-transform: uppercase; }
+        .bio-text { font-size: 0.85rem; color: #64748b; line-height: 1.6; min-height: 45px; }
+
+        .stats-box { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f8fafc; padding: 15px; border-radius: 20px; margin: 15px 0; border: 1px solid #f1f5f9; }
+        .stat-label { font-size: 0.55rem; color: #94a3b8; text-transform: uppercase; font-weight: bold; }
+        .stat-val { font-size: 0.95rem; font-weight: 800; color: #1e293b; }
+
+        .btn-view { width: 100%; padding: 15px; border-radius: 15px; text-decoration: none; font-weight: 800; font-size: 0.8rem; background: #0d0d0f; color: #fff; display: block; transition: 0.3s; box-sizing: border-box; }
+        .btn-view:hover { background: #00f2ff; color: #000; }
+
+        .last-seen { font-size: 0.55rem; color: #94a3b8; margin-top: 15px; font-family: monospace; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+<div class="network-container">
+    <div class="network-header">
+        <h1>WARGA NETWORK</h1>
+        
+        <div class="back-nav-top">
+            <a href='../' class="btn-back">← KEMBALI KE TITIK KUMPUL</a>
+        </div>
+
+        <div class="total-assets-frame">
+            <span class="total-label">Total Ecosystem Assets</span>
+            
+            <span class="total-value">TOF 289,000</span>
+        </div>
+    </div>
+
+    <div class="member-grid">
+        
+            
+            
+            
+                
+                
+            
+
+            <div class="member-card">
+                <div>
+                    <div class="pic-wrapper">
+                        <img class="member-pic" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjbLH3tzam90OPSidH4ndeUEzdMj9OEPh6K_x5JnAPaKNxyVXoJTLdORDS9Zcqjz3mOgmmyJjJ22e9Z1BorlIrapjb7AKEFvDXyKgK7KEPCzK73XgzH2AajWXw8UELNLSnaPh3LmF07cvwrLhpF2NbctLXQMSUGzvB6PMdBxlMf6EM8WagMGjdqocBaB7A/s320/mantoo.jpg" onerror="this.src='https://via.placeholder.com/150/f8fafc/94a3b8?text=CYBER_FARMER'">
+                    </div>
+                    <div class="rank-badge rank-ELITE">ELITE // LVL 91.87</div>
+                    <div class="member-name">CYBER_FARMER</div>
+                    <p class="bio-text">"Mastermind ekosistem ToFarmer."</p>
+                </div>
+                <div>
+                    <div class="stats-box">
+                        <div><span class="stat-label">Power Level</span><span class="stat-val">98.67%</span></div>
+                        <div><span class="stat-label">TOF Assets</span><span class="stat-val">116,000</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px; font-size: 0.7rem; color: #94a3b8; font-weight: bold;">
+                        CURRENT XP: 33,870
+                    </div>
+
+                    <a href='../../profil?user=CYBER_FARMER' class="btn-view">ACCESS PROFILE WALL</a>
+                    <div class="last-seen">LAST ACTIVE: 2026-05-14 12:38:25</div>
+                </div>
+            </div>
+        
+            
+            
+            
+                
+                
+            
+
+            <div class="member-card">
+                <div>
+                    <div class="pic-wrapper">
+                        <img class="member-pic" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEixtEm9E1pPRrPNjKcnqigsFE99ClDJeIgCUYAtMQMFtUmPxWYby6S5iZ_brguLzvheJt4U33K0xTRzjEUl17AYx3QAVHT8ZKH2MOD6aXngNUQiQ3LMDkC24h8_Wx0sxYJujttTgf9UZhmJ8t0YzP1uzKm6ewSDGycdOMIasZUOL4sjwCn23bjXVxiGM4Y/s320/lukas%20danero.jpg" onerror="this.src='https://via.placeholder.com/150/f8fafc/94a3b8?text=FIELD_SYNC'">
+                    </div>
+                    <div class="rank-badge rank-GROWER">GROWER // LVL 2.47</div>
+                    <div class="member-name">FIELD_SYNC</div>
+                    <p class="bio-text">"Penyelarasan irigasi &amp; mekanisasi lahan."</p>
+                </div>
+                <div>
+                    <div class="stats-box">
+                        <div><span class="stat-label">Power Level</span><span class="stat-val">87.1%</span></div>
+                        <div><span class="stat-label">TOF Assets</span><span class="stat-val">2,000</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px; font-size: 0.7rem; color: #94a3b8; font-weight: bold;">
+                        CURRENT XP: 247
+                    </div>
+
+                    <a href='../../profil?user=FIELD_SYNC' class="btn-view">ACCESS PROFILE WALL</a>
+                    <div class="last-seen">LAST ACTIVE: 2026-05-10 16:08:05</div>
+                </div>
+            </div>
+        
+            
+            
+            
+                
+                
+            
+
+            <div class="member-card">
+                <div>
+                    <div class="pic-wrapper">
+                        <img class="member-pic" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiDTwAK1bjxL2Exdcno95jfsXaRyueNkaFuLYBAcyflV0lgyssU_yw5ExMuy7j8IYJHEBkoU5HFwC3ZenfVg-FFPtguVuAkDQXRDYGIPjpfLJ5CFK20RR15LP-OWQH5-N3ZiaGZuucx5svglHJxCKoWicjT2GOE9afZI7rCKwYtjQQvLczJmaSpfZELkHQ/s320/WhatsApp%20Image%202026-04-26%20at%2022.56.48.jpeg" onerror="this.src='https://via.placeholder.com/150/f8fafc/94a3b8?text=Joker'">
+                    </div>
+                    <div class="rank-badge rank-GROWER">GROWER // LVL 5.49</div>
+                    <div class="member-name">Joker</div>
+                    <p class="bio-text">"Baru bergabung di ekosistem."</p>
+                </div>
+                <div>
+                    <div class="stats-box">
+                        <div><span class="stat-label">Power Level</span><span class="stat-val">90.23%</span></div>
+                        <div><span class="stat-label">TOF Assets</span><span class="stat-val">32,000</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px; font-size: 0.7rem; color: #94a3b8; font-weight: bold;">
+                        CURRENT XP: 549
+                    </div>
+
+                    <a href='../../profil?user=Joker' class="btn-view">ACCESS PROFILE WALL</a>
+                    <div class="last-seen">LAST ACTIVE: 2026-05-11 17:10:06</div>
+                </div>
+            </div>
+        
+            
+            
+            
+                
+                
+            
+
+            <div class="member-card">
+                <div>
+                    <div class="pic-wrapper">
+                        <img class="member-pic" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgki2jnFgTM5XcvXVQxdDhsEchqJYHRnTd-RxGHADKXcW2mujGNwKwz_zNaqv6FMpK7qktVCd1VsC9H4GzBEpV3lzwS5ORNJB3VdzLAqjx_kKcWlo6aqf6QQUKlcWppGZp3yQ67a7uTfqO95DUed-NCdvMk8h4Ep4cwyczMbVrL7qEtz-0NcDjQ9-x-PpI/s320/WhatsApp%20Image%202026-05-02%20at%2017.11.18.jpeg" onerror="this.src='https://via.placeholder.com/150/f8fafc/94a3b8?text=Ketelteyenk'">
+                    </div>
+                    <div class="rank-badge rank-GROWER">GROWER // LVL 1.27</div>
+                    <div class="member-name">Ketelteyenk</div>
+                    <p class="bio-text">"Baru bergabung di ekosistem."</p>
+                </div>
+                <div>
+                    <div class="stats-box">
+                        <div><span class="stat-label">Power Level</span><span class="stat-val">63.3%</span></div>
+                        <div><span class="stat-label">TOF Assets</span><span class="stat-val">0</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px; font-size: 0.7rem; color: #94a3b8; font-weight: bold;">
+                        CURRENT XP: 127
+                    </div>
+
+                    <a href='../../profil?user=Ketelteyenk' class="btn-view">ACCESS PROFILE WALL</a>
+                    <div class="last-seen">LAST ACTIVE: 2026-05-02 17:42:01</div>
+                </div>
+            </div>
+        
+            
+            
+            
+                
+                
+            
+
+            <div class="member-card">
+                <div>
+                    <div class="pic-wrapper">
+                        <img class="member-pic" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEilImZuciXt96i03TvwHMFW7NIPBRwHtXH28sbiYx-ym8cJoLkp-PHCuQaZ5llcMxEzlBb6wyAtV36CciwJcLJ2PzGeuuNNxnn1kNKuzyGzS6DU0xBv81c5IGu9Og20n5dPIJt32hCI1EEdBxczHGfle4xcV0JPAE8GeZ0QPOfYjH1Yy4bEMd8kCHATB1o/s320/ChatGPT%20Image%2024%20Apr%202026,%2017.47.38.png" onerror="this.src='https://via.placeholder.com/150/f8fafc/94a3b8?text=LIAN_HUA'">
+                    </div>
+                    <div class="rank-badge rank-GROWER">GROWER // LVL 1.02</div>
+                    <div class="member-name">LIAN_HUA</div>
+                    <p class="bio-text">"The Strategic Catalyst."</p>
+                </div>
+                <div>
+                    <div class="stats-box">
+                        <div><span class="stat-label">Power Level</span><span class="stat-val">87.1%</span></div>
+                        <div><span class="stat-label">TOF Assets</span><span class="stat-val">10,000</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px; font-size: 0.7rem; color: #94a3b8; font-weight: bold;">
+                        CURRENT XP: 102
+                    </div>
+
+                    <a href='../../profil?user=LIAN_HUA' class="btn-view">ACCESS PROFILE WALL</a>
+                    <div class="last-seen">LAST ACTIVE: 2026-05-10 16:08:05</div>
+                </div>
+            </div>
+        
+            
+            
+            
+                
+                
+            
+
+            <div class="member-card">
+                <div>
+                    <div class="pic-wrapper">
+                        <img class="member-pic" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgpZMwNc3j3aHkXVH3EkMVT9w9ADwHzUxeYTCKlYGLh6HH08tjgnbPnkIyxl0hTLo0Qu7gpMvsQdDLii4q-_mWYKOpIbxCJuGq2qKfqkMeSCL9NYZK572KU8psvxVZwSA3E2ucWB7pmAbT5OQpd_M_-DOMK-Rct5m6-CaXiyUTLvdetz5c-8SDCVnZ9KRM/s320/marjian.jpg" onerror="this.src='https://via.placeholder.com/150/f8fafc/94a3b8?text=MARJIANTO'">
+                    </div>
+                    <div class="rank-badge rank-GROWER">GROWER // LVL 4.64</div>
+                    <div class="member-name">MARJIANTO</div>
+                    <p class="bio-text">"Analisis cuaca dan fluktuasi pasar."</p>
+                </div>
+                <div>
+                    <div class="stats-box">
+                        <div><span class="stat-label">Power Level</span><span class="stat-val">87.1%</span></div>
+                        <div><span class="stat-label">TOF Assets</span><span class="stat-val">28,000</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px; font-size: 0.7rem; color: #94a3b8; font-weight: bold;">
+                        CURRENT XP: 464
+                    </div>
+
+                    <a href='../../profil?user=MARJIANTO' class="btn-view">ACCESS PROFILE WALL</a>
+                    <div class="last-seen">LAST ACTIVE: 2026-05-10 16:08:05</div>
+                </div>
+            </div>
+        
+            
+            
+            
+                
+                
+            
+
+            <div class="member-card">
+                <div>
+                    <div class="pic-wrapper">
+                        <img class="member-pic" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiITCADPyuOgTLDUSbYM9nSv_uVxMQyyax3ug-UiI12X2F7cGBe2igHL35I_IoKb-tJo7U9l5Cbh48o0DB7Ud-5h2Ftr2W2cYNCfJIE8kzNOTldxOpZb9EfxH0UQaGVUjMxe01i3-gFTpOBQQg0SfMROGWfY_q55SVAbh73ZalY0qa45jmp0KYrxZBcJzg/s320/sulis.png" onerror="this.src='https://via.placeholder.com/150/f8fafc/94a3b8?text=NEO_AGRO'">
+                    </div>
+                    <div class="rank-badge rank-GROWER">GROWER // LVL 4.46</div>
+                    <div class="member-name">NEO_AGRO</div>
+                    <p class="bio-text">"Optimasi nutrisi dengan algoritma Quantum."</p>
+                </div>
+                <div>
+                    <div class="stats-box">
+                        <div><span class="stat-label">Power Level</span><span class="stat-val">87.1%</span></div>
+                        <div><span class="stat-label">TOF Assets</span><span class="stat-val">33,000</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px; font-size: 0.7rem; color: #94a3b8; font-weight: bold;">
+                        CURRENT XP: 446
+                    </div>
+
+                    <a href='../../profil?user=NEO_AGRO' class="btn-view">ACCESS PROFILE WALL</a>
+                    <div class="last-seen">LAST ACTIVE: 2026-05-10 16:08:05</div>
+                </div>
+            </div>
+        
+            
+            
+            
+                
+                
+            
+
+            <div class="member-card">
+                <div>
+                    <div class="pic-wrapper">
+                        <img class="member-pic" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhSjgp9N4GL5-N7B1wamCuY3_hYqCqM1qS6jcVsquMjgAwdNtNEPEWPjjVV51diKtwZWikc_it9Evdtd1wXwHCUkxAgsDrN49eA0WWVES8qPorRJ-fP3FdWn1k15ko9jwHU7HC_oCWjKS2Ed25zzE_w2qdZXpM5RLLtFdc0BTKlf5XdTJA8wuDMIXCXmDE/s320/charlyn.jpg" onerror="this.src='https://via.placeholder.com/150/f8fafc/94a3b8?text=QUANTUM_GROW'">
+                    </div>
+                    <div class="rank-badge rank-GROWER">GROWER // LVL 8.64</div>
+                    <div class="member-name">QUANTUM_GROW</div>
+                    <p class="bio-text">"Visual Architect &amp; Digital Archivist."</p>
+                </div>
+                <div>
+                    <div class="stats-box">
+                        <div><span class="stat-label">Power Level</span><span class="stat-val">98.67%</span></div>
+                        <div><span class="stat-label">TOF Assets</span><span class="stat-val">58,000</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px; font-size: 0.7rem; color: #94a3b8; font-weight: bold;">
+                        CURRENT XP: 864
+                    </div>
+
+                    <a href='../../profil?user=QUANTUM_GROW' class="btn-view">ACCESS PROFILE WALL</a>
+                    <div class="last-seen">LAST ACTIVE: 2026-05-14 12:38:46</div>
+                </div>
+            </div>
+        
+            
+            
+            
+                
+                
+            
+
+            <div class="member-card">
+                <div>
+                    <div class="pic-wrapper">
+                        <img class="member-pic" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgCXm56u_dfO2ykZKULuVnvFjtc4SMxy2wVXWNRuZBsPLLcvrvJwBPNLdeU9PYAfhBD6weoM1MFS4OOxkhOcMjuVrKT-FYKdL4wksjx__fcTektXHrsrHCeSwaliQg8wwgJrEDr_OZfqdFD7PIFHxJKuvPoQjBfuCx6Bfkzp01uGInaL9AyNgUdSLhDrZo/s320/WhatsApp%20Image%202026-05-04%20at%2006.38.43.jpeg" onerror="this.src='https://via.placeholder.com/150/f8fafc/94a3b8?text=Queen timmy'">
+                    </div>
+                    <div class="rank-badge rank-GROWER">GROWER // LVL 1.02</div>
+                    <div class="member-name">Queen timmy</div>
+                    <p class="bio-text">"Ratu di kebun sendiri. 🌻✨"</p>
+                </div>
+                <div>
+                    <div class="stats-box">
+                        <div><span class="stat-label">Power Level</span><span class="stat-val">66.9%</span></div>
+                        <div><span class="stat-label">TOF Assets</span><span class="stat-val">0</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px; font-size: 0.7rem; color: #94a3b8; font-weight: bold;">
+                        CURRENT XP: 102
+                    </div>
+
+                    <a href='../../profil?user=Queen%20timmy' class="btn-view">ACCESS PROFILE WALL</a>
+                    <div class="last-seen">LAST ACTIVE: 2026-05-03 22:28:57</div>
+                </div>
+            </div>
+        
+            
+            
+            
+                
+                
+            
+
+            <div class="member-card">
+                <div>
+                    <div class="pic-wrapper">
+                        <img class="member-pic" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhbNqDSkWJT4gA6Jn8LEgI-tv507ajRcSDREwtyzi7-G80qh3FkIoB0sWaJZr6MB7c4_8YfeNT49WTP-Dvcw49lsgXrNBbkk_G19ivNLlmSMQPJj5hf0zdtSTVVgU0z5JE6K1w9K2jS2N6XE2hNgMbDHgdUAUAAltsKw1l6CEuzb5h6B7-pOcQ0zWML6GY/s320/WhatsApp%20Image%202026-05-03%20at%2020.50.29.jpeg" onerror="this.src='https://via.placeholder.com/150/f8fafc/94a3b8?text=Sanca'">
+                    </div>
+                    <div class="rank-badge rank-GROWER">GROWER // LVL 1.02</div>
+                    <div class="member-name">Sanca</div>
+                    <p class="bio-text">"Tumbuh bersama alam. 🐍🌾"</p>
+                </div>
+                <div>
+                    <div class="stats-box">
+                        <div><span class="stat-label">Power Level</span><span class="stat-val">66.89%</span></div>
+                        <div><span class="stat-label">TOF Assets</span><span class="stat-val">0</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px; font-size: 0.7rem; color: #94a3b8; font-weight: bold;">
+                        CURRENT XP: 102
+                    </div>
+
+                    <a href='../../profil?user=Sanca' class="btn-view">ACCESS PROFILE WALL</a>
+                    <div class="last-seen">LAST ACTIVE: 2026-05-03 22:28:38</div>
+                </div>
+            </div>
+        
+            
+            
+            
+                
+                
+            
+
+            <div class="member-card">
+                <div>
+                    <div class="pic-wrapper">
+                        <img class="member-pic" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjGiQYZUcrwwycf-J9wEm_XH8ZUi6q5iTY-7-9DqS1W42yd6xYDggSQeQbFUbPoTnTwb14GH-ky7RKlrmdp7nJb6HykSkvr4cYSIzfSAWPN1Ztuf6fDaz4K1EO7AQnFl_5DnwxM50Qm1tZHNRNHDOvR-FRscF0Rh4unhgECvPmfpOjTjMvXXc7H0TL9qkA/s320/WhatsApp%20Image%202026-05-10%20at%2011.10.19.jpeg" onerror="this.src='https://via.placeholder.com/150/f8fafc/94a3b8?text=Sidikat farm'">
+                    </div>
+                    <div class="rank-badge rank-GROWER">GROWER // LVL 1.54</div>
+                    <div class="member-name">Sidikat farm</div>
+                    <p class="bio-text">"Baru bergabung di ekosistem."</p>
+                </div>
+                <div>
+                    <div class="stats-box">
+                        <div><span class="stat-label">Power Level</span><span class="stat-val">90.06%</span></div>
+                        <div><span class="stat-label">TOF Assets</span><span class="stat-val">0</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px; font-size: 0.7rem; color: #94a3b8; font-weight: bold;">
+                        CURRENT XP: 154
+                    </div>
+
+                    <a href='../../profil?user=Sidikat%20farm' class="btn-view">ACCESS PROFILE WALL</a>
+                    <div class="last-seen">LAST ACTIVE: 2026-05-11 15:48:37</div>
+                </div>
+            </div>
+        
+            
+            
+            
+                
+                
+            
+
+            <div class="member-card">
+                <div>
+                    <div class="pic-wrapper">
+                        <img class="member-pic" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiqu1n0uO24icfN1glRSVCYYYi9EpsWn3w4ioWiOVZd1IPWel5fd_WcU59mlGB8Lg1owdRluDX-mlY8PVr3xw46pcU4RiRCA-MDrpysCAUj904HkEozkkvRtxazxkaeOmUAoCYZVk5cAxVBei3dlwTPW6cqWPE3K3GEuSrLbctTB-augFpgmCV5KBrQZKE/s320/robertus%20pargiyanto.jpg" onerror="this.src='https://via.placeholder.com/150/f8fafc/94a3b8?text=TERRA_ROOTS'">
+                    </div>
+                    <div class="rank-badge rank-GROWER">GROWER // LVL 1.47</div>
+                    <div class="member-name">TERRA_ROOTS</div>
+                    <p class="bio-text">"Pemulihan hara &amp; konservasi tanah ladang."</p>
+                </div>
+                <div>
+                    <div class="stats-box">
+                        <div><span class="stat-label">Power Level</span><span class="stat-val">87.1%</span></div>
+                        <div><span class="stat-label">TOF Assets</span><span class="stat-val">5,000</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px; font-size: 0.7rem; color: #94a3b8; font-weight: bold;">
+                        CURRENT XP: 147
+                    </div>
+
+                    <a href='../../profil?user=TERRA_ROOTS' class="btn-view">ACCESS PROFILE WALL</a>
+                    <div class="last-seen">LAST ACTIVE: 2026-05-10 16:08:05</div>
+                </div>
+            </div>
+        
+            
+            
+            
+                
+                
+            
+
+            <div class="member-card">
+                <div>
+                    <div class="pic-wrapper">
+                        <img class="member-pic" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgFhdNd0RhGfX8g9JWJOsWZ2DdaMO0xnzcq-arv_9JTS8h7-_Ur25YY3VxmMpbAhEQD0MZXZtdjnQsBPYkh3v8EkNTfVpoDorVSUjQg-yrqB2BNL5Qq9yyd2MKnqhWjDSZuSM_9mt7FQDnfjkPwJcjDWIOTNCjxfBQj5E6FYSwmeGuNQHN1SxYcSWmT2O0/s320/ChatGPT%20Image%2011%20Mei%202026,%2015.38.21.png" onerror="this.src='https://via.placeholder.com/150/f8fafc/94a3b8?text=THE MOUNTAIN MOTHER'">
+                    </div>
+                    <div class="rank-badge rank-GROWER">GROWER // LVL 1.02</div>
+                    <div class="member-name">THE MOUNTAIN MOTHER</div>
+                    <p class="bio-text">"Baru bergabung di ekosistem."</p>
+                </div>
+                <div>
+                    <div class="stats-box">
+                        <div><span class="stat-label">Power Level</span><span class="stat-val">90.06%</span></div>
+                        <div><span class="stat-label">TOF Assets</span><span class="stat-val">5,000</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px; font-size: 0.7rem; color: #94a3b8; font-weight: bold;">
+                        CURRENT XP: 102
+                    </div>
+
+                    <a href='../../profil?user=THE%20MOUNTAIN%20MOTHER' class="btn-view">ACCESS PROFILE WALL</a>
+                    <div class="last-seen">LAST ACTIVE: 2026-05-11 15:48:04</div>
+                </div>
+            </div>
+        
+            
+            
+            
+                
+                
+            
+
+            <div class="member-card">
+                <div>
+                    <div class="pic-wrapper">
+                        <img class="member-pic" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh06rcvsBU6UxuqhKN0f8vVmqlkBTuiZknd6v15tvECk34hoPpAQbzfLAYYbmedMmTKtQfTrHCvVa8WwU7COPDQ3LP93575pdzdQFQmCFKqR5w7WcO6usJ-OQf7UhwETdp3ZpY8AOC10GZN5aAS9OMdeVZl00FbddJ0QRkR6OVIScCYQn2CPERz5h3qMK8/s320/WhatsApp%20Image%202026-05-14%20at%2023.14.49.jpeg" onerror="this.src='https://via.placeholder.com/150/f8fafc/94a3b8?text=mekeii'">
+                    </div>
+                    <div class="rank-badge rank-GROWER">GROWER // LVL 1.02</div>
+                    <div class="member-name">mekeii</div>
+                    <p class="bio-text">"Baru bergabung di ekosistem."</p>
+                </div>
+                <div>
+                    <div class="stats-box">
+                        <div><span class="stat-label">Power Level</span><span class="stat-val">100%</span></div>
+                        <div><span class="stat-label">TOF Assets</span><span class="stat-val">0</span></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 12px; font-size: 0.7rem; color: #94a3b8; font-weight: bold;">
+                        CURRENT XP: 102
+                    </div>
+
+                    <a href='../../profil?user=mekeii' class="btn-view">ACCESS PROFILE WALL</a>
+                    <div class="last-seen">LAST ACTIVE: 2026-05-14 23:19:24</div>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+</body>
+</html>

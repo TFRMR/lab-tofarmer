@@ -1,5 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<meta name="generator" content="Hugo 0.92.2" />
+    <script>var exports = {};</script>
+    
+    <link rel="icon" type="image/png" href="./ikonhexa-fav.png">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ToFarmer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+         
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter', sans-serif; }
+        
+        body { background:#0d0d0f; color:#e0e0e0; line-height:1.6; overflow-x: hidden; }
+        .container { max-width:1100px; margin:auto; padding:1rem; }
+
+         
+        header { text-align:center; padding:2rem 1rem; }
+        .header-brand { 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 15px; 
+            text-decoration: none; 
+        }
+        .header-logo { 
+            height: 80px; 
+            width: auto; 
+            filter: drop-shadow(0 0 8px rgba(0,242,255,0.6));
+        }
+        header h1 { 
+            font-size: 2.2rem; 
+            color: #00f2ff; 
+            text-shadow: 0 0 10px #00f2ff; 
+            letter-spacing: 1px;
+        }
+
+         
+        nav { 
+            display: flex; 
+            gap: 15px; 
+            align-items: center; 
+            justify-content: center; 
+            flex-wrap: wrap; 
+            padding: 10px; 
+            margin-bottom: 1rem; 
+        }
+        
+        .dropdown { 
+            position: relative; 
+            display: inline-flex; 
+            align-items: center; 
+            padding-bottom: 15px; 
+            margin-bottom: -15px; 
+        }
+        
+        nav a, .dropbtn { 
+            text-decoration: none; 
+            color: #00f2ff; 
+            font-size: 0.85em; 
+            font-weight: 600; 
+            transition: all 0.3s ease; 
+            cursor: pointer; 
+            background: rgba(0, 242, 255, 0.05); 
+            border: 1px solid rgba(0, 242, 255, 0.3); 
+            padding: 10px 22px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        nav a:hover, .dropdown:hover .dropbtn, .dropdown.active .dropbtn { 
+            background: rgba(0, 242, 255, 0.2); 
+            border-color: #00f2ff; 
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .dropdown-content { 
+            visibility: hidden;
+            opacity: 0;
+            display: block; 
+            position: absolute; 
+            background-color: #16161a; 
+            min-width: 220px; 
+            z-index: 9999 !important;
+            border-radius: 12px; 
+            top: 50px; 
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            box-shadow: 0px 10px 30px rgba(0,0,0,0.9);
+            padding: 10px;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+         
+        .dropdown.active > .dropdown-content { 
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+        
+        .dropdown-content a { 
+            color: #aaa; 
+            padding: 12px 15px; 
+            text-decoration: none; 
+            display: block; 
+            font-size: 0.82em; 
+            transition: all 0.2s ease; 
+            text-align: left;
+            border-radius: 8px;
+            margin-bottom: 2px;
+            background: transparent;
+            border: none;
+            text-transform: none;
+        }
+
+        .dropdown-content a:hover { 
+            background: rgba(0, 242, 255, 0.1); 
+            color: #00f2ff; 
+            padding-left: 20px;
+        }
+
+        .nested-dropdown { 
+            position: relative; 
+            width: 100%; 
+            padding-right: 15px; 
+            margin-right: -15px;
+        }
+
+        .nested-content { 
+            visibility: hidden;
+            opacity: 0;
+            display: block;
+            position: absolute; 
+            left: 100%; 
+            top: -10px; 
+            background-color: #1a1a20; 
+            min-width: 230px; 
+            border-radius: 12px; 
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            box-shadow: 10px 10px 30px rgba(0,0,0,0.7); 
+            padding: 10px;
+            transition: all 0.3s ease;
+            transform: translateX(10px);
+        }
+        
+        .nested-dropdown:hover > .nested-content { 
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .nested-parent::after {
+            content: " »";
+            opacity: 0.5;
+        }
+
+         
+        .app-display { width: 100%; margin-top: 20px; }
+
+         
+        .tof-card {
+            background: rgba(22, 22, 26, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 242, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            transition: transform 0.3s ease, border 0.3s ease;
+        }
+        .tof-card:hover {
+            transform: translateY(-5px);
+            border: 1px solid rgba(0, 242, 255, 0.4);
+        }
+
+        @keyframes pulse-cyan {
+            0% { box-shadow: 0 0 5px rgba(0, 242, 255, 0.2); }
+            50% { box-shadow: 0 0 15px rgba(0, 242, 255, 0.5); }
+            100% { box-shadow: 0 0 5px rgba(0, 242, 255, 0.2); }
+        }
+        .header-logo { animation: pulse-cyan 4s infinite ease-in-out; }
+
+         
+        .custom-footer-tofarmer { 
+            text-align: center; 
+            margin-top: 50px; 
+            padding: 20px; 
+            font-family: monospace; 
+            font-size: 12px; 
+            color: #8affff; 
+            opacity: 0.7; 
+        }
+
+         
+        @media screen and (max-width: 850px) {
+            header h1 { font-size: 1.6rem; }
+            nav { gap: 10px; padding: 10px; }
+            .dropdown-content { position: static; transform: none; width: 100%; opacity: 1; visibility: visible; display: none; }
+            .dropdown.active .dropdown-content { display: block; }
+            .nested-content { position: static; transform: none; visibility: visible; opacity: 1; display: none; background: rgba(0,0,0,0.2); }
+            .nested-dropdown:hover .nested-content { display: block; }
+        }
+
+         
+        .wa-float { position: fixed; width: 60px; height: 60px; bottom: 20px; right: 20px; background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center; font-size: 30px; box-shadow: 0 0 15px rgba(0,0,0,0.3); z-index: 1000; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; animation: pulse-wa 2s infinite; }
+        @keyframes pulse-wa { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="./" class="header-brand">
+               <img src="./images/logo-tofarmer.png" alt="Logo ToFarmer" class="header-logo">
+               <h1>ToFarmer</h1>
+            </a>
+        </header>
+
+       <nav>
+    <a href='./' class="nav-simple-btn">🏠 TITIK KUMPUL</a>
+    <a href='./fitur/' class="nav-simple-btn" style="border-color: #ff00ff; color: #ff00ff;">🛠️ FITUR & ILMU</a>
+</nav>
+
 <style>
-    /* LAYOUT UTAMA */
+     
+    .nav-simple-btn {
+        text-decoration: none;
+        color: #00f2ff;
+        font-size: 0.8rem;
+        font-weight: bold;
+        background: rgba(0, 242, 255, 0.05);
+        border: 1px solid rgba(0, 242, 255, 0.3);
+        padding: 12px 25px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        letter-spacing: 1px;
+    }
+
+    .nav-simple-btn:hover {
+        background: rgba(0, 242, 255, 0.2);
+        box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+        transform: translateY(-2px);
+    }
+</style>
+
+        <div class="app-display">
+            <style>
+     
     .medsos-layout {
         display: grid;
         grid-template-columns: 300px 1fr 300px;
@@ -7,7 +263,7 @@
         align-items: start;
     }
 
-    /* Social Proof yang lebih ramping dan ramah (Adaptif untuk HP) */
+     
     .social-lite-bar {
         display: flex;
         justify-content: space-between;
@@ -22,17 +278,17 @@
         overflow: hidden;
     }
 
-    /* KONTEN FOTO BERTUMPUK DENGAN FITUR GULIR MANUAL INFINITY */
+     
     #grower-photos {
         display: flex;
         align-items: center;
-        gap: -12px; /* Efek tumpukan standar */
-        overflow-x: auto; /* Memungkinkan gulir horizontal manual */
+        gap: -12px;  
+        overflow-x: auto;  
         overflow-y: hidden;
         max-width: 400px; 
         padding: 10px 5px;
-        scrollbar-width: none; /* Sembunyikan scrollbar Firefox */
-        -ms-overflow-style: none; /* Sembunyikan scrollbar IE/Edge */
+        scrollbar-width: none;  
+        -ms-overflow-style: none;  
         cursor: grab;
         scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch;
@@ -40,7 +296,7 @@
     }
 
     #grower-photos::-webkit-scrollbar {
-        display: none; /* Sembunyikan scrollbar Chrome/Safari */
+        display: none;  
     }
 
     #grower-photos:active {
@@ -56,7 +312,7 @@
         object-fit: cover;
         transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         cursor: pointer;
-        flex-shrink: 0; /* Mencegah foto gepeng */
+        flex-shrink: 0;  
         margin-left: -12px;
     }
 
@@ -68,10 +324,10 @@
         transform: scale(1.4) translateY(-5px);
         z-index: 999 !important;
         box-shadow: 0 5px 15px rgba(0, 242, 255, 0.4);
-        margin-right: 12px; /* Memberi ruang agar tidak tertutup tumpukan sebelah kanan */
+        margin-right: 12px;  
     }
 
-    /* STYLE KHUSUS UNTUK ELITE */
+     
     .avatar-elite {
         width: 42px !important;   
         height: 42px !important;
@@ -84,7 +340,7 @@
         box-shadow: 0 5px 20px rgba(255, 0, 255, 0.8);
     }
 
-    /* INDIKATOR EKONOMI TOFARMER */
+     
     .economy-bar {
         background: linear-gradient(90deg, rgba(255, 0, 255, 0.05), rgba(0, 242, 255, 0.05));
         border: 1px solid rgba(255, 255, 255, 0.05);
@@ -100,7 +356,7 @@
     .econ-value { font-size: 1.1rem; color: #fff; font-weight: bold; font-family: monospace; }
     .econ-symbol { color: #00f2ff; font-size: 0.7rem; margin-left: 5px; }
 
-    /* Kolom Tengah: Feed */
+     
     .feed-container {
         display: flex;
         flex-direction: column;
@@ -162,12 +418,12 @@
 
     .btn-interact:hover { color: #00f2ff; }
 
-/* INPUT & BUTTON STYLING (DIJAMIN LEGA DI HP) */
+ 
 .tof-input, 
 #login-form button, 
 #user-dashboard button,
 #btn-connect {
-    width: 100% !important;   /* Perbaikan: Gunakan 100% agar pas di layar HP */
+    width: 100% !important;    
     display: block !important; 
     box-sizing: border-box;   
     padding: 14px 12px;        
@@ -189,7 +445,7 @@
     box-shadow: 0 0 8px rgba(0, 242, 255, 0.2);
 }
 
-/* Perbaikan area teks link di bawah agar tidak mepet */
+ 
 .login-footer-links {
     display: flex;
     justify-content: space-between;
@@ -208,7 +464,7 @@
 
     .login-footer-links a:hover { color: #00f2ff; }
 
-    /* RESPONSIVE STRATEGY */
+     
     .side-widget {
         margin-bottom: 25px;
         width: 100%;
@@ -225,17 +481,17 @@
         
         .side-widget {
             max-width: 100%;
-            order: 2; /* Default urutan widget di bawah feed */
+            order: 2;  
         }
 
-        /* AKses Warga jadi paling bontot di HP */
+         
         #user-profile-card-container {
             order: 10 !important;
         }
 
         .feed-container { 
             width: 100%;
-            order: 1; /* Feed tampil paling atas di HP */
+            order: 1;  
             margin-top: 15px; 
         }
 
@@ -262,7 +518,7 @@
 
         .dropdown:hover > .dropdown-content { display: block !important; }
         
-        /* FIX HP: Foto di atas, teks statistik di bawah agar tidak tumpang tindih */
+         
         .social-lite-bar { 
             flex-direction: column; 
             gap: 10px; 
@@ -287,7 +543,7 @@
     <div id="grower-photos">
         </div>
     <div class="stat-badge-container">
-        <a href="{{ "" | relURL }}" style="text-decoration: none; color: #00f2ff; font-weight: 600; letter-spacing: 0.5px; white-space: nowrap;">
+        <a href="./" style="text-decoration: none; color: #00f2ff; font-weight: 600; letter-spacing: 0.5px; white-space: nowrap;">
             📡 <span>Ekosistem: <b id="count-growers">0</b> Growers + <b id="count-elite" style="color:#ff00ff;">0</b> Elite</span> 
         </a>
     </div>
@@ -310,8 +566,8 @@
                 <button onclick="prosesLogin()" style="background: #00f2ff; color: #000; border: none; font-weight: bold; cursor: pointer; font-size: 0.7rem;">MASUK SISTEM</button>
                 
                 <div class="login-footer-links">
-                    <a href="{{ "daftar/" | relURL }}">DAFTAR BARU</a>
-                    <a href="{{ "lupa-password/" | relURL }}">LUPA PASSWORD?</a>
+                    <a href="./daftar/">DAFTAR BARU</a>
+                    <a href="./lupa-password/">LUPA PASSWORD?</a>
                 </div>
             </div>
 
@@ -367,7 +623,7 @@
 
         <div class="post-card">
             <div class="post-header">
-                <a href="{{ "profil?user=Cyber_Farmer" | relURL }}" class="user-id">@Cyber_Farmer</a>
+                <a href="./profil?user=Cyber_Farmer" class="user-id">@Cyber_Farmer</a>
                 <span class="post-time">10 Menit Lalu</span>
             </div>
             <p class="post-text">Pipa pengiriman GitHub sudah terpasang. Sekarang ekosistem ToFarmer punya "Brankas" kode yang aman di Linux Lite. Siap untuk fase Algorand!</p>
@@ -379,7 +635,7 @@
 
         <div class="post-card" style="border-left-color: #00f2ff;">
             <div class="post-header">
-                <a href="{{ "profil?user=Quantum_Grow" | relURL }}" class="user-id">@Quantum_Grow</a>
+                <a href="./profil?user=Quantum_Grow" class="user-id">@Quantum_Grow</a>
                 <span class="post-time">2 Jam Lalu</span>
             </div>
             <p class="post-text">Baru saja selesai memindahkan bibit ubi dari hot bed ke Blok 2. Struktur tanah terlihat sangat subur setelah rotasi kompos kemarin.</p>
@@ -405,18 +661,57 @@
         <div class="tof-card" style="background: linear-gradient(135deg, rgba(255,0,255,0.05), transparent); max-height: 450px; overflow-y: auto; scrollbar-width: none;">
             <h4 style="font-size: 0.7rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 15px; position: sticky; top: 0; background: #1c1c21; padding-bottom: 5px; z-index: 5;">MADING EKOSISTEM</h4>
             
-            {{ range .Site.Data.mading }}
-            <div style="margin-bottom: 15px; border-bottom: 1px solid rgba(255, 0, 255, 0.1); padding-bottom: 12px;">
-                <b style="color: #00f2ff; font-size: 0.85rem; display: block; margin-bottom: 4px;">{{ .judul }}</b>
-                <span style="color: #555; font-size: 0.65rem; display: block; margin-bottom: 8px; font-family: monospace;">📅 {{ .tanggal }}</span>
-                <p style="font-size: 0.8rem; color: #d1d1d1; line-height: 1.4; margin: 0; white-space: pre-wrap;">{{ .isi }}</p>
-            </div>
-            {{ else }}
+            
             <p style="font-size: 0.8rem; color: #666; text-align: center;">Belum ada arsip mading.</p>
-            {{ end }}
+            
         </div>
     </div>
 </div>
 
 <script src="https://unpkg.com/@perawallet/connect@1.3.3/dist/index.js"></script>
-<script src="{{ "js/app-logic.js" | relURL }}"></script>
+<script src="./js/app-logic.js"></script>
+        </div>
+
+        <div class="custom-footer-tofarmer">
+            ToFarmer &middot; Bertumbuh dari praktik.
+        </div>
+    </div>
+
+    <a class="wa-float" href="https://wa.me/6285228028131?text=Halo%20ToFarmer" target="_blank">
+        <svg fill="white" height="35" viewBox="0 0 24 24" width="35">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217s.231.001.332.005c.109.004.258-.041.404.314l.542 1.312c.058.14.096.303.003.488l-.204.412c-.09.181-.191.314-.041.573.15.259.664 1.098 1.423 1.774.978.871 1.802 1.14 2.062 1.269.26.13.412.108.563-.065.151-.173.65-.759.824-1.019.173-.259.346-.217.585-.129l1.458.688c.239.115.398.193.456.29.058.097.058.561-.086.965z"/>
+        </svg>
+    </a>
+
+    <script>
+        
+        function toggleMenu(event, btn) {
+            event.stopPropagation(); 
+            const parent = btn.parentElement;
+            
+            
+            const isOpen = parent.classList.contains('active');
+
+            
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+
+            
+            
+            if (!isOpen) {
+                parent.classList.add('active');
+            }
+        }
+
+        
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                document.querySelectorAll('.dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        }
+    </script>
+</body>
+</html>

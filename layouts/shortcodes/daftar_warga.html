@@ -1,0 +1,30 @@
+<div class="member-grid">
+    {{ range $username, $data := .Site.Data.users }}
+    {{ $isElite := gt $data.xp 10000 }}
+    <div class="member-card {{ if $isElite }}card-elite{{ else }}card-grower{{ end }}">
+        <div class="power-glow"></div>
+        <div>
+            <div class="pic-wrapper">
+                <img class="member-pic" src="{{ $data.img }}" alt="{{ $username }}" onerror="this.src='https://via.placeholder.com/150/0d0d0f/00f2ff?text=GROWER'"/>
+            </div>
+            <div class="role-badge">
+                {{ if $isElite }}MASTERMIND ELITE{{ else }}GROWER UNIT{{ end }}
+            </div>
+            <h3 style="margin: 0; color: #fff; letter-spacing: 1px; font-size: 1.2rem; text-transform: uppercase;">{{ $username }}</h3>
+            <p class="bio-text">"{{ $data.desc }}"</p>
+        </div>
+        <div>
+            <div class="stats-box">
+                <div style="text-align: left;"><span class="stat-label">Power</span><span class="stat-val" style="color:#00f2ff;">{{ $data.power }}%</span></div>
+                <div style="text-align: right;"><span class="stat-label">Asset Build</span><span class="stat-val" style="color:#ff00ff;">{{ $data.tof }}</span></div>
+            </div>
+            <div style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 12px; margin-bottom: 12px;">
+                <span class="stat-label">EXP POINTS</span>
+                <span class="stat-val">{{ lang.NumFmt 0 $data.xp }}</span>
+            </div>
+            <a href='{{ print "profil?user=" $username | relURL }}' class="btn-view">Access Wall</a>
+            <div class="last-seen">Synced: {{ $data.last_seen }}</div>
+        </div>
+    </div>
+    {{ end }}
+</div>
