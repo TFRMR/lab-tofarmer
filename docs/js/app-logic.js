@@ -113,14 +113,17 @@ async function eksekusiLoginWallet() {
             return;
         }
 
-        currentWalletAddress = mockAddress.trim();
+        // Amankan input: bersihkan spasi gaib dan paksa jadi huruf kecil semua
+        currentWalletAddress = mockAddress.trim().toLowerCase();
         
         // Robot menyisir database users.json mencari wallet_address yang cocok
         const daftarUsername = Object.keys(databaseWarga);
         let userDitemukan = null;
 
         for (let username of daftarUsername) {
-            if (databaseWarga[username].wallet_address === currentWalletAddress) {
+            let dbAddress = databaseWarga[username].wallet_address;
+            // Evaluasi pengunci: samakan ke huruf kecil dan buang spasi agar lolos verifikasi adil
+            if (dbAddress && dbAddress.trim().toLowerCase() === currentWalletAddress) {
                 userDitemukan = username;
                 break;
             }
@@ -130,7 +133,8 @@ async function eksekusiLoginWallet() {
             // KONDISI 1: DOMPET TERDAFTAR -> LANGSUNG LOGIN
             const dataUser = databaseWarga[userDitemukan];
             
-            localStorage.setItem('tof_session_wallet', currentWalletAddress);
+            // Simpan karakter asli inputan dompet ke session browser
+            localStorage.setItem('tof_session_wallet', mockAddress.trim());
 
             document.getElementById('login-form').style.display = 'none';
             document.getElementById('user-dashboard').style.display = 'block';
@@ -196,7 +200,7 @@ function eksekusiDaftarWargaBaru() {
 
     console.log("=== SALIN DATA INI KE FILE USERS.JSON LAPTOP ===");
     console.log(`"${inputUsername}": ${JSON.stringify(dataWargaBaru, null, 4)}`);
-    alert("Registrasi tercatat di console browser! Silahkan salin strukturnya ke berkas users.json Mas.");
+    alert("Registrasi catatan sukses! Silahkan buka console browser.");
 
     localStorage.setItem('tof_session_wallet', currentWalletAddress);
     location.reload();
@@ -208,11 +212,15 @@ function eksekusiDaftarWargaBaru() {
 function checkLoginSession() {
     const savedWallet = localStorage.getItem('tof_session_wallet');
     if (savedWallet && Object.keys(databaseWarga).length > 0) {
-        currentWalletAddress = savedWallet;
+        // Amankan proses auto-login dengan penyeragaman huruf kecil & pembersihan spasi
+        let searchWallet = savedWallet.trim().toLowerCase();
         const daftarUsername = Object.keys(databaseWarga);
+        let sessionDitemukan = false;
         
         for (let username of daftarUsername) {
-            if (databaseWarga[username].wallet_address === currentWalletAddress) {
+            let dbAddress = databaseWarga[username].wallet_address;
+            if (dbAddress && dbAddress.trim().toLowerCase() === searchWallet) {
+                currentWalletAddress = savedWallet.trim();
                 const dataUser = databaseWarga[username];
 
                 document.getElementById('login-form').style.display = 'none';
@@ -232,8 +240,13 @@ function checkLoginSession() {
                 document.getElementById('btn-post').disabled = false;
                 document.getElementById('main-post-area').disabled = false;
                 document.getElementById('post-status-msg').innerText = "Status: Online via Wallet";
+                sessionDitemukan = true;
                 break;
             }
+        }
+        
+        if (!sessionDitemukan) {
+            localStorage.removeItem('tof_session_wallet');
         }
     }
 }
