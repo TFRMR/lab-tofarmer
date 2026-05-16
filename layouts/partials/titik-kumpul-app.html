@@ -402,9 +402,18 @@
             </div>
         </div>
 
-        <div class="tof-card" style="background: linear-gradient(135deg, rgba(255,0,255,0.05), transparent);">
-            <h4 style="font-size: 0.7rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 10px;">MADING EKOSISTEM</h4>
-            <p style="font-size: 0.8rem; color: #aaa; line-height: 1.4;">"Kita tidak sedang membangun sekadar web, kita sedang membangun peradaban ubi yang cerdas teknologi."</p>
+        <div class="tof-card" style="background: linear-gradient(135deg, rgba(255,0,255,0.05), transparent); max-height: 450px; overflow-y: auto; scrollbar-width: none;">
+            <h4 style="font-size: 0.7rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 15px; position: sticky; top: 0; background: #1c1c21; padding-bottom: 5px; z-index: 5;">MADING EKOSISTEM</h4>
+            
+            {{ range .Site.Data.mading }}
+            <div style="margin-bottom: 15px; border-bottom: 1px solid rgba(255, 0, 255, 0.1); padding-bottom: 12px;">
+                <b style="color: #00f2ff; font-size: 0.85rem; display: block; margin-bottom: 4px;">{{ .judul }}</b>
+                <span style="color: #555; font-size: 0.65rem; display: block; margin-bottom: 8px; font-family: monospace;">📅 {{ .tanggal }}</span>
+                <p style="font-size: 0.8rem; color: #d1d1d1; line-height: 1.4; margin: 0; white-space: pre-wrap;">{{ .isi }}</p>
+            </div>
+            {{ else }}
+            <p style="font-size: 0.8rem; color: #666; text-align: center;">Belum ada arsip mading.</p>
+            {{ end }}
         </div>
     </div>
 </div>
