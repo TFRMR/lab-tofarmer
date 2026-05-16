@@ -70,6 +70,27 @@ async function updateEkosistemStats() {
             document.getElementById('count-elite').innerText = totalElite;
         }
 
+        // 📊 PIPA WEB3 LIVE: HITUNG TOTAL ASET LANGSUNG DARI BRANKAS NODE ALGORAND ASLI
+        let kalkulasiTotalAset = 0;
+        
+        // Membaca saldo dari seluruh dompet warga secara paralel di internet
+        const semuaJanjiSaldo = daftarUsername.map(async (username) => {
+            const warga = databaseWarga[username];
+            if (warga.wallet_address && warga.wallet_address.trim() !== "") {
+                const saldoAsliWarga = await ambilSaldoTofBlockchain(warga.wallet_address);
+                kalkulasiTotalAset += saldoAsliWarga;
+            }
+        });
+        
+        // Tunggu hingga ketukan pintu ke server blockchain selesai semua
+        await Promise.all(semuaJanjiSaldo);
+
+        // Suntik langsung hasil akumulasi saldo riil ke elemen papan atas
+        const elemenTotalAsset = document.getElementById('total-asset');
+        if (elemenTotalAsset) {
+            elemenTotalAsset.innerHTML = `${kalkulasiTotalAset.toLocaleString('id-ID', {minimumFractionDigits: 2, maximumFractionDigits: 2})} <span class="econ-symbol">TOF</span>`;
+        }
+
         // LOGIKA DRAG-TO-SCROLL (Agar foto bisa digulir manual dengan klik & tarik)
         const slider = document.getElementById('grower-photos');
         if (slider) {
@@ -142,7 +163,10 @@ async function eksekusiLoginWallet() {
             document.getElementById('display-name').innerText = "@" + userDitemukan;
             document.getElementById('display-role').innerText = "LEVEL " + getTofLevel(dataUser.xp);
             document.getElementById('user-xp').innerText = dataUser.xp.toLocaleString();
-            document.getElementById('user-tof').innerText = "0 TOF"; // Saldo dinamis blockchain otomatis
+            
+            // Tarik saldo dompet individu secara live dari blockchain untuk dashboard
+            const saldoIndividu = await ambilSaldoTofBlockchain(mockAddress);
+            document.getElementById('user-tof').innerText = saldoIndividu.toLocaleString('id-ID') + " TOF";
             
             const userImg = document.getElementById('user-img');
             const profileIcon = document.getElementById('profile-icon');
@@ -229,7 +253,12 @@ function checkLoginSession() {
                 document.getElementById('display-name').innerText = "@" + username;
                 document.getElementById('display-role').innerText = "LEVEL " + getTofLevel(dataUser.xp);
                 document.getElementById('user-xp').innerText = dataUser.xp.toLocaleString();
-                document.getElementById('user-tof').innerText = "0 TOF"; // Saldo dinamis blockchain pasca sinkronisasi
+                
+                // Panggil robot pembaca untuk dashboard personal secara asinkronus
+                ambilSaldoTofBlockchain(savedWallet).then(saldo => {
+                    const elemTof = document.getElementById('user-tof');
+                    if (elemTof) elemTof.innerText = saldo.toLocaleString('id-ID') + " TOF";
+                });
                 
                 if (dataUser.img) {
                     document.getElementById('user-img').src = dataUser.img;
@@ -270,7 +299,7 @@ async function loadMadingEkosistem() {
         const madingCard = document.getElementById('kotak-mading-ekosistem');
 
         if (madingCard) {
-            madingCard.innerHTML = '<h4 style="font-size: 0.7rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 15px; position: sticky; top: 0; background: #1c1c21; padding-bottom: 5px; z-index: 5;">MADING EKOSISTEM</h4>';
+            madingCard.innerHTML = '<h4 style="font-size: 0.7rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 15px; position: sticky; top: -15px; background: #1c1c21; padding-top: 15px; padding-bottom: 8px; z-index: 5;">MADING EKOSISTEM</h4>';
             
             if (daftarMading.length === 0) {
                 madingCard.innerHTML += '<p style="font-size: 0.8rem; color: #666; text-align: center;">Belum ada arsip mading.</p>';
@@ -293,6 +322,41 @@ async function loadMadingEkosistem() {
         }
     } catch (error) {
         console.error("Gagal sinkronisasi data mading:", error);
+    }
+}
+
+/**
+ * 📡 ROBOT WEB3: KETUK PINTU NODE ALGORAND UNTUK AMBIL SALDO ASLI
+ * Jaminan Gratisan dari Jaringan Algonode Cloud Publik (Mainnet)
+ */
+async function ambilSaldoTofBlockchain(walletAddress) {
+    if (!walletAddress || walletAddress.trim() === "") return 0;
+    
+    // ID Unik Token TOF Mas Manto di Algorand
+    const ASSET_ID_TOF = "LEHLXDEBBCSFHEFBW7AKLBRUMW42T6EK7Z4D33J72UWWD7ZFANKA"; 
+    const NODE_URL = "https://mainnet-api.algonode.cloud"; 
+    
+    try {
+        const response = await fetch(`${NODE_URL}/v2/accounts/${walletAddress.trim()}`);
+        if (!response.ok) return 0;
+        
+        const accountInfo = await response.json();
+        
+        // Cari token TOF di dalam daftar aset yang dimiliki dompet tersebut
+        if (accountInfo['assets'] && accountInfo['assets'].length > 0) {
+            // Karena ID Token berbentuk string, kita konversi atau samakan tipe datanya saat penyisiran
+            const tokenTof = accountInfo['assets'].find(ast => String(ast['asset-id']) === String(ASSET_ID_TOF));
+            
+            if (tokenTof) {
+                // Mengambil nilai kuantitas token asli
+                let saldoMentah = tokenTof['amount'];
+                return saldoMentah; 
+            }
+        }
+        return 0;
+    } catch (error) {
+        console.error(`Gagal melacak saldo blockchain untuk ${walletAddress}:`, error);
+        return 0;
     }
 }
 
