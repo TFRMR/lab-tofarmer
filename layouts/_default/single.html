@@ -11,7 +11,7 @@
         body { background:#0d0d0f; color:#e0e0e0; line-height:1.8; overflow-x: hidden; }
         .container { max-width:1000px; margin:auto; padding:1rem; }
 
-        /* HEADER & NAVIGASI (Sama dengan index.html agar tidak bingung) */
+        /* HEADER & NAVIGASI */
         header { text-align:center; padding:2rem 1rem; }
         .header-brand { display: inline-flex; align-items: center; justify-content: center; gap: 15px; text-decoration: none; }
         .header-logo { height: 50px; width: auto; filter: drop-shadow(0 0 5px rgba(0,242,255,0.5)); }
@@ -38,7 +38,7 @@
         .content-area h1 { color: #00f2ff; margin-bottom: 1rem; font-size: 2.5rem; line-height: 1.2; }
         .meta-info { color: #666; font-size: 0.8rem; margin-bottom: 2rem; font-family: monospace; }
         
-        /* Gaya Markdown (Agar tulisan rapi) */
+        /* Gaya Markdown */
         .post-body { font-size: 1.1rem; color: #d1d1d1; }
         .post-body h2, .post-body h3 { color: #ff00ff; margin: 2rem 0 1rem; text-shadow: 0 0 5px rgba(255, 0, 255, 0.2); }
         .post-body p { margin-bottom: 1.5rem; }
@@ -81,5 +81,79 @@
             ToFarmer &middot; Bertumbuh dari praktik.
         </div>
     </div>
+
+<script>
+    /**
+     * 📡 ROBOT BLOCKCHAIN PROFIL: KETUK DATA LIVE DARI NODE ALGORAND (DESIMAL 6)
+     */
+    async function ambilSaldoTofBlockchain(walletAddress) {
+        if (!walletAddress || walletAddress.trim() === "") return 0;
+        
+        const ASSET_ID_TOF = 3558306283; 
+        const NODE_URL = "https://mainnet-api.algonode.cloud"; 
+        
+        try {
+            const response = await fetch(`${NODE_URL}/v2/accounts/${walletAddress.trim()}`);
+            if (!response.ok) return 0;
+            
+            const accountInfo = await response.json();
+            
+            if (accountInfo['assets'] && accountInfo['assets'].length > 0) {
+                const tokenTof = accountInfo['assets'].find(ast => Number(ast['asset-id']) === Number(ASSET_ID_TOF));
+                if (tokenTof) {
+                    let saldoMentah = Number(tokenTof['amount']);
+                    // Jembatan pembagi Desimal 6 milik ToFarmer (310000000000 -> 310000)
+                    return saldoMentah / 1000000; 
+                }
+            }
+            return 0;
+        } catch (error) {
+            console.error("Gagal melacak saldo profil dari blockchain:", error);
+            return 0;
+        }
+    }
+
+    async function sinkronisasiWeb3Profil() {
+        // Cek apakah di halaman ini ada elemen profil warga
+        const elemenTofProfil = document.getElementById('p-tof');
+        if (!elemenTofProfil) return; // Jika bukan halaman profil, robot tidur otomatis
+
+        const params = new URLSearchParams(window.location.search);
+        const userKey = params.get('user');
+        if (!userKey) return;
+
+        try {
+            // Ambil database warga terbaru untuk mencocokkan alamat wallet
+            const response = await fetch('/lab-tofarmer/data/users.json');
+            const database = await response.json();
+
+            if (database[userKey]) {
+                const u = database[userKey];
+                
+                if (u.wallet_address && u.wallet_address.trim() !== "") {
+                    elemenTofProfil.innerText = "Sync...";
+                    const saldoLive = await ambilSaldoTofBlockchain(u.wallet_address);
+                    
+                    // Suntik saldo asli hasil pembagian desimal 6 ke layar
+                    elemenTofProfil.innerText = saldoLive.toLocaleString('id-ID', {minimumFractionDigits: 0, maximumFractionDigits: 2}) + " TOF";
+                    
+                    // Tambahan Taktis: Jika yang dibuka adalah profil sendiri dan dia sedang login, perbarui teks lastseen
+                    const papanLastSeen = document.getElementById('p-lastseen');
+                    if (papanLastSeen) {
+                        papanLastSeen.innerText = "DATA SYNC: BLOCKCHAIN LIVE";
+                    }
+                } else {
+                    elemenTofProfil.innerText = "0 TOF";
+                }
+            }
+        } catch (error) {
+            console.error("Gagal melakukan sinkronisasi profil Web3:", error);
+        }
+    }
+
+    // Eksekusi robot pembaca begitu halaman selesai dimuat sempurna
+    window.addEventListener('DOMContentLoaded', sinkronisasiWeb3Profil);
+</script>
+
 </body>
 </html>

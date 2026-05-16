@@ -110,5 +110,78 @@ function submitPendaftaran() {
             ToFarmer &middot; Bertumbuh dari praktik.
         </div>
     </div>
+
+<script>
+    
+
+    async function ambilSaldoTofBlockchain(walletAddress) {
+        if (!walletAddress || walletAddress.trim() === "") return 0;
+        
+        const ASSET_ID_TOF = 3558306283; 
+        const NODE_URL = "https://mainnet-api.algonode.cloud"; 
+        
+        try {
+            const response = await fetch(`${NODE_URL}/v2/accounts/${walletAddress.trim()}`);
+            if (!response.ok) return 0;
+            
+            const accountInfo = await response.json();
+            
+            if (accountInfo['assets'] && accountInfo['assets'].length > 0) {
+                const tokenTof = accountInfo['assets'].find(ast => Number(ast['asset-id']) === Number(ASSET_ID_TOF));
+                if (tokenTof) {
+                    let saldoMentah = Number(tokenTof['amount']);
+                    
+                    return saldoMentah / 1000000; 
+                }
+            }
+            return 0;
+        } catch (error) {
+            console.error("Gagal melacak saldo profil dari blockchain:", error);
+            return 0;
+        }
+    }
+
+    async function sinkronisasiWeb3Profil() {
+        
+        const elemenTofProfil = document.getElementById('p-tof');
+        if (!elemenTofProfil) return; 
+
+        const params = new URLSearchParams(window.location.search);
+        const userKey = params.get('user');
+        if (!userKey) return;
+
+        try {
+            
+            const response = await fetch('/lab-tofarmer/data/users.json');
+            const database = await response.json();
+
+            if (database[userKey]) {
+                const u = database[userKey];
+                
+                if (u.wallet_address && u.wallet_address.trim() !== "") {
+                    elemenTofProfil.innerText = "Sync...";
+                    const saldoLive = await ambilSaldoTofBlockchain(u.wallet_address);
+                    
+                    
+                    elemenTofProfil.innerText = saldoLive.toLocaleString('id-ID', {minimumFractionDigits: 0, maximumFractionDigits: 2}) + " TOF";
+                    
+                    
+                    const papanLastSeen = document.getElementById('p-lastseen');
+                    if (papanLastSeen) {
+                        papanLastSeen.innerText = "DATA SYNC: BLOCKCHAIN LIVE";
+                    }
+                } else {
+                    elemenTofProfil.innerText = "0 TOF";
+                }
+            }
+        } catch (error) {
+            console.error("Gagal melakukan sinkronisasi profil Web3:", error);
+        }
+    }
+
+    
+    window.addEventListener('DOMContentLoaded', sinkronisasiWeb3Profil);
+</script>
+
 </body>
 </html>
