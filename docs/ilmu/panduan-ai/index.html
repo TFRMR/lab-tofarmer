@@ -336,7 +336,15 @@
 
         try {
             
-            const response = await fetch('/lab-tofarmer/data/users.json');
+            let jalurJson = '/lab-tofarmer/data/users.json';
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                jalurJson = '/data/users.json';
+            }
+
+            
+            const response = await fetch(jalurJson);
+            if (!response.ok) throw new Error('File JSON tidak ditemukan');
+            
             const database = await response.json();
 
             if (database[userKey]) {
