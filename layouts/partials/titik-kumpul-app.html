@@ -162,41 +162,41 @@
 
     .btn-interact:hover { color: #00f2ff; }
 
-/* INPUT & BUTTON STYLING (DIJAMIN LEGA DI HP) */
-.tof-input, 
-#login-form button, 
-#user-dashboard button,
-#btn-connect {
-    width: 100% !important;   /* Perbaikan: Gunakan 100% agar pas di layar HP */
-    display: block !important; 
-    box-sizing: border-box;   
-    padding: 14px 12px;        
-    margin-bottom: 15px;       
-    border-radius: 8px;
-    font-size: 1rem;          
-    outline: none;
-    border: 1px solid #333;
-    background: #0d0d0f;
-    color: #fff;
-}
+    /* INPUT & BUTTON STYLING (DIJAMIN LEGA DI HP) */
+    .tof-input, 
+    #login-form button, 
+    #user-dashboard button,
+    #btn-connect {
+        width: 100% !important;   /* Perbaikan: Gunakan 100% agar pas di layar HP */
+        display: block !important; 
+        box-sizing: border-box;   
+        padding: 14px 12px;        
+        margin-bottom: 15px;       
+        border-radius: 8px;
+        font-size: 1rem;          
+        outline: none;
+        border: 1px solid #333;
+        background: #0d0d0f;
+        color: #fff;
+    }
 
-.tof-input::placeholder {
-    color: #666;              
-}
+    .tof-input::placeholder {
+        color: #666;              
+    }
 
-.tof-input:focus { 
-    border-color: #00f2ff; 
-    box-shadow: 0 0 8px rgba(0, 242, 255, 0.2);
-}
+    .tof-input:focus { 
+        border-color: #00f2ff; 
+        box-shadow: 0 0 8px rgba(0, 242, 255, 0.2);
+    }
 
-/* Perbaikan area teks link di bawah agar tidak mepet */
-.login-footer-links {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 10px;
-    padding: 10px 5px;
-}
+    /* Perbaikan area teks link di bawah agar tidak mepet */
+    .login-footer-links {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 10px;
+        padding: 10px 5px;
+    }
 
     .login-footer-links a {
         font-size: 0.75rem;
@@ -228,7 +228,7 @@
             order: 2; /* Default urutan widget di bawah feed */
         }
 
-        /* AKses Warga jadi paling bontot di HP */
+        /* Akses Warga jadi paling bontot di HP */
         #user-profile-card-container {
             order: 10 !important;
         }
@@ -284,8 +284,7 @@
 </style>
 
 <div class="social-lite-bar">
-    <div id="grower-photos">
-        </div>
+    <div id="grower-photos"></div>
     <div class="stat-badge-container">
         <a href="{{ "" | relURL }}" style="text-decoration: none; color: #00f2ff; font-weight: 600; letter-spacing: 0.5px; white-space: nowrap;">
             📡 <span>Ekosistem: <b id="count-growers">0</b> Growers + <b id="count-elite" style="color:#ff00ff;">0</b> Elite</span> 
@@ -404,20 +403,8 @@
 
         <div id="kotak-mading-ekosistem" class="tof-card" style="background: linear-gradient(135deg, rgba(255,0,255,0.05), transparent); max-height: 450px; overflow-y: auto; scrollbar-width: none;">
             <h4 style="font-size: 0.7rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 15px; position: sticky; top: 0; background: #1c1c21; padding-bottom: 5px; z-index: 5;">MADING EKOSISTEM</h4>
-            
-            {{ range .Site.Data.mading }}
-            <div style="margin-bottom: 15px; border-bottom: 1px solid rgba(255, 0, 255, 0.1); padding-bottom: 12px;">
-                <b style="color: #00f2ff; font-size: 0.85rem; display: block; margin-bottom: 4px;">{{ .judul }}</b>
-                <span style="color: #555; font-size: 0.65rem; display: block; margin-bottom: 8px; font-family: monospace;">📅 {{ .tanggal }}</span>
-                <p style="font-size: 0.8rem; color: #d1d1d1; line-height: 1.4; margin: 0; white-space: pre-wrap;">{{ .isi }}</p>
-            </div>
-            {{ else }}
-            <p style="font-size: 0.8rem; color: #666; text-align: center;">Belum ada arsip mading.</p>
-            {{ end }}
         </div>
     </div>
 </div>
 
-<script src="{{ "js/app-logic.js" | relURL }}"></script>
-
-agar diabaikan dulu oleh browser -->
+<script src="{{ "js/app-logic.js?v=1.4" | relURL }}"></script>
