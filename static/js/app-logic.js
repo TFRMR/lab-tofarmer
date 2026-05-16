@@ -333,7 +333,7 @@ async function ambilSaldoTofBlockchain(walletAddress) {
     if (!walletAddress || walletAddress.trim() === "") return 0;
     
     // ID Unik Token TOF Mas Manto di Algorand
-    const ASSET_ID_TOF = "LEHLXDEBBCSFHEFBW7AKLBRUMW42T6EK7Z4D33J72UWWD7ZFANKA"; 
+    const ASSET_ID_TOF = "244950623"; 
     const NODE_URL = "https://mainnet-api.algonode.cloud"; 
     
     try {
@@ -344,12 +344,15 @@ async function ambilSaldoTofBlockchain(walletAddress) {
         
         // Cari token TOF di dalam daftar aset yang dimiliki dompet tersebut
         if (accountInfo['assets'] && accountInfo['assets'].length > 0) {
-            // Karena ID Token berbentuk string, kita konversi atau samakan tipe datanya saat penyisiran
-            const tokenTof = accountInfo['assets'].find(ast => String(ast['asset-id']) === String(ASSET_ID_TOF));
+            // Karena ID Token berbentuk string, kita konversi ke angka murni saat penyisiran agar akurat
+            const tokenTof = accountInfo['assets'].find(ast => Number(ast['asset-id']) === Number(ASSET_ID_TOF));
             
             if (tokenTof) {
                 // Mengambil nilai kuantitas token asli
-                let saldoMentah = tokenTof['amount'];
+                let saldoMentah = Number(tokenTof['amount']);
+                
+                // JEMBATAN DESIMAL: Jika saat bikin token TOF di Lute dibuat dengan desimal 0, 
+                // kirim langsung angkanya. Jika desimal 2, silakan ubah baris bawah menjadi: return saldoMentah / 100;
                 return saldoMentah; 
             }
         }
