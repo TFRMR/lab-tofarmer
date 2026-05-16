@@ -101,27 +101,44 @@ async function updateEkosistemStats() {
     }
 }
 
-// 2. Fungsi untuk menangani Login (Sekarang dengan LocalStorage agar Session awet)
-function prosesLogin(autoUser = null, autoPass = null) {
-    const inputUser = autoUser || document.getElementById('user').value.trim();
-    const inputPass = autoPass || document.getElementById('pass').value;
+// 2. Fungsi untuk menangani Login Web3 Wallet (Menggantikan sistem input password manual lama)
+let currentWalletAddress = null;
 
-    if (databaseWarga[inputUser]) {
-        const dataUser = databaseWarga[inputUser];
+async function eksekusiLoginWallet() {
+    try {
+        let mockAddress = prompt("MANTRA WEB3 TOFARMER:\nMasukkan Alamat Wallet Address Algorand Anda untuk Akses Node:");
+        
+        if (!mockAddress || mockAddress.trim() === "") {
+            alert("Koneksi dompet dibatalkan, Mas Manto!");
+            return;
+        }
 
-        if (inputPass === dataUser.password) {
-            // Simpan Session agar tidak logout saat pindah halaman
-            localStorage.setItem('tof_session_user', inputUser);
-            localStorage.setItem('tof_session_pass', inputPass);
+        currentWalletAddress = mockAddress.trim();
+        
+        // Robot menyisir database users.json mencari wallet_address yang cocok
+        const daftarUsername = Object.keys(databaseWarga);
+        let userDitemukan = null;
+
+        for (let username of daftarUsername) {
+            if (databaseWarga[username].wallet_address === currentWalletAddress) {
+                userDitemukan = username;
+                break;
+            }
+        }
+
+        if (userDitemukan) {
+            // KONDISI 1: DOMPET TERDAFTAR -> LANGSUNG LOGIN
+            const dataUser = databaseWarga[userDitemukan];
+            
+            localStorage.setItem('tof_session_wallet', currentWalletAddress);
 
             document.getElementById('login-form').style.display = 'none';
             document.getElementById('user-dashboard').style.display = 'block';
             
-            // UPDATE DASHBOARD (PRIVASI: Nama asli disembunyikan, tampilkan Username)
-            document.getElementById('display-name').innerText = "@" + inputUser;
+            document.getElementById('display-name').innerText = "@" + userDitemukan;
             document.getElementById('display-role').innerText = "LEVEL " + getTofLevel(dataUser.xp);
             document.getElementById('user-xp').innerText = dataUser.xp.toLocaleString();
-            document.getElementById('user-tof').innerText = dataUser.tof.toLocaleString() + " TOF";
+            document.getElementById('user-tof').innerText = "0 TOF"; // Saldo dinamis blockchain otomatis
             
             const userImg = document.getElementById('user-img');
             const profileIcon = document.getElementById('profile-icon');
@@ -133,33 +150,97 @@ function prosesLogin(autoUser = null, autoPass = null) {
             
             document.getElementById('btn-post').disabled = false;
             document.getElementById('main-post-area').disabled = false;
-            document.getElementById('post-status-msg').innerText = "Status: Online sebagai " + inputUser;
+            document.getElementById('post-status-msg').innerText = "Status: Terhubung via Dompet @" + userDitemukan;
 
-        } else if (!autoUser) {
-            alert("Password salah!");
+        } else {
+            // KONDISI 2: DOMPET BELUM TERDAFTAR -> BUKA FORM WARGA BARU AUTOMATIC
+            document.getElementById('slot-daftar-otomatis').style.display = 'block';
+            document.getElementById('btn-connect-wallet').innerText = "🔗 WALLET CONNECTED (BELUM TERVERIFIKASI)";
+            document.getElementById('btn-connect-wallet').style.background = "#222";
+            document.getElementById('btn-connect-wallet').style.color = "#666";
+            document.getElementById('btn-connect-wallet').disabled = true;
         }
-    } else if (!autoUser) {
-        alert("Username tidak terdaftar!");
+
+    } catch (error) {
+        console.error("Gagal memproses otentikasi dompet:", error);
     }
 }
 
 /**
- * Cek apakah user sudah login sebelumnya
+ * Logika Pendaftaran Slot Identitas Warga Baru
+ */
+function eksekusiDaftarWargaBaru() {
+    const inputUsername = document.getElementById('reg-username').value.trim().toUpperCase();
+    const inputNamaAsli = document.getElementById('reg-nama-asli').value.trim();
+
+    if (!inputUsername || !inputNamaAsli) {
+        alert("Username Samaran dan Nama Asli tidak boleh kosong, Mas Manto!");
+        return;
+    }
+
+    if (databaseWarga[inputUsername]) {
+        alert("Username sudah dikunci oleh warga lain! Silahkan cari nama samaran lain.");
+        return;
+    }
+
+    const dataWargaBaru = {
+        "real_name": inputNamaAsli,
+        "wallet_address": currentWalletAddress,
+        "xp": 100,
+        "power": 50.00,
+        "last_seen": new Date().toISOString().replace('T', ' ').substring(0, 19),
+        "img": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh06rcvsBU6UxuqhKN0f8vVmqlkBTuiZknd6v15tvECk34hoPpAQbzfLAYYbmedMmTKtQfTrHCvVa8WwU7COPDQ3LP93575pdzdQFQmCFKqR5w7WcO6usJ-OQf7UhwETdp3ZpY8AOC10GZN5aAS9OMdeVZl00FbddJ0QRkR6OVIScCYQn2CPERz5h3qMK8/s320/WhatsApp%20Image%202026-05-14%20at%2023.14.49.jpeg",
+        "desc": "Baru bergabung di ekosistem ToFarmer.",
+        "last_note": "Web3 Self-Registered"
+    };
+
+    console.log("=== SALIN DATA INI KE FILE USERS.JSON LAPTOP ===");
+    console.log(`"${inputUsername}": ${JSON.stringify(dataWargaBaru, null, 4)}`);
+    alert("Registrasi tercatat di console browser! Silahkan salin strukturnya ke berkas users.json Mas.");
+
+    localStorage.setItem('tof_session_wallet', currentWalletAddress);
+    location.reload();
+}
+
+/**
+ * Cek apakah user sudah login sebelumnya (Berbasis Session Wallet)
  */
 function checkLoginSession() {
-    const savedUser = localStorage.getItem('tof_session_user');
-    const savedPass = localStorage.getItem('tof_session_pass');
-    if (savedUser && savedPass) {
-        prosesLogin(savedUser, savedPass);
+    const savedWallet = localStorage.getItem('tof_session_wallet');
+    if (savedWallet && Object.keys(databaseWarga).length > 0) {
+        currentWalletAddress = savedWallet;
+        const daftarUsername = Object.keys(databaseWarga);
+        
+        for (let username of daftarUsername) {
+            if (databaseWarga[username].wallet_address === currentWalletAddress) {
+                const dataUser = databaseWarga[username];
+
+                document.getElementById('login-form').style.display = 'none';
+                document.getElementById('user-dashboard').style.display = 'block';
+                
+                document.getElementById('display-name').innerText = "@" + username;
+                document.getElementById('display-role').innerText = "LEVEL " + getTofLevel(dataUser.xp);
+                document.getElementById('user-xp').innerText = dataUser.xp.toLocaleString();
+                document.getElementById('user-tof').innerText = "0 TOF"; // Saldo dinamis blockchain pasca sinkronisasi
+                
+                if (dataUser.img) {
+                    document.getElementById('user-img').src = dataUser.img;
+                    document.getElementById('user-img').style.display = 'block';
+                    document.getElementById('profile-icon').style.display = 'none';
+                }
+                
+                document.getElementById('btn-post').disabled = false;
+                document.getElementById('main-post-area').disabled = false;
+                document.getElementById('post-status-msg').innerText = "Status: Online via Wallet";
+                break;
+            }
+        }
     }
 }
 
-// 3. Fungsi untuk Logout (Hapus Session)
+// 3. Fungsi untuk Logout (Hapus Session Wallet)
 function logout() {
-    localStorage.removeItem('tof_session_user');
-    localStorage.removeItem('tof_session_pass');
-    
-    // Refresh halaman untuk membersihkan state
+    localStorage.removeItem('tof_session_wallet');
     location.reload();
 }
 
@@ -176,7 +257,6 @@ async function loadMadingEkosistem() {
         const madingCard = document.getElementById('kotak-mading-ekosistem');
 
         if (madingCard) {
-            // Bersihkan teks default lama, pertahankan H4 judul neon berdiri tegak
             madingCard.innerHTML = '<h4 style="font-size: 0.7rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 15px; position: sticky; top: 0; background: #1c1c21; padding-bottom: 5px; z-index: 5;">MADING EKOSISTEM</h4>';
             
             if (daftarMading.length === 0) {
@@ -184,7 +264,6 @@ async function loadMadingEkosistem() {
                 return;
             }
 
-            // Loop untuk mengalirkan teks "Maklumat Fase 1: Nabung Receh" milik Mas
             daftarMading.forEach(artikel => {
                 const artikelBox = document.createElement('div');
                 artikelBox.style.marginBottom = "15px";
@@ -207,5 +286,5 @@ async function loadMadingEkosistem() {
 // JALANKAN FUNGSI OTOMATIS SAAT WEB DIBUKA
 document.addEventListener('DOMContentLoaded', () => {
     updateEkosistemStats();
-    loadMadingEkosistem(); // <-- Robot mading resmi dihidupkan di barisan antrean!
+    loadMadingEkosistem();
 });
