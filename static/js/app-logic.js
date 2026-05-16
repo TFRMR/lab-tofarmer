@@ -328,12 +328,15 @@ async function loadMadingEkosistem() {
 /**
  * 📡 ROBOT WEB3: KETUK PINTU NODE ALGORAND UNTUK AMBIL SALDO ASLI
  * Jaminan Gratisan dari Jaringan Algonode Cloud Publik (Mainnet)
+/**
+ * 📡 ROBOT WEB3: KETUK PINTU NODE ALGORAND UNTUK AMBIL SALDO ASLI
+ * Jaminan Gratisan dari Jaringan Algonode Cloud Publik (Mainnet)
  */
 async function ambilSaldoTofBlockchain(walletAddress) {
     if (!walletAddress || walletAddress.trim() === "") return 0;
     
-    // ID Unik Token TOF Mas Manto di Algorand
-    const ASSET_ID_TOF = 244950623; 
+    // 🎯 ID TOKEN ASLI: Menggunakan ASSET ID murni dari Penjelajah Allo Explorer Mas Manto
+    const ASSET_ID_TOF = 3558306283; 
     const NODE_URL = "https://mainnet-api.algonode.cloud"; 
     
     try {
@@ -344,16 +347,15 @@ async function ambilSaldoTofBlockchain(walletAddress) {
         
         // Cari token TOF di dalam daftar aset yang dimiliki dompet tersebut
         if (accountInfo['assets'] && accountInfo['assets'].length > 0) {
-            // Karena ID Token berbentuk string, kita konversi ke angka murni saat penyisiran agar akurat
+            // Sinkronisasi tipe data ID secara berlapis menggunakan Number()
             const tokenTof = accountInfo['assets'].find(ast => Number(ast['asset-id']) === Number(ASSET_ID_TOF));
             
             if (tokenTof) {
-                // Mengambil nilai kuantitas token asli
                 let saldoMentah = Number(tokenTof['amount']);
                 
-                // JEMBATAN DESIMAL: Jika saat bikin token TOF di Lute dibuat dengan desimal 0, 
-                // kirim langsung angkanya. Jika desimal 2, silakan ubah baris bawah menjadi: return saldoMentah / 100;
-                return saldoMentah; 
+                // 🧮 JEMBATAN DESIMAL 6: Karena di Allo Explorer tertera DECIMALS = 6,
+                // kita wajib membagi saldo mentah dengan 1.000.000 agar tampil presisi (ex: 310.000 TOF)
+                return saldoMentah / 1000000; 
             }
         }
         return 0;
