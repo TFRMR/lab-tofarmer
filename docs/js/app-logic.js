@@ -163,59 +163,7 @@ function logout() {
     location.reload();
 }
 
-// Fungsi baru untuk mengambil data mading dan menyuntikkannya ke HTML
-async function loadMadingEkosistem() {
-    try {
-        // Fetch ke laci static data web Anda
-        const response = await fetch('/data/mading.json');
-        if (!response.ok) return; // Jika belum ada data, biarkan bawaan HTML cetak kosong
-
-        const daftarMading = await response.json();
-        
-        // Cari komponen widget mading Anda di layout kanan bawah
-        // Kita lacak berdasarkan teks h4 MADING EKOSISTEM
-        const h4Elements = document.getElementsByTagName('h4');
-        let madingCard = null;
-
-        for (let h4 of h4Elements) {
-            if (h4.innerText.trim() === "MADING EKOSISTEM") {
-                madingCard = h4.parentElement;
-                break;
-            }
-        }
-
-        // Jika komponen kotak ungu ditemukan, kita bersihkan teks statis lamanya, lalu suntik data baru
-        if (madingCard) {
-            // Pertahankan judul H4 neonnya, bersihkan paragraf statis di bawahnya
-            madingCard.innerHTML = '<h4 style="font-size: 0.7rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 15px; position: sticky; top: 0; background: #1c1c21; padding-bottom: 5px; z-index: 5;">MADING EKOSISTEM</h4>';
-            
-            if (daftarMading.length === 0) {
-                madingCard.innerHTML += '<p style="font-size: 0.8rem; color: #666; text-align: center;">Belum ada arsip mading.</p>';
-                return;
-            }
-
-            // Loop untuk mencetak artikel mading, yang terbaru otomatis di atas
-            daftarMading.forEach(artikel => {
-                const artikelBox = document.createElement('div');
-                artikelBox.style.marginBottom = "15px";
-                artikelBox.style.borderBottom = "1px solid rgba(255, 0, 255, 0.1)";
-                artikelBox.style.paddingBottom = "12px";
-
-                artikelBox.innerHTML = `
-                    <b style="color: #00f2ff; font-size: 0.85rem; display: block; margin-bottom: 4px;">${artikel.judul}</b>
-                    <span style="color: #555; font-size: 0.65rem; display: block; margin-bottom: 8px; font-family: monospace;">📅 ${artikel.tanggal}</span>
-                    <p style="font-size: 0.8rem; color: #d1d1d1; line-height: 1.4; margin: 0; white-space: pre-wrap;">${artikel.isi}</p>
-                `;
-                madingCard.appendChild(artikelBox);
-            });
-        }
-    } catch (error) {
-        console.error("Gagal memuat widget mading:", error);
-    }
-}
-
-// JALANKAN FUNGSI OTOMATIS SAAT WEB DIBUKA (Antrean Diperbarui)
+// JALANKAN FUNGSI OTOMATIS SAAT WEB DIBUKA
 document.addEventListener('DOMContentLoaded', () => {
     updateEkosistemStats();
-    loadMadingEkosistem(); // <-- Robot penjemput mading resmi diaktifkan di sini!
 });
