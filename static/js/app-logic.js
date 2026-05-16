@@ -333,7 +333,7 @@ async function ambilSaldoTofBlockchain(walletAddress) {
     if (!walletAddress || walletAddress.trim() === "") return 0;
     
     // ID Unik Token TOF Mas Manto di Algorand
-    const ASSET_ID_TOF = "244950623"; 
+    const ASSET_ID_TOF = 244950623; 
     const NODE_URL = "https://mainnet-api.algonode.cloud"; 
     
     try {
