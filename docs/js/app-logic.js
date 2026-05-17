@@ -38,7 +38,7 @@ function getTofLevel(xp) {
 // 1. Fungsi untuk sinkronisasi data dari JSON (Auto-Count, Leveling, & Avatar Stack)
 async function updateEkosistemStats() {
     try {
-        const response = await fetch('/lab-tofarmer/data/users.json');
+        const response = await fetch('/data/users.json');
         if (!response.ok) throw new Error('File JSON tidak ditemukan');
         
         databaseWarga = await response.json();
@@ -71,7 +71,7 @@ async function updateEkosistemStats() {
 
             img.style.cursor = "pointer";
             img.onclick = () => {
-                window.location.href = `/lab-tofarmer/profil/?user=${username}`;
+                window.location.href = `/profil/?user=${username}`;
             };
             
             if (photoContainer) photoContainer.appendChild(img);
@@ -347,7 +347,7 @@ async function eksekusiSuntikDatabaseGitHub(objDataPenuh, logCatatanCommit) {
 
 async function loadFeedTengah() {
     try {
-        let response = await fetch('/lab-tofarmer/data/feed.json');
+        let response = await fetch('/data/feed.json');
         if (!response.ok) {
             response = await fetch('/data/feed.json');
         }
