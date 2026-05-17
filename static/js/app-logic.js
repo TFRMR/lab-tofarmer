@@ -49,13 +49,11 @@ async function updateEkosistemStats() {
         const photoContainer = document.getElementById('grower-photos');
         if (photoContainer) photoContainer.innerHTML = "";
 
-        // Tampilkan SEMUA anggota tanpa batas index < 8
         daftarUsername.forEach((username) => {
             const warga = databaseWarga[username];
             const xp = warga.xp || 0;
             const level = getTofLevel(xp);
             
-            // Tentukan Title Kasta berdasarkan XP untuk Title Hover
             let rank = "GROWER";
             if (xp >= 33000) { rank = "ELITE"; totalElite++; }
             else if (xp >= 9000) rank = "SPECIALIST";
@@ -64,10 +62,8 @@ async function updateEkosistemStats() {
             const img = document.createElement('img');
             img.src = warga.img;
             
-            // PRIVASI: Hanya tampilkan Username dan Detail Kasta saat di-hover
             img.alt = username;
             img.title = `@${username} | ${rank} (Lv.${level})`; 
-            
             img.classList.add('mini-avatar');
             if (rank === "ELITE") {
                 img.classList.add('avatar-elite');
@@ -92,7 +88,6 @@ async function updateEkosistemStats() {
         // 📊 PIPA WEB3 LIVE: HITUNG TOTAL ASET LANGSUNG DARI BRANKAS NODE ALGORAND ASLI
         let kalkulasiTotalAset = 0;
         
-        // Membaca saldo dari seluruh dompet warga secara paralel di internet
         const semuaJanjiSaldo = daftarUsername.map(async (username) => {
             const warga = databaseWarga[username];
             if (warga.wallet_address && warga.wallet_address.trim() !== "") {
@@ -101,16 +96,54 @@ async function updateEkosistemStats() {
             }
         });
         
-        // Tunggu hingga ketukan pintu ke server blockchain selesai semua
         await Promise.all(semuaJanjiSaldo);
 
-        // Suntik langsung hasil akumulasi saldo riil ke elemen papan atas
         const elemenTotalAsset = document.getElementById('total-asset');
         if (elemenTotalAsset) {
             elemenTotalAsset.innerHTML = `${kalkulasiTotalAset.toLocaleString('id-ID', {minimumFractionDigits: 2, maximumFractionDigits: 2})} <span class="econ-symbol">TOF</span>`;
         }
 
-        // LOGIKA DRAG-TO-SCROLL (Agar foto bisa digulir manual dengan klik & tarik)
+        // 🎯 LOGIKA KALKULATOR TARGET FASE OTOMATIS (MANDAT MASTERMIND)
+        const labelJudulFase = document.getElementById('fase-title-label');
+        const barPersenFase = document.getElementById('fase-progress-bar');
+        const teksStatusFase = document.getElementById('fase-status-text');
+        const teksPersenFase = document.getElementById('fase-percent-text');
+
+        if (labelJudulFase && barPersenFase && teksStatusFase && teksPersenFase) {
+            let judulFase = "TARGET FASE 1";
+            let statusFase = "Asset Build (100K TOF)";
+            let persenFase = 0;
+            
+            if (kalkulasiTotalAset >= 3000000) {
+                judulFase = "TARGET FASE 5";
+                statusFase = "Fase Komunitas Mandiri (10 Juta TOF)";
+                persenFase = Math.min((kalkulasiTotalAset / 10000000) * 100, 100);
+            } else if (kalkulasiTotalAset >= 1000000) {
+                judulFase = "TARGET FASE 4";
+                statusFase = "Fase Ekspansi Lahan (3 Juta TOF)";
+                persenFase = Math.min((kalkulasiTotalAset / 3000000) * 100, 100);
+            } else if (kalkulasiTotalAset >= 500000) {
+                judulFase = "TARGET FASE 3";
+                statusFase = "Fase Sirkulasi Kompos (1 Juta TOF)";
+                persenFase = Math.min((kalkulasiTotalAset / 1000000) * 100, 100);
+            } else if (kalkulasiTotalAset >= 100000) {
+                // FASE 2 SEKARANG (OTW 500K TOF)
+                judulFase = "TARGET FASE 2";
+                statusFase = "Compounding Asset (500K TOF)";
+                persenFase = Math.min((kalkulasiTotalAset / 500000) * 100, 100);
+            } else {
+                judulFase = "TARGET FASE 1";
+                statusFase = "Asset Build (100K TOF)";
+                persenFase = Math.min((kalkulasiTotalAset / 100000) * 100, 100);
+            }
+
+            labelJudulFase.innerText = judulFase;
+            teksStatusFase.innerText = statusFase;
+            teksPersenFase.innerText = persenFase.toFixed(1) + "%";
+            barPersenFase.style.width = persenFase.toFixed(1) + "%";
+        }
+
+        // LOGIKA DRAG-TO-SCROLL
         const slider = document.getElementById('grower-photos');
         if (slider) {
             let isDown = false;
@@ -133,7 +166,6 @@ async function updateEkosistemStats() {
             });
         }
 
-        // Jalankan pengecekan session setelah data JSON termuat
         checkLoginSession();
         
     } catch (error) {
@@ -141,7 +173,7 @@ async function updateEkosistemStats() {
     }
 }
 
-// 2. Fungsi untuk menangani Login Web3 Wallet (Menggantikan sistem input password manual lama)
+// 2. Fungsi untuk menangani Login Web3 Wallet
 async function eksekusiLoginWallet() {
     try {
         let mockAddress = prompt("MANTRA WEB3 TOFARMER:\nMasukkan Alamat Wallet Address Algorand Anda untuk Akses Node:");
@@ -202,9 +234,6 @@ async function eksekusiLoginWallet() {
     }
 }
 
-/**
- * Logika Pendaftaran Slot Identitas Warga Baru
- */
 function eksekusiDaftarWargaBaru() {
     const inputUsername = document.getElementById('reg-username').value.trim().toUpperCase();
     const inputNamaAsli = document.getElementById('reg-nama-asli').value.trim();
@@ -238,9 +267,6 @@ function eksekusiDaftarWargaBaru() {
     location.reload();
 }
 
-/**
- * Cek apakah user sudah login sebelumnya (Berbasis Session Wallet)
- */
 function checkLoginSession() {
     const savedWallet = localStorage.getItem('tof_session_wallet');
     if (savedWallet && Object.keys(databaseWarga).length > 0) {
@@ -280,53 +306,9 @@ function checkLoginSession() {
     }
 }
 
-// 3. Fungsi untuk Logout
 function logout() {
     localStorage.removeItem('tof_session_wallet');
     location.reload();
-}
-
-// 4. Robot Penjemput Mading Dinamis (Komponen Kanan / Pinggir)
-async function loadMadingEkosistem() {
-    try {
-        let response = await fetch('/lab-tofarmer/data/mading.json');
-        if (!response.ok) {
-            response = await fetch('/data/mading.json');
-        }
-        
-        if (!response.ok) {
-            console.warn("⚠️ Berkas mading.json belum ada di lokal. Sistem mengabaikan dengan aman.");
-            return;
-        }
-
-        const daftarMading = await response.json();
-        const madingCard = document.getElementById('kotak-mading-ekosistem');
-
-        if (madingCard) {
-            madingCard.innerHTML = '<h4 style="font-size: 0.7rem; color: #ff00ff; letter-spacing: 1px; margin-bottom: 15px; position: sticky; top: -15px; background: #1c1c21; padding-top: 15px; padding-bottom: 8px; z-index: 5;">MADING EKOSISTEM</h4>';
-            
-            if (daftarMading.length === 0) {
-                madingCard.innerHTML += '<p style="font-size: 0.8rem; color: #666; text-align: center;">Belum ada arsip mading.</p>';
-                return;
-            }
-
-            daftarMading.forEach(artikel => {
-                const artikelBox = document.createElement('div');
-                artikelBox.style.marginBottom = "15px";
-                artikelBox.style.borderBottom = "1px solid rgba(255, 0, 255, 0.1)";
-                artikelBox.style.paddingBottom = "12px";
-
-                artikelBox.innerHTML = `
-                    <b style="color: #00f2ff; font-size: 0.85rem; display: block; margin-bottom: 4px;">${artikel.judul}</b>
-                    <span style="color: #555; font-size: 0.65rem; display: block; margin-bottom: 6px; font-family: monospace;">📅 ${artikel.tanggal}</span>
-                    <p style="font-size: 0.8rem; color: #d1d1d1; line-height: 1.4; margin: 0; white-space: pre-wrap;">${artikel.isi}</p>
-                `;
-                madingCard.appendChild(artikelBox);
-            });
-        }
-    } catch (error) {
-        console.error("Gagal sinkronisasi data mading:", error);
-    }
 }
 
 // 🌐 ENGINE PROSESSOR API: ROBOT SUNTIK DATA KONTRIBUSI SEJATI DIBELAKANG LAYAR VIA GITHUB REST API
@@ -334,7 +316,6 @@ async function eksekusiSuntikDatabaseGitHub(objDataPenuh, logCatatanCommit) {
     try {
         const urlPipaAPI = `https://api.github.com/repos/${GITHUB_REPO}/contents/${FILE_PATH}`;
         
-        // Ambil tanda SHA sidik jari berkas lama agar disetujui untuk ditimpa oleh GitHub
         const responseGet = await fetch(urlPipaAPI, {
             headers: { "Authorization": `token ${GITHUB_TOKEN}` }
         });
@@ -342,7 +323,6 @@ async function eksekusiSuntikDatabaseGitHub(objDataPenuh, logCatatanCommit) {
         const fileMetadata = await responseGet.json();
         const hashShaLama = fileMetadata.sha;
 
-        // Bungkus paket data baru ke enkripsi Base64 murni sesuai aturan internasional GitHub API
         const payloadPaket = {
             message: logCatatanCommit,
             content: btoa(unescape(encodeURIComponent(JSON.stringify(objDataPenuh, null, 4)))),
@@ -365,7 +345,6 @@ async function eksekusiSuntikDatabaseGitHub(objDataPenuh, logCatatanCommit) {
     }
 }
 
-// 5. Robot Penjemput Kontribusi Feed Tengah (Membaca berkas static/data/feed.json baru)
 async function loadFeedTengah() {
     try {
         let response = await fetch('/lab-tofarmer/data/feed.json');
@@ -393,7 +372,6 @@ async function loadFeedTengah() {
                     kartuFeedBaru.style.borderLeftColor = "#00f2ff";
                 }
 
-                // Pengalir List Ulasan Komentar Warga di bawah Postingan Utama
                 let susunanHtmlKomentar = "";
                 if (post.komentar && post.komentar.length > 0) {
                     post.komentar.forEach(kom => {
@@ -424,8 +402,8 @@ async function loadFeedTengah() {
                         ${susunanHtmlKomentar}
                         
                         <div style="display: flex; gap: 10px; margin-top: 10px;">
-                            <input type="text" placeholder="Balas progres warga..." id="input-chat-${post.id}" style="flex: 1; background: #0d0d0f; border: 1px solid #333; border-radius: 6px; color: #fff; padding: 6px 12px; font-size: 0.8rem; outline: none;">
-                            <button onclick="suntikKomentarMedsos('${post.id}')" style="background: #ff00ff; color: #fff; border: none; padding: 4px 14px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer;">BALAS</button>
+                            <input type="text" placeholder="Balas progres warga..." id="input-chat-${post.id}" style="flex: 1; background: #0d0d0f; border: 1px solid #333; border-radius: 6px; color: #fff; padding: 6px 12px; font-size: 0.8rem; outline: none; position:relative; z-index:10;">
+                            <button onclick="suntikKomentarMedsos('${post.id}')" style="background: #ff00ff; color: #fff; border: none; padding: 4px 14px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer; position:relative; z-index:12;">BALAS</button>
                         </div>
                     </div>
                 `;
@@ -437,7 +415,6 @@ async function loadFeedTengah() {
     }
 }
 
-// ⚙️ SUNTIK SKENARIO 1: TRANSMISI POSTINGAN UTAMA BARU KE GITHUB VIA API
 async function kirimKontribusiPostBaru(isiTeksTulis) {
     const namaWarga = document.getElementById('display-name')?.innerText?.replace('@','') || "CYBER_FARMER";
     try {
@@ -460,7 +437,6 @@ async function kirimKontribusiPostBaru(isiTeksTulis) {
     } catch (e) { return false; }
 }
 
-// ⚙️ SUNTIK SKENARIO 2: TRANSMISI HITUNGAN SRUPUT / CANGKUL KE GITHUB VIA API
 async function suntikEngagementMedsos(postId, jenisAksi) {
     const sessionWallet = localStorage.getItem('tof_session_wallet');
     if (!sessionWallet) { alert("⚠️ Silakan masuk via Wallet Address untuk memvalidasi kerja nyata warga."); return; }
@@ -473,12 +449,14 @@ async function suntikEngagementMedsos(postId, jenisAksi) {
         if (targetData) {
             targetData[jenisAksi] = (parseInt(targetData[jenisAksi]) || 0) + 1;
             let sukses = await eksekusiSuntikDatabaseGitHub(daftarFeed, `Update apresiasi ${jenisAksi} pada ID ${postId}`);
-            if (sukses) loadFeedTengah();
+            if (sukses) {
+                alert("📡 APRESIASI DICATAT!\n\nRobot Node sedang mensinkronisasi metrik interaksi Anda ke basis data awan.");
+                setTimeout(() => { loadFeedTengah(); }, 2000);
+            }
         }
     } catch (e) { console.error(e); }
 }
 
-// ⚙️ SUNTIK SKENARIO 3: TRANSMISI DATA BALASAN KOMENTAR KE GITHUB VIA API
 async function suntikKomentarMedsos(postId) {
     const sessionWallet = localStorage.getItem('tof_session_wallet');
     if (!sessionWallet) { alert("⚠️ Silahkan sambungkan dompet Anda untuk memvalidasi identitas diskusi."); return; }
@@ -505,16 +483,14 @@ async function suntikKomentarMedsos(postId) {
 
             let sukses = await eksekusiSuntikDatabaseGitHub(daftarFeed, `Komentar diskusi baru dari @${namaWarga} pada ID ${postId}`);
             if (sukses) {
-                inputArea.value = "";
-                loadFeedTengah();
+                if (inputArea) inputArea.value = "";
+                alert("📡 DISKUSI MASUK ANTRIAN!\n\nBalasan komentar Anda berhasil divalidasi. Mohon tunggu sekitar 1 menit agar menyatu live di halaman.");
+                setTimeout(() => { loadFeedTengah(); }, 2000);
             }
         }
     } catch (e) { console.error(e); }
 }
 
-/**
- * 📡 ROBOT WEB3: KETUK PINTU NODE ALGORAND UNTUK AMBIL SALDO ASLI
- */
 async function ambilSaldoTofBlockchain(walletAddress) {
     if (!walletAddress || walletAddress.trim() === "") return 0;
     const ASSET_ID_TOF = 3558306283; 
@@ -539,9 +515,6 @@ async function ambilSaldoTofBlockchain(walletAddress) {
     }
 }
 
-/**
- * 📡 ROBOT UTAMA: EKSEKUSI TRANSFER TOF OTOMATIS DARI BRANKAS KAS EKOSISTEM
- */
 async function kirimRewardOtonomToFarmer(alamatTujuan, jumlahTof) {
     if (typeof algosdk === 'undefined') {
         return "TX-SIMULASI-" + Math.random().toString(16).substring(2, 10).toUpperCase();
@@ -580,9 +553,7 @@ async function kirimRewardOtonomToFarmer(alamatTujuan, jumlahTof) {
     }
 }
 
-// JALANKAN FUNGSI OTOMATIS SAAT WEB DIBUKA
 document.addEventListener('DOMContentLoaded', () => {
     updateEkosistemStats();
-    loadMadingEkosistem();
     loadFeedTengah();
 });
