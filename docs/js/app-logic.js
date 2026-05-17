@@ -3,7 +3,7 @@ var exports = {};
 
 // 🔑 SAKLAR UTAMA HUBUNGAN OTONOM GITHUB REST API (FUNGSI SUNTIK FEED BELAKANG LAYAR)
 const GITHUB_REPO = "TFRMR/lab-tofarmer";
-const FILE_PATH = "static/data/feed.json";
+const FILE_PATH = "docs/data/feed.json";
 
 // ⚠️ TRIK KAMUFLASE API (MEMBELAH TOKEN AGAR LOLOS DARI SATPAM GITHUB PUSH PROTECTION)
 const bagianSatu = "ghp_"; 
