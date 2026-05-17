@@ -280,9 +280,9 @@ function logout() {
 // 4. Robot Penjemput Mading Dinamis (Kolom Kanan / Pinggir)
 async function loadMadingEkosistem() {
     try {
-        let response = await fetch('/data/mading.json');
+        let response = await fetch('/lab-tofarmer/data/mading.json');
         if (!response.ok) {
-            response = await fetch('/lab-tofarmer/data/mading.json');
+            response = await fetch('/data/mading.json');
         }
         
         if (!response.ok) {
@@ -323,9 +323,9 @@ async function loadMadingEkosistem() {
 // 5. Robot Penjemput Kontribusi Feed Tengah (Membaca berkas static/data/feed.json baru)
 async function loadFeedTengah() {
     try {
-        let response = await fetch('/data/feed.json');
+        let response = await fetch('/lab-tofarmer/data/feed.json');
         if (!response.ok) {
-            response = await fetch('/lab-tofarmer/data/feed.json');
+            response = await fetch('/data/feed.json');
         }
         if (!response.ok) throw new Error('Berkas feed.json buntu');
 
@@ -397,7 +397,6 @@ async function ambilSaldoTofBlockchain(walletAddress) {
  * 📡 ROBOT UTAMA: EKSEKUSI TRANSFER TOF OTOMATIS DARI BRANKAS KAS EKOSISTEM
  */
 async function kirimRewardOtonomToFarmer(alamatTujuan, jumlahTof) {
-    // Pengaman internal jika algosdk belum siap ditarik browser
     if (typeof algosdk === 'undefined') {
         return "TX-SIMULASI-" + Math.random().toString(16).substring(2, 10).toUpperCase();
     }
