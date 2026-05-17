@@ -1,10 +1,19 @@
 [
     {
+        "id": "post_1779020423877",
+        "username": "CYBER_FARMER",
+        "waktu": "Baru Saja",
+        "isi": "cek ombakk",
+        "sruput": 0,
+        "cangkul": 0,
+        "komentar": []
+    },
+    {
         "id": "post_1",
         "username": "Cyber_Farmer",
         "waktu": "10 Menit Lalu",
         "isi": "Pipa pengiriman GitHub sudah terpasang. Sekarang ekosistem ToFarmer punya 'Brankas' kode yang aman di Linux Lite. Siap untuk fase Algorand!",
-        "sruput": 13,
+        "sruput": 12,
         "cangkul": 4,
         "komentar": [
             {
