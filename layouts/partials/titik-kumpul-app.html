@@ -103,7 +103,7 @@
     /* Kolom Tengah: Feed */
     .feed-container {
         display: flex;
-        flex-direction: column;
+        flex-direction: column; /* FIX: Dikembalikan ke flex-direction agar rapi ke bawah */
         gap: 20px;
     }
 
@@ -167,7 +167,7 @@
     #login-form button, 
     #user-dashboard button,
     #btn-connect {
-        width: 100% !important;   /* Perbaikan: Gunakan 100% agar pas di layar HP */
+        width: 100% !important;   
         display: block !important; 
         box-sizing: border-box;   
         padding: 14px 12px;        
@@ -189,7 +189,6 @@
         box-shadow: 0 0 8px rgba(0, 242, 255, 0.2);
     }
 
-    /* Perbaikan area teks link di bawah agar tidak mepet */
     .login-footer-links {
         display: flex;
         justify-content: space-between;
@@ -225,17 +224,16 @@
         
         .side-widget {
             max-width: 100%;
-            order: 2; /* Default urutan widget di bawah feed */
+            order: 2;
         }
 
-        /* Akses Warga jadi paling bontot di HP */
         #user-profile-card-container {
             order: 10 !important;
         }
 
         .feed-container { 
             width: 100%;
-            order: 1; /* Feed tampil paling atas di HP */
+            order: 1;
             margin-top: 15px; 
         }
 
@@ -262,7 +260,6 @@
 
         .dropdown:hover > .dropdown-content { display: block !important; }
         
-        /* FIX HP: Foto di atas, teks statistik di bawah agar tidak tumpang tindih */
         .social-lite-bar { 
             flex-direction: column; 
             gap: 10px; 
@@ -380,8 +377,8 @@
             </div>
             <p class="post-text">Pipa pengiriman GitHub sudah terpasang. Sekarang ekosistem ToFarmer punya "Brankas" kode yang aman di Linux Lite. Siap untuk fase Algorand!</p>
             <div class="interaction-bar">
-                <button class="btn-interact" onclick="sruputKopi(this)">☕ <span class="counter-val">12</span> Sruput</button>
-                <button class="btn-interact" onclick="cangkulTanah(this)">⛏️ <span class="counter-val">3</span> Cangkul</button>
+                <button class="btn-interact" onclick="suntikEngagementMedsos('post_1', 'sruput')">☕ <span class="counter-val">12</span> Sruput</button>
+                <button class="btn-interact" onclick="suntikEngagementMedsos('post_1', 'cangkul')">⛏️ <span class="counter-val">3</span> Cangkul</button>
             </div>
         </div>
 
@@ -392,8 +389,8 @@
             </div>
             <p class="post-text">Baru saja selesai memindahkan bibit ubi dari hot bed ke Blok 2. Struktur tanah terlihat sangat subur setelah rotasi kompos kemarin.</p>
             <div class="interaction-bar">
-                <button class="btn-interact" onclick="sruputKopi(this)">☕ <span class="counter-val">8</span> Sruput</button>
-                <button class="btn-interact" onclick="cangkulTanah(this)">⛏️ <span class="counter-val">1</span> Cangkul</button>
+                <button class="btn-interact" onclick="suntikEngagementMedsos('post_2', 'sruput')">☕ <span class="counter-val">8</span> Sruput</button>
+                <button class="btn-interact" onclick="suntikEngagementMedsos('post_2', 'cangkul')">⛏️ <span class="counter-val">1</span> Cangkul</button>
             </div>
         </div>
     </div>
@@ -420,14 +417,13 @@
 
 <script>
     /**
-     * 🚀 RITUAL EMBED WEB3 LOGIC: PEMBUKTIAN KONTRIBUSI (POST & INTERACTION-TO-EARN)
+     * 🚀 RITUAL EMBED API SUNTIK FEED: MEDSOS OTONOM INTERAKTIF
      */
     document.addEventListener('DOMContentLoaded', () => {
         const tombolKirim = document.getElementById('btn-post');
         const kotakTulisan = document.getElementById('main-post-area');
         const statusMsg = document.getElementById('post-status-msg');
 
-        // Pengecekan status login langsung saat halaman dibuka agar sinkron dengan app-logic.js
         const walletSession = localStorage.getItem('tof_session_wallet');
         if (walletSession && statusMsg && kotakTulisan && tombolKirim) {
             const idWarga = document.getElementById('display-name')?.innerText || "@CYBER_FARMER";
@@ -444,7 +440,6 @@
             tombolKirim.addEventListener('click', async () => {
                 const isiTeks = kotakTulisan.value.trim();
                 const sessionAktif = localStorage.getItem('tof_session_wallet');
-                const namaWarga = document.getElementById('display-name')?.innerText || "@GUEST";
 
                 if (!sessionAktif) {
                     alert("⚠️ Gerbang Otentikasi Terkunci! Silahkan hubungkan dompet Algorand Anda terlebih dahulu.");
@@ -456,32 +451,17 @@
                     return;
                 }
 
-                // Ganti teks tombol menjadi loading biar warga tidak klik berulang-ulang
-                tombolKirim.innerText = "PROSES...";
+                tombolKirim.innerText = "PROSES...✍️";
                 tombolKirim.disabled = true;
 
-                alert(`📡 MANTRA WEB3 TRIGGERED!\n\nKontribusi ${namaWarga} berhasil divalidasi.\nRobot Kas Ekosistem mendeteksi aktivitas posting.\nSiap mengeksekusi otomatisasi reward distribusi TOF token...`);
-                
-                console.log(`=== PIPELINE WEB3: POST ASSET BUILD ===`);
-                console.log(`Penulis: ${namaWarga}`);
-                console.log(`Alamat Wallet: ${sessionAktif}`);
-                console.log(`Konten: "${isiTeks}"`);
-                console.log(`Status Tindakan: Memicu Pemanggilan Transaksi Airdrop Node Kas ToFarmer`);
+                // 📡 PICU INTEGRASI GITHUB REST API DARI BACKEND APP-LOGIC
+                const suksesLive = await kirimKontribusiPostBaru(isiTeks);
 
-                // 🏃‍♂️ PIPA SAKLAR BLOCKCHAIN ASLI: Tembakkan transfer 5 TOF langsung lewat app-logic.js
-                const txIdSukses = await kirimRewardOtonomToFarmer(sessionAktif, 5);
-
-                if (txIdSukses) {
-                    alert(`✅ TRANSAKSI BERHASIL LIVE!\n\nUpah 5 TOF sukses dikirim dari Brankas Ekosistem ke dompet Anda.\nTxID: ${txIdSukses}`);
-                    
-                    // Tarik saldo terbaru untuk profil kiri secara instan pasca transfer sukses
-                    const elemSaldoIndividu = document.getElementById('user-tof');
-                    if (elemSaldoIndividu && typeof ambilSaldoTofBlockchain === 'function') {
-                        const saldoBaru = await ambilSaldoTofBlockchain(sessionAktif);
-                        elemSaldoIndividu.innerText = saldoBaru.toLocaleString('id-ID') + " TOF";
-                    }
+                if (suksesLive) {
+                    alert("✅ KONTRIBUSI AMAN!\n\nProgres harian Anda sukses ter-commit dan tersimpan abadi di database GitHub.\n\nSilakan tunggu 10 detik lalu refresh halaman web.");
+                    if (typeof loadFeedTengah === 'function') loadFeedTengah();
                 } else {
-                    alert(`⚠️ Nota mading terkirim, namun pipa robot transfer terhambat. Pastikan koneksi internet laptop aman dan saldo ALGO/TOF kas mencukupi.`);
+                    alert("⚠️ Pipa pengiriman data API terhambat! Pastikan string kunci Token ghp_ di app-logic.js sudah terisi dengan benar ya, Mas.");
                 }
 
                 kotakTulisan.value = "";
@@ -490,85 +470,4 @@
             });
         }
     });
-
-    /**
-     * ☕ MANTRA REWARD SRUPUT (ENGAGE-TO-EARN)
-     */
-    async function sruputKopi(elemen) {
-        const walletSession = localStorage.getItem('tof_session_wallet');
-        if (!walletSession) {
-            alert("⚠️ Sruput kopi gagal! Koneksikan dompet Algorand Anda untuk memberi validasi sosial Web3.");
-            return;
-        }
-
-        const targetPenulis = elemen.closest('.post-card').querySelector('.user-id').innerText;
-        const spanAngka = elemen.querySelector('.counter-val');
-        
-        if (spanAngka) {
-            // Ubah tombol jadi loading visual singkat
-            const teksAwal = elemen.innerHTML;
-            elemen.innerText = "☕ PROSES...";
-            elemen.disabled = true;
-
-            // 🏃‍♂️ TRANSMISI BLOCKCHAIN REWARD KECIL: Berikan mikro-reward 1 TOF untuk apresiasi sosial warga
-            const txIdSukses = await kirimRewardOtonomToFarmer(walletSession, 1);
-
-            if (txIdSukses) {
-                let angkaSekarang = parseInt(spanAngka.innerText) || 0;
-                spanAngka.innerText = angkaSekarang + 1;
-                alert(`☕ SRUPUT BERHASIL!\n\nAnda memberikan apresiasi sosial ke akun ${targetPenulis}.\nRobot Kas memproses airdrop 1 TOF murni ke akun Anda!\nID: ${txIdSukses}`);
-                
-                const elemSaldoIndividu = document.getElementById('user-tof');
-                if (elemSaldoIndividu && typeof ambilSaldoTofBlockchain === 'function') {
-                    const saldoBaru = await ambilSaldoTofBlockchain(walletSession);
-                    elemSaldoIndividu.innerText = saldoBaru.toLocaleString('id-ID') + " TOF";
-                }
-            } else {
-                alert(`⚠️ Sruput berhasil secara visual, namun mikro-reward gagal mendarat. Periksa saldo ALGO brankas ekosistem.`);
-            }
-
-            elemen.innerHTML = `☕ <span class="counter-val">${spanAngka.innerText}</span> Sruput`;
-            elemen.disabled = false;
-        }
-    }
-
-    /**
-     * ⛏️ MANTRA VALIDASI CANGKUL (PROOF-OF-WORK ENGAGEMENT)
-     */
-    async function cangkulTanah(elemen) {
-        const walletSession = localStorage.getItem('tof_session_wallet');
-        if (!walletSession) {
-            alert("⚠️ Cangkul gagal! Anda wajib masuk menggunakan Wallet Address untuk memvalidasi kerja nyata warga.");
-            return;
-        }
-
-        const targetPenulis = elemen.closest('.post-card').querySelector('.user-id').innerText;
-        const spanAngka = elemen.querySelector('.counter-val');
-        
-        if (spanAngka) {
-            const teksAwal = elemen.innerHTML;
-            elemen.innerText = "⛏️ PROSES...";
-            elemen.disabled = true;
-
-            // 🏃‍♂️ TRANSMISI BLOCKCHAIN REWARD MEDIUM: Berikan upah kerja nyata 2 TOF dari brankas ekosistem
-            const txIdSukses = await kirimRewardOtonomToFarmer(walletSession, 2);
-
-            if (txIdSukses) {
-                let angkaSekarang = parseInt(spanAngka.innerText) || 0;
-                spanAngka.innerText = angkaSekarang + 1;
-                alert(`⛏️ VALIDASI CANGKUL MASUK!\n\nKerja nyata ${targetPenulis} terverifikasi.\nPipa blockchain sukses mentransfer 2 TOF hasil jerih payah ke dompet Anda!\nID: ${txIdSukses}`);
-                
-                const elemSaldoIndividu = document.getElementById('user-tof');
-                if (elemSaldoIndividu && typeof ambilSaldoTofBlockchain === 'function') {
-                    const saldoBaru = await ambilSaldoTofBlockchain(walletSession);
-                    elemSaldoIndividu.innerText = saldoBaru.toLocaleString('id-ID') + " TOF";
-                }
-            } else {
-                alert(`⚠️ Validasi cangkul tercatat secara lokal, namun bonus upah TOF terhambat akibat antrean jaringan.`);
-            }
-
-            elemen.innerHTML = `⛏️ <span class="counter-val">${spanAngka.innerText}</span> Cangkul`;
-            elemen.disabled = false;
-        }
-    }
 </script>

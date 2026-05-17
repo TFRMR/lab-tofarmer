@@ -1,16 +1,26 @@
 [
     {
+        "id": "post_1",
         "username": "Cyber_Farmer",
         "waktu": "10 Menit Lalu",
         "isi": "Pipa pengiriman GitHub sudah terpasang. Sekarang ekosistem ToFarmer punya 'Brankas' kode yang aman di Linux Lite. Siap untuk fase Algorand!",
         "sruput": 12,
-        "cangkul": 3
+        "cangkul": 4,
+        "komentar": [
+            {
+                "username": "Quantum_Grow",
+                "waktu": "5 Menit Lalu",
+                "isi": "Mantap Mas Mastermind! Pipa jalurnya makin rapi."
+            }
+        ]
     },
     {
+        "id": "post_2",
         "username": "Quantum_Grow",
         "waktu": "2 Jam Lalu",
         "isi": "Baru saja selesai memindahkan bibit ubi dari hot bed ke Blok 2. Struktur tanah terlihat sangat subur setelah rotasi kompos kemarin.",
         "sruput": 8,
-        "cangkul": 1
+        "cangkul": 1,
+        "komentar": []
     }
 ]

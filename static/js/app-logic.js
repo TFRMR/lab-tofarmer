@@ -1,6 +1,12 @@
 // MANTRA WEB3 (Sudah include di sini untuk jaga-jaga)
 var exports = {};
 
+// 🔑 SAKLAR UTAMA HUBUNGAN OTONOM GITHUB REST API (FUNGSI SUNTIK FEED BELAKANG LAYAR)
+const GITHUB_REPO = "TFRMR/lab-tofarmer";
+const FILE_PATH = "static/data/feed.json";
+// ⚠️ MAS, JANGAN LUPA GANTI STRING DI BAWAH INI DENGAN KUNCI TOKEN GHP_ MAS SEBELUM DI-PUSH!
+const GITHUB_TOKEN = "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"; 
+
 // 🎯 KAS BRANKAS OTONOM TOFARMER (Manager/Dispenser Wallet Ekosistem)
 const DOMPET_KAS_EKOSISTEM = "R6QSHNSCY4HBQBH4UTSBJOJZTQTHCHW4IDQVXRVKR7EAQ2IDU7MSYCST5I";
 const KUNCI_RAHASIA_KAS = [
@@ -320,6 +326,42 @@ async function loadMadingEkosistem() {
     }
 }
 
+// 🌐 ENGINE PROSESSOR API: ROBOT SUNTIK DATA KONTRIBUSI SEJATI DIBELAKANG LAYAR VIA GITHUB REST API
+async function eksekusiSuntikDatabaseGitHub(objDataPenuh, logCatatanCommit) {
+    try {
+        const urlPipaAPI = `https://api.github.com/repos/${GITHUB_REPO}/contents/${FILE_PATH}`;
+        
+        // Ambil tanda SHA sidik jari berkas lama agar disetujui untuk ditimpa oleh GitHub
+        const responseGet = await fetch(urlPipaAPI, {
+            headers: { "Authorization": `token ${GITHUB_TOKEN}` }
+        });
+        if (!responseGet.ok) return false;
+        const fileMetadata = await responseGet.json();
+        const hashShaLama = fileMetadata.sha;
+
+        // Bungkus paket data baru ke enkripsi Base64 murni sesuai aturan internasional GitHub API
+        const payloadPaket = {
+            message: logCatatanCommit,
+            content: btoa(unescape(encodeURIComponent(JSON.stringify(objDataPenuh, null, 4)))),
+            sha: hashShaLama,
+            branch: "main"
+        };
+
+        const responsePut = await fetch(urlPipaAPI, {
+            method: "PUT",
+            headers: {
+                "Authorization": `token ${GITHUB_TOKEN}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payloadPaket)
+        });
+        return responsePut.ok;
+    } catch (err) {
+        console.error("Pipa suntik API terhambat:", err);
+        return false;
+    }
+}
+
 // 5. Robot Penjemput Kontribusi Feed Tengah (Membaca berkas static/data/feed.json baru)
 async function loadFeedTengah() {
     try {
@@ -342,9 +384,26 @@ async function loadFeedTengah() {
             daftarFeed.forEach(post => {
                 const kartuFeedBaru = document.createElement('div');
                 kartuFeedBaru.className = "post-card";
+                kartuFeedBaru.style.marginBottom = "15px";
                 
                 if (post.username === "Quantum_Grow") {
                     kartuFeedBaru.style.borderLeftColor = "#00f2ff";
+                }
+
+                // Pengalir List Ulasan Komentar Warga di bawah Postingan Utama
+                let susunanHtmlKomentar = "";
+                if (post.komentar && post.komentar.length > 0) {
+                    post.komentar.forEach(kom => {
+                        susunanHtmlKomentar += `
+                            <div style="background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 8px; margin-top: 8px; font-size: 0.8rem; border-left: 2px solid #ff00ff;">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.65rem; margin-bottom: 3px;">
+                                    <span style="color: #00f2ff; font-weight: bold;">@${kom.username}</span>
+                                    <span style="color: #555;">${kom.waktu}</span>
+                                </div>
+                                <p style="color: #bbb; margin: 0; white-space: pre-wrap;">${kom.isi}</p>
+                            </div>
+                        `;
+                    });
                 }
 
                 kartuFeedBaru.innerHTML = `
@@ -353,9 +412,18 @@ async function loadFeedTengah() {
                         <span class="post-time">${post.waktu}</span>
                     </div>
                     <p class="post-text">${post.isi}</p>
-                    <div class="interaction-bar">
-                        <button class="btn-interact" onclick="sruputKopi(this)">☕ <span class="counter-val">${post.sruput}</span> Sruput</button>
-                        <button class="btn-interact" onclick="cangkulTanah(this)">⛏️ <span class="counter-val">${post.cangkul}</span> Cangkul</button>
+                    <div class="interaction-bar" style="margin-bottom: 12px;">
+                        <button class="btn-interact" onclick="suntikEngagementMedsos('${post.id}', 'sruput')">☕ <span class="counter-val">${post.sruput}</span> Sruput</button>
+                        <button class="btn-interact" onclick="suntikEngagementMedsos('${post.id}', 'cangkul')">⛏️ <span class="counter-val">${post.cangkul}</span> Cangkul</button>
+                    </div>
+
+                    <div class="komentar-box-section" style="border-top: 1px dashed rgba(255,255,255,0.05); padding-top: 8px;">
+                        ${susunanHtmlKomentar}
+                        
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <input type="text" placeholder="Balas progres warga..." id="input-chat-${post.id}" style="flex: 1; background: #0d0d0f; border: 1px solid #333; border-radius: 6px; color: #fff; padding: 6px 12px; font-size: 0.8rem; outline: none;">
+                            <button onclick="suntikKomentarMedsos('${post.id}')" style="background: #ff00ff; color: #fff; border: none; padding: 4px 14px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer;">BALAS</button>
+                        </div>
                     </div>
                 `;
                 wadahFeedBawah.appendChild(kartuFeedBaru);
@@ -364,6 +432,81 @@ async function loadFeedTengah() {
     } catch (error) {
         console.error("Gagal sinkronisasi feed tengah:", error);
     }
+}
+
+// ⚙️ SUNTIK SKENARIO 1: TRANSMISI POSTINGAN UTAMA BARU KE GITHUB VIA API
+async function kirimKontribusiPostBaru(isiTeksTulis) {
+    const namaWarga = document.getElementById('display-name')?.innerText?.replace('@','') || "CYBER_FARMER";
+    try {
+        let response = await fetch('/lab-tofarmer/data/feed.json');
+        if (!response.ok) response = await fetch('/data/feed.json');
+        let daftarFeed = await response.json();
+
+        const postBaruObj = {
+            "id": "post_" + Date.now(),
+            "username": namaWarga,
+            "waktu": "Baru Saja",
+            "isi": isiTeksTulis,
+            "sruput": 0,
+            "cangkul": 0,
+            "komentar": []
+        };
+
+        daftarFeed.unshift(postBaruObj);
+        return await eksekusiSuntikDatabaseGitHub(daftarFeed, `Kontribusi progres baru dari @${namaWarga}`);
+    } catch (e) { return false; }
+}
+
+// ⚙️ SUNTIK SKENARIO 2: TRANSMISI HITUNGAN SRUPUT / CANGKUL KE GITHUB VIA API
+async function suntikEngagementMedsos(postId, jenisAksi) {
+    const sessionWallet = localStorage.getItem('tof_session_wallet');
+    if (!sessionWallet) { alert("⚠️ Silakan masuk via Wallet Address untuk memvalidasi kerja nyata warga."); return; }
+    try {
+        let response = await fetch('/lab-tofarmer/data/feed.json');
+        if (!response.ok) response = await fetch('/data/feed.json');
+        let daftarFeed = await response.json();
+
+        let targetData = daftarFeed.find(p => p.id === postId);
+        if (targetData) {
+            targetData[jenisAksi] = (parseInt(targetData[jenisAksi]) || 0) + 1;
+            let sukses = await eksekusiSuntikDatabaseGitHub(daftarFeed, `Update apresiasi ${jenisAksi} pada ID ${postId}`);
+            if (sukses) loadFeedTengah();
+        }
+    } catch (e) { console.error(e); }
+}
+
+// ⚙️ SUNTIK SKENARIO 3: TRANSMISI DATA BALASAN KOMENTAR KE GITHUB VIA API
+async function suntikKomentarMedsos(postId) {
+    const sessionWallet = localStorage.getItem('tof_session_wallet');
+    if (!sessionWallet) { alert("⚠️ Silahkan sambungkan dompet Anda untuk memvalidasi identitas diskusi."); return; }
+
+    const inputArea = document.getElementById(`input-chat-${postId}`);
+    const teksUlasan = inputArea ? inputArea.value.trim() : "";
+    const namaWarga = document.getElementById('display-name')?.innerText?.replace('@','') || "CYBER_FARMER";
+
+    if (!teksUlasan) { alert("⚠️ Isi tulisan komentar tidak boleh kosong!"); return; }
+
+    try {
+        let response = await fetch('/lab-tofarmer/data/feed.json');
+        if (!response.ok) response = await fetch('/data/feed.json');
+        let daftarFeed = await response.json();
+
+        let targetData = daftarFeed.find(p => p.id === postId);
+        if (targetData) {
+            if (!targetData.komentar) targetData.komentar = [];
+            targetData.komentar.push({
+                "username": namaWarga,
+                "waktu": "Baru Saja",
+                "isi": teksUlasan
+            });
+
+            let sukses = await eksekusiSuntikDatabaseGitHub(daftarFeed, `Komentar diskusi baru dari @${namaWarga} pada ID ${postId}`);
+            if (sukses) {
+                inputArea.value = "";
+                loadFeedTengah();
+            }
+        }
+    } catch (e) { console.error(e); }
 }
 
 /**
