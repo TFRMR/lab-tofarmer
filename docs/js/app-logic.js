@@ -130,7 +130,7 @@ async function eksekusiLoginWallet() {
         let mockAddress = prompt("MANTRA WEB3 TOFARMER:\nMasukkan Alamat Wallet Address Algorand Anda untuk Akses Node:");
         
         if (!mockAddress || mockAddress.trim() === "") {
-            alert("Koneksi dompet dibatalkan, Mas Manto!");
+            alert("Koneksi dompet dibatalkan!");
             return;
         }
 
@@ -202,7 +202,7 @@ function eksekusiDaftarWargaBaru() {
     const inputNamaAsli = document.getElementById('reg-nama-asli').value.trim();
 
     if (!inputUsername || !inputNamaAsli) {
-        alert("Username Samaran dan Nama Asli tidak boleh kosong, Mas Manto!");
+        alert("Username Samaran dan Nama Asli tidak boleh kosong!");
         return;
     }
 
@@ -293,7 +293,12 @@ async function loadMadingEkosistem() {
         if (!response.ok) {
             response = await fetch('/lab-tofarmer/data/mading.json');
         }
-        if (!response.ok) throw new Error('Berkas mading.json buntu');
+        
+        // Pagar isolasi aman: Kalau file mading.json 404, keluar pelan-pelan tanpa merusak sirkuit data bawah
+        if (!response.ok) {
+            console.warn("⚠️ Berkas mading.json belum ada di lokal. Sistem mengabaikan dengan aman.");
+            return;
+        }
 
         const daftarMading = await response.json();
         const madingCard = document.getElementById('kotak-mading-ekosistem');
@@ -325,9 +330,55 @@ async function loadMadingEkosistem() {
     }
 }
 
-/**
- * 📡 ROBOT WEB3: KETUK PINTU NODE ALGORAND UNTUK AMBIL SALDO ASLI
- * Jaminan Gratisan dari Jaringan Algonode Cloud Publik (Mainnet)
+// 5. Robot Penjemput Kontribusi Feed Tengah (Membaca berkas static/data/feed.json baru secara dinamis)
+async function loadFeedTengah() {
+    try {
+        let response = await fetch('/data/feed.json');
+        if (!response.ok) {
+            response = await fetch('/lab-tofarmer/data/feed.json');
+        }
+        if (!response.ok) throw new Error('Berkas feed.json buntu');
+
+        const daftarFeed = await response.json();
+        const wadahFeedBawah = document.querySelector('.feed-container');
+
+        if (wadahFeedBawah) {
+            // Biarkan kotak textarea input postingan paling atas tetap utuh nangkring
+            const kotakInput = wadahFeedBawah.querySelector('.tof-card');
+            wadahFeedBawah.innerHTML = '';
+            if (kotakInput) {
+                wadahFeedBawah.appendChild(kotakInput);
+            }
+
+            // Alirkan seluruh isi data dari feed.json satu-per-satu ke layar tengah Mas
+            daftarFeed.forEach(post => {
+                const kartuFeedBaru = document.createElement('div');
+                kartuFeedBaru.className = "post-card";
+                
+                // Variasi warna neon kiri khusus akun Quantum_Grow agar estetik seperti CSS Mas
+                if (post.username === "Quantum_Grow") {
+                    kartuFeedBaru.style.borderLeftColor = "#00f2ff";
+                }
+
+                kartuFeedBaru.innerHTML = `
+                    <div class="post-header">
+                        <a href="/lab-tofarmer/profil/?user=${post.username}" class="user-id">@${post.username}</a>
+                        <span class="post-time">${post.waktu}</span>
+                    </div>
+                    <p class="post-text">${post.isi}</p>
+                    <div class="interaction-bar">
+                        <button class="btn-interact" onclick="sruputKopi(this)">☕ <span class="counter-val">${post.sruput}</span> Sruput</button>
+                        <button class="btn-interact" onclick="cangkulTanah(this)">⛏️ <span class="counter-val">${post.cangkul}</span> Cangkul</button>
+                    </div>
+                `;
+                wadahFeedBawah.appendChild(kartuFeedBaru);
+            });
+        }
+    } catch (error) {
+        console.error("Gagal sinkronisasi feed tengah:", error);
+    }
+}
+
 /**
  * 📡 ROBOT WEB3: KETUK PINTU NODE ALGORAND UNTUK AMBIL SALDO ASLI
  * Jaminan Gratisan dari Jaringan Algonode Cloud Publik (Mainnet)
@@ -369,4 +420,5 @@ async function ambilSaldoTofBlockchain(walletAddress) {
 document.addEventListener('DOMContentLoaded', () => {
     updateEkosistemStats();
     loadMadingEkosistem();
+    loadFeedTengah();
 });
