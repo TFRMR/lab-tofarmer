@@ -1,14 +1,5 @@
 [
     {
-        "id": "post_1779020582781",
-        "username": "CYBER_FARMER",
-        "waktu": "Baru Saja",
-        "isi": "cek ombak",
-        "sruput": 0,
-        "cangkul": 0,
-        "komentar": []
-    },
-    {
         "id": "post_1",
         "username": "Cyber_Farmer",
         "waktu": "10 Menit Lalu",
@@ -20,6 +11,11 @@
                 "username": "Quantum_Grow",
                 "waktu": "5 Menit Lalu",
                 "isi": "Mantap Mas Mastermind! Pipa jalurnya makin rapi."
+            },
+            {
+                "username": "CYBER_FARMER",
+                "waktu": "Baru Saja",
+                "isi": "mantavvv"
             }
         ]
     },
