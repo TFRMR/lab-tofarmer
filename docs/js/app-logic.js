@@ -69,10 +69,8 @@ async function updateEkosistemStats() {
                 img.classList.add('avatar-elite');
             }
 
-            img.style.cursor = "pointer";
-            img.onclick = () => {
-                window.location.href = `/profil/?user=${username}`;
-            };
+           img.style.cursor = "default";
+            img.onclick = null;
             
             if (photoContainer) photoContainer.appendChild(img);
         });
