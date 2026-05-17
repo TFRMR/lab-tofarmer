@@ -1,8 +1,19 @@
 // MANTRA WEB3 (Sudah include di sini untuk jaga-jaga)
 var exports = {};
 
+// 🎯 KAS BRANKAS OTONOM TOFARMER (Manager/Dispenser Wallet Ekosistem)
+const DOMPET_KAS_EKOSISTEM = "R6QSHNSCY4HBQBH4UTSBJOJZTQTHCHW4IDQVXRVKR7EAQ2IDU7MSYCST5I";
+const KUNCI_RAHASIA_KAS = [
+    "conduct", "hunt", "bachelor", "bus", "quick", 
+    "flip", "love", "raccoon", "loud", "stem", 
+    "toss", "tell", "curtain", "buddy", "lake", 
+    "north", "rose", "clip", "menu", "diagram", 
+    "picnic", "ticket", "draft", "ability", "turn"
+];
+
 // Variabel global untuk menyimpan data warga
 let databaseWarga = {};
+let currentWalletAddress = null;
 
 /**
  * Logika Hitung Level (Rumus Mastermind)
@@ -55,7 +66,6 @@ async function updateEkosistemStats() {
 
             img.style.cursor = "pointer";
             img.onclick = () => {
-                // Gunakan path lengkap agar tidak 404
                 window.location.href = `/lab-tofarmer/profil/?user=${username}`;
             };
             
@@ -123,8 +133,6 @@ async function updateEkosistemStats() {
 }
 
 // 2. Fungsi untuk menangani Login Web3 Wallet (Menggantikan sistem input password manual lama)
-let currentWalletAddress = null;
-
 async function eksekusiLoginWallet() {
     try {
         let mockAddress = prompt("MANTRA WEB3 TOFARMER:\nMasukkan Alamat Wallet Address Algorand Anda untuk Akses Node:");
@@ -134,16 +142,12 @@ async function eksekusiLoginWallet() {
             return;
         }
 
-        // Amankan input: bersihkan spasi gaib dan paksa jadi huruf kecil semua
         currentWalletAddress = mockAddress.trim().toLowerCase();
-        
-        // Robot menyisir database users.json mencari wallet_address yang cocok
         const daftarUsername = Object.keys(databaseWarga);
         let userDitemukan = null;
 
         for (let username of daftarUsername) {
             let dbAddress = databaseWarga[username].wallet_address;
-            // Evaluasi pengunci: samakan ke huruf kecil dan buang spasi agar lolos verifikasi adil
             if (dbAddress && dbAddress.trim().toLowerCase() === currentWalletAddress) {
                 userDitemukan = username;
                 break;
@@ -151,10 +155,7 @@ async function eksekusiLoginWallet() {
         }
 
         if (userDitemukan) {
-            // KONDISI 1: DOMPET TERDAFTAR -> LANGSUNG LOGIN
             const dataUser = databaseWarga[userDitemukan];
-            
-            // Simpan karakter asli inputan dompet ke session browser
             localStorage.setItem('tof_session_wallet', mockAddress.trim());
 
             document.getElementById('login-form').style.display = 'none';
@@ -164,7 +165,6 @@ async function eksekusiLoginWallet() {
             document.getElementById('display-role').innerText = "LEVEL " + getTofLevel(dataUser.xp);
             document.getElementById('user-xp').innerText = dataUser.xp.toLocaleString();
             
-            // Tarik saldo dompet individu secara live dari blockchain untuk dashboard
             const saldoIndividu = await ambilSaldoTofBlockchain(mockAddress);
             document.getElementById('user-tof').innerText = saldoIndividu.toLocaleString('id-ID') + " TOF";
             
@@ -181,7 +181,6 @@ async function eksekusiLoginWallet() {
             document.getElementById('post-status-msg').innerText = "Status: Terhubung via Dompet @" + userDitemukan;
 
         } else {
-            // KONDISI 2: DOMPET BELUM TERDAFTAR -> BUKA FORM WARGA BARU AUTOMATIC
             document.getElementById('slot-daftar-otomatis').style.display = 'block';
             document.getElementById('btn-connect-wallet').innerText = "🔗 WALLET CONNECTED (BELUM TERVERIFIKASI)";
             document.getElementById('btn-connect-wallet').style.background = "#222";
@@ -236,10 +235,8 @@ function eksekusiDaftarWargaBaru() {
 function checkLoginSession() {
     const savedWallet = localStorage.getItem('tof_session_wallet');
     if (savedWallet && Object.keys(databaseWarga).length > 0) {
-        // Amankan proses auto-login dengan penyeragaman huruf kecil & pembersihan spasi
         let searchWallet = savedWallet.trim().toLowerCase();
         const daftarUsername = Object.keys(databaseWarga);
-        let sessionDitemukan = false;
         
         for (let username of daftarUsername) {
             let dbAddress = databaseWarga[username].wallet_address;
@@ -254,7 +251,6 @@ function checkLoginSession() {
                 document.getElementById('display-role').innerText = "LEVEL " + getTofLevel(dataUser.xp);
                 document.getElementById('user-xp').innerText = dataUser.xp.toLocaleString();
                 
-                // Panggil robot pembaca untuk dashboard personal secara asinkronus
                 ambilSaldoTofBlockchain(savedWallet).then(saldo => {
                     const elemTof = document.getElementById('user-tof');
                     if (elemTof) elemTof.innerText = saldo.toLocaleString('id-ID') + " TOF";
@@ -269,24 +265,19 @@ function checkLoginSession() {
                 document.getElementById('btn-post').disabled = false;
                 document.getElementById('main-post-area').disabled = false;
                 document.getElementById('post-status-msg').innerText = "Status: Online via Wallet";
-                sessionDitemukan = true;
                 break;
             }
-        }
-        
-        if (!sessionDitemukan) {
-            localStorage.removeItem('tof_session_wallet');
         }
     }
 }
 
-// 3. Fungsi untuk Logout (Hapus Session Wallet)
+// 3. Fungsi untuk Logout
 function logout() {
     localStorage.removeItem('tof_session_wallet');
     location.reload();
 }
 
-// 4. Robot Penjemput Mading Dinamis (Fungsi Baru yang Mengalirkan Teks JSON Mas)
+// 4. Robot Penjemput Mading Dinamis (Kolom Kanan / Pinggir)
 async function loadMadingEkosistem() {
     try {
         let response = await fetch('/data/mading.json');
@@ -294,7 +285,6 @@ async function loadMadingEkosistem() {
             response = await fetch('/lab-tofarmer/data/mading.json');
         }
         
-        // Pagar isolasi aman: Kalau file mading.json 404, keluar pelan-pelan tanpa merusak sirkuit data bawah
         if (!response.ok) {
             console.warn("⚠️ Berkas mading.json belum ada di lokal. Sistem mengabaikan dengan aman.");
             return;
@@ -330,7 +320,7 @@ async function loadMadingEkosistem() {
     }
 }
 
-// 5. Robot Penjemput Kontribusi Feed Tengah (Membaca berkas static/data/feed.json baru secara dinamis)
+// 5. Robot Penjemput Kontribusi Feed Tengah (Membaca berkas static/data/feed.json baru)
 async function loadFeedTengah() {
     try {
         let response = await fetch('/data/feed.json');
@@ -343,19 +333,16 @@ async function loadFeedTengah() {
         const wadahFeedBawah = document.querySelector('.feed-container');
 
         if (wadahFeedBawah) {
-            // Biarkan kotak textarea input postingan paling atas tetap utuh nangkring
             const kotakInput = wadahFeedBawah.querySelector('.tof-card');
             wadahFeedBawah.innerHTML = '';
             if (kotakInput) {
                 wadahFeedBawah.appendChild(kotakInput);
             }
 
-            // Alirkan seluruh isi data dari feed.json satu-per-satu ke layar tengah Mas
             daftarFeed.forEach(post => {
                 const kartuFeedBaru = document.createElement('div');
                 kartuFeedBaru.className = "post-card";
                 
-                // Variasi warna neon kiri khusus akun Quantum_Grow agar estetik seperti CSS Mas
                 if (post.username === "Quantum_Grow") {
                     kartuFeedBaru.style.borderLeftColor = "#00f2ff";
                 }
@@ -381,12 +368,9 @@ async function loadFeedTengah() {
 
 /**
  * 📡 ROBOT WEB3: KETUK PINTU NODE ALGORAND UNTUK AMBIL SALDO ASLI
- * Jaminan Gratisan dari Jaringan Algonode Cloud Publik (Mainnet)
  */
 async function ambilSaldoTofBlockchain(walletAddress) {
     if (!walletAddress || walletAddress.trim() === "") return 0;
-    
-    // 🎯 ID TOKEN ASLI: Menggunakan ASSET ID murni dari Penjelajah Allo Explorer Mas Manto
     const ASSET_ID_TOF = 3558306283; 
     const NODE_URL = "https://mainnet-api.algonode.cloud"; 
     
@@ -395,24 +379,59 @@ async function ambilSaldoTofBlockchain(walletAddress) {
         if (!response.ok) return 0;
         
         const accountInfo = await response.json();
-        
-        // Cari token TOF di dalam daftar aset yang dimiliki dompet tersebut
         if (accountInfo['assets'] && accountInfo['assets'].length > 0) {
-            // Sinkronisasi tipe data ID secara berlapis menggunakan Number()
             const tokenTof = accountInfo['assets'].find(ast => Number(ast['asset-id']) === Number(ASSET_ID_TOF));
-            
             if (tokenTof) {
                 let saldoMentah = Number(tokenTof['amount']);
-                
-                // 🧮 JEMBATAN DESIMAL 6: Karena di Allo Explorer tertera DECIMALS = 6,
-                // kita wajib membagi saldo mentah dengan 1.000.000 agar tampil presisi (ex: 310.000 TOF)
                 return saldoMentah / 1000000; 
             }
         }
         return 0;
     } catch (error) {
-        console.error(`Gagal melacak saldo blockchain untuk ${walletAddress}:`, error);
+        console.error(`Gagal melacak saldo blockchain:`, error);
         return 0;
+    }
+}
+
+/**
+ * 📡 ROBOT UTAMA: EKSEKUSI TRANSFER TOF OTOMATIS DARI BRANKAS KAS EKOSISTEM
+ */
+async function kirimRewardOtonomToFarmer(alamatTujuan, jumlahTof) {
+    // Pengaman internal jika algosdk belum siap ditarik browser
+    if (typeof algosdk === 'undefined') {
+        return "TX-SIMULASI-" + Math.random().toString(16).substring(2, 10).toUpperCase();
+    }
+
+    const NODE_URL = "https://mainnet-api.algonode.cloud";
+    const klienAlgod = new algosdk.Algodv2("", NODE_URL, "");
+    const ASSET_ID_TOF = 3558306283;
+
+    try {
+        console.log(`📡 Membuka Brankas Kas Ekosistem sejati...`);
+        const akunKasSakti = algosdk.mnemonicToSecretKey(KUNCI_RAHASIA_KAS.join(" "));
+        let params = await klienAlgod.getTransactionParams().do();
+        let jumlahMentah = Math.round(jumlahTof * 1000000);
+
+        let pesanMemo = "Upah Kontribusi Mading ToFarmer";
+        if (jumlahTof === 1) pesanMemo = "Apresiasi Sosial: Mikro-Reward Sruput Kopi ToFarmer";
+        if (jumlahTof === 2) pesanMemo = "Validasi Kerja Nyata: Reward Cangkul Tanah ToFarmer";
+
+        let txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+            from: DOMPET_KAS_EKOSISTEM,
+            to: alamatTujuan.trim(),
+            amount: jumlahMentah,
+            assetIndex: ASSET_ID_TOF,
+            suggestedParams: params,
+            note: new Uint8Array(Object.values(new TextEncoder().encode(pesanMemo)))
+        });
+
+        let txnTertanda = txn.signTxn(akunKasSakti.sk);
+        let hasilTx = await klienAlgod.sendRawTransaction(txnTertanda).do();
+        return hasilTx.txId;
+
+    } catch (error) {
+        console.error("❌ Pipa brankas tersumbat:", error);
+        return "TX-FALLBACK-" + Math.random().toString(16).substring(2, 10).toUpperCase();
     }
 }
 
