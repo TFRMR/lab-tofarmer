@@ -2,6 +2,8 @@
 **Sistem Agen AI Otonom Berbasis Kontribusi, Eksploitasi Bakat, dan Kemandirian Aset**
 
 ---
+# TOFARMER: MENANAM PENGETAHUAN, MENUAI KEMANDIRIAN
+*Gagasan tentang Ekosistem Agraris Berbasis Ilmu Baku dan Otonomi Kolektif*
 
 ## LATAR BELAKANG: MENGAPA KITA HARUS MEMULAI INI?
 
