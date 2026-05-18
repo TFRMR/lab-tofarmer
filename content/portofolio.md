@@ -11,10 +11,10 @@ layout: "single"
 
 ### 📅 TAHUN 2026: Fase Ekspansi & AI-blockchain Nyata
 
-**[18-05-2026] Peluncuran Token TOF di Jaringan Algorand ToFarmer resmi masuk era Web3 Hybrid. Token TOF (Asset ID: 3558306283) resmi di-minting sebanyak 28.000.000 koin di blockchain Algorand. Fitur Clawback dan Freeze dimatikan total demi desentralisasi mutlak.
+**[18-05-2026] Peluncuran Token TOF di Jaringan Algorand **ToFarmer resmi masuk era Web3 Hybrid. Token TOF (Asset ID: 3558306283) resmi di-minting sebanyak 28.000.000 koin di blockchain Algorand. Fitur Clawback dan Freeze dimatikan total demi desentralisasi mutlak.
  > [Rujukan](https://allo.info/asset/3558306283/token)
 
-**[17-05-2026] Migrasi ke Arsitektur Web3 Hybrid Web ToFarmer resmi mengadopsi sistem hybrid: wajah luar tetap berupa web biasa (Web2 UX) agar ramah pengguna, namun sistem internal di-upgrade penuh ke Web3. Login anggota kini menggunakan otentikasi Crypto Wallet (Sync Identity) dan seluruh kalkulasi keuangan ekosistem ditarik langsung secara real-time dari data global blockchain Algorand.
+**[17-05-2026] Migrasi ke Arsitektur Web3 Hybrid Web **ToFarmer resmi mengadopsi sistem hybrid: wajah luar tetap berupa web biasa (Web2 UX) agar ramah pengguna, namun sistem internal di-upgrade penuh ke Web3. Login anggota kini menggunakan otentikasi Crypto Wallet (Sync Identity) dan seluruh kalkulasi keuangan ekosistem ditarik langsung secara real-time dari data global blockchain Algorand.
 
 **[28-04-2026] Penetapan Protokol Compounding 5-10%** ToFarmer menetapkan skenario Compounding yang akan diaktifkan secara otomatis begitu aset menyentuh 500.000 TOF. Dengan target return minimal 5-10% per bulan, sistem akan memiliki dua mesin penggerak: suntikan manual dari "Nabung Receh" dan pertumbuhan pasif dari aset itu sendiri. Hal ini dirancang sebagai cikal bakal "Mesin Gaji Otomatis" untuk membiayai operasional dan kesejahteraan pengelola di masa depan.
 
